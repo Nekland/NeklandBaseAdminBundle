@@ -11,5 +11,6 @@ namespace Nekland\Bundle\BaseAdminBundle\Event;
 class Events
 {
     const
-        afterCreate = 'nekland_admin.create';
+        afterCreate = 'nekland_admin.create',
+        onConfigureMenu = 'nekland_admin.configure.menu';
 }
