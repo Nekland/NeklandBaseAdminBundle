@@ -24,7 +24,7 @@
         "sensio/framework-extra-bundle":    "*",
         "doctrine/doctrine-bundle":         "*",
         "doctrine/orm":                     "*",
-        "symfony/assetic-bundle":           "dev-master",
+        "symfony/assetic-bundle":           ">=2.0,<3.0",
         "exercise/htmlpurifier-bundle":     "dev-master"
     },
     "autoload": {
