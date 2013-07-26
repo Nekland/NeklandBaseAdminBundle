@@ -6,10 +6,7 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, width=device-width">
 
     {% stylesheets
-    'components/bootstrap/css/bootstrap.min.css'
-    'components/bootstrap/css/bootstrap-responsive.min.css'
-    '../app/Resources/public/css/lib/datepicker.css'
-    '../app/Resources/public/css/admin.css'
+    '@NeklandBaseAdminBundle/Resources/css/*.css'
     filter='cssrewrite'
     output='css/admin.css'
     %}
@@ -48,11 +45,12 @@
 
                 <ul id="nav-list-collapsed" class="nav">
 
-                    <li class="{% if app.request.attributes.get('_route') == 'admin' %}active{% endif %}">
-                        <a href="{{ path('admin') }}">
+                    <li class="{% if app.request.attributes.get('_route') == 'nekland_base_admin_homepage' %}active{% endif %}">
+                        <a href="{{ path('nekland_base_admin_homepage') }}">
                             <i class="icon-home"></i> Accueil
                         </a>
                     </li>
+                    {#
                     <li class="{% if app.request.attributes.get('_route') == 'admin_donation_index' %}active{% endif %}">
                         <a href="{{ path('admin_donation_index') }}">
                             <i class="icon-list-alt"></i> Lister les donations
@@ -69,9 +67,10 @@
                             Lister les news
                         </a>
                     </li>
+                    #}
 
                     {{ knp_menu_render(
-                        'NeklandBaseAdminBundle:Builder:main',
+                        'NeklandBaseAdminBundle:Builder:mainMenu',
                         {currentClass: 'active', template: 'NeklandBaseAdminBundle:Menu:main.html.twig' }
                     ) }}
                 </ul>
@@ -87,6 +86,7 @@
             <div class="well sidebar-nav">
                 <ul class="nav nav-list">
 
+                    {#
                     <li class="nav-header">Gestion des news</li>
                     <li class="{% if app.request.attributes.get('_route') == 'admin_news_new' %}active{% endif %}">
                         <a href="{{ url('admin_news_new') }}">
@@ -129,16 +129,18 @@
                             <i class="icon-home"></i> Accueil
                         </a>
                     </li>
-                    <li class="{% if app.request.attributes.get('_route') == 'admin_donation_index' %}active{% endif %}">
-                        <a href="{{ path('admin_donation_index') }}">
-                            <i class="icon-list-alt"></i> Lister les donations
-                        </a>
-                    </li>
 
                     <li class="divider"></li>
                     <li>
                         <a href="https://docs.google.com/document/d/1iDAMIABdydo6mGt59BuPxvDFojpc8Md6csp6KGo25cg/edit?usp=sharing">
                             <i class="icon-edit"></i> Cahier des charges
+                        </a>
+                    </li>
+                    #}
+                    <li class="nav-header">Outils Administratifs</li>
+                    <li class="{% if app.request.attributes.get('_route') == 'admin_donation_index' %}active{% endif %}">
+                        <a href="{{ path('admin_donation_index') }}">
+                            <i class="icon-list-alt"></i> Lister les donations
                         </a>
                     </li>
                 </ul>
@@ -159,11 +161,8 @@
 
 
 {% javascripts
-'components/jquery/jquery.min.js'
-'components/bootstrap/js/bootstrap.min.js'
-'../app/Resources/public/js/lib/bootstrap-datepicker.js'
-'../app/Resources/public/js/lib/bootstrap-datepicker.fr.js'
-'../app/Resources/public/js/admin.js'
+'@NeklandBaseAdminBundle/Resources/js/jquery.min.js'
+'@NeklandBaseAdminBundle/Resources/js/bootstrap.min.js'
 output='js/admin.js'
 %}
 <script type="text/javascript" src="{{ asset_url }}"></script>
