@@ -1,0 +1,9 @@
+{% extends 'NeklandBaseAdminBundle::layout.html.twig' %}
+
+{% block nekland_admin_content %}
+
+    <h1>Nouveau {{ params.singular }}</h1>
+
+    {{  include('NeklandBaseAdminBundle:Crud:form.html.twig', {'form': form}) }}
+
+{% endblock nekland_admin_content %}

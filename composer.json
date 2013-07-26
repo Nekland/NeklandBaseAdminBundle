@@ -1,0 +1,35 @@
+{
+	"version": "0.0.1",
+	"name": "nekland/base-admin-bundle",
+	"description": "Basic administration, simple usage.",
+	"keywords": ["dashboard", "admin", "simple"],
+	"homepage": "http://gl.nekland.fr/nekland/neklandbaseadminbundle",
+	"type": "symfony-bundle",
+	"license": "MIT",
+	"authors": [
+        {
+            "name": "Yohan GIARELLI",
+            "email": "yohan@giarel.li",
+            "homepage": "http://yohan.giarel.li"
+        },
+        {
+            "name": "VEBER Maxime",
+            "email": "nek.dev@gmail.com",
+            "homepage": "http://nekland.fr"
+        }
+    ],
+    "require": {
+        "symfony/symfony":                  "*",
+        "knplabs/knp-menu-bundle":          "dev-master",
+        "sensio/framework-extra-bundle":    "*",
+        "doctrine/doctrine-bundle":         "*",
+        "doctrine/orm":                     "*",
+        "symfony/assetic-bundle":           "dev-master",
+        "exercise/htmlpurifier-bundle":     "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Nekland\\Bundle\\BaseAdminBundle": "" }
+    },
+    "minimum-stability": "dev",
+    "target-dir": "Nekland/Bundle/BaseAdminBundle"
+}

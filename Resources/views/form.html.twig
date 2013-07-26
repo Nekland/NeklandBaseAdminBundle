@@ -1,0 +1,46 @@
+{# @see Symfony/src/Syfmony/Bridge/Twig/Resources/views/Form #}
+{% use 'form_div_layout.html.twig' with form_label as base_form_label %}
+{% use 'form_div_layout.html.twig' with form_start as base_form_start %}
+
+{% block form_row %}
+{% spaceless %}
+    <div class="control-group{{ errors|length > 0 ? ' error' : ''}}">
+        {{ form_label(form, label|default(null)) }}
+        <div class="controls">
+            {{ form_widget(form) }}
+        </div>
+        {{ form_errors(form) }}
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% block form_errors %}
+{% spaceless %}
+    {% for error in errors %}
+        <span class="help-inline">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</span>
+    {% endfor %}
+{% endspaceless %}
+{% endblock form_errors %}
+
+{% block form_label %}
+{% spaceless %}
+    {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' control-label')}) %}
+    {{ block('base_form_label') }}
+{% endspaceless %}
+{% endblock form_label %}
+
+{% block form_start %}
+{% spaceless %}
+    {% set attr = attr|merge({'class': 'form-horizontal'}) %}
+    {{ block('base_form_start') }}
+{% endspaceless %}
+{% endblock form_start %}
+
+{% block submit_widget %}
+{% spaceless %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' btn btn-primary')}) %}
+    <div class="form-actions">
+        <button type="submit" {{ block('button_attributes') }}>{{ label }}</button>
+    </div>
+{% endspaceless %}
+{% endblock submit_widget %}

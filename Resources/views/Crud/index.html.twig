@@ -1,0 +1,59 @@
+{% extends 'NeklandBaseAdminBundle::layout.html.twig' %}
+
+{% block nekland_admin_content %}
+
+    <h1>Liste des {{ params.plural }}</h1>
+    <table class="table table-bordered table-striped crud-list table-condensed">
+        <thead>
+            <tr>
+                {% for key, field in params.display %}
+                    <th class="crud-{{ key }}">
+                        {{ field.label }}
+                    </th>
+                {% endfor %}
+                <th class="crud-actions">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in objects %}
+                <tr>
+                    {% for key, field in params.display %}
+                        <td class="crud-{{ key }}">
+                            {{ key == 'id' ? '#' : '' }}
+                            {{ attribute(object, key) }}
+                        </td>
+                    {% endfor %}
+                    <td class="crud-actions">
+                        <a class="btn btn-mini"
+                           href="{{ path(params.routes.edit, object.routeParams) }}">
+                            <i class="icon-cog"></i> Editer
+                        </a>
+                        {% for action in params.object_actions %}
+                            <a class="btn btn-mini"
+                               href="{{ path(action.route, object.routeParams) }}">
+                                {{ action.label }}
+                            </a>
+                        {% endfor %}
+                        <a class="btn btn-mini btn-danger ask-delete"
+                           href="{{ path(params.routes.delete, object.routeParams) }}">
+                            <i class="icon-trash icon-white"></i> Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="{{ params.display | length + 1 }}">
+                        Aucun {{ params.singular }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr />
+
+    <div class="well">
+        <a href="{{ path(params.routes.new) }}" class="btn btn-primary">Nouveau</a>
+    </div>
+
+{% endblock nekland_admin_content %}
