@@ -14,6 +14,12 @@ Usage
   2) Create your own administration with extending the CrudController of our bundle
 
 
+More
+----
+
+The detailed documentation is available on the conventional folder: Resources/docs
+
+
 Requirements
 ------------
 
