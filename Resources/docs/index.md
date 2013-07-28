@@ -26,3 +26,10 @@ Français
 3. Sécurisez votre administration
 4. Bien utiliser les outils disponibles
 
+Contribute
+----------
+
+If you contribute to the documentation, start with the english version
+and add to translation the mention "out of date".
+
+Thanks.
