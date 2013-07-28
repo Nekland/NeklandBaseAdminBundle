@@ -11,8 +11,9 @@ namespace Nekland\Bundle\BaseAdminBundle\Event;
 
 
 use Knp\Menu\ItemInterface;
+use Symfony\Component\EventDispatcher\Event;
 
-class OnConfigureMenuEvent
+class OnConfigureMenuEvent extends Event
 {
     /**
      * @var ItemInterface

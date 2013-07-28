@@ -21,7 +21,7 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
 
         $menu->addChild('Accueil', array(
-            'route' => 'admin_homepage',
+            'route' => 'nekland_base_admin_homepage',
             'attributes' => array('icon' => 'icon-home')
         ));
 

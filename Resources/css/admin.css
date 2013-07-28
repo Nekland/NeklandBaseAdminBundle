@@ -1,0 +1,154 @@
+body {
+    padding-top:    60px;
+    padding-bottom: 40px;
+}
+
+/* Navbar */
+
+.navbar .brand {
+    font-weight: bold;
+    color:       black;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.8);
+    -webkit-transition: all 0.2s linear 0s;
+    -moz-transition: all 0.2s linear 0s;
+    -ms-transition: all 0.2s linear 0s;
+    -o-transition: all 0.2s linear 0s;
+    transition: all 0.2s linear 0s;
+}
+
+.navbar .brand:hover {
+    color: white;
+}
+
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+.navbar-text.pull-right {
+    color: #777777;
+}
+
+.navbar-text.pull-right > span {
+    color: #999999;
+}
+
+.page-header > h1 {
+    color: #5A5A5A;
+}
+
+
+/* Add quest active button */
+
+#active_checkbox {
+    display: none;
+}
+
+/* Edit payment */
+
+.big-input-cheated {
+    margin-left: -32px;
+}
+
+
+/* Lists */
+
+#list_table th, #list_table td {
+    line-height: 25px;
+}
+
+#list_table tr:hover .actions {
+    display: block;
+}
+
+#actions_th {
+    min-width: 108px;
+}
+
+.unactive {
+    color: rgb(153, 153, 153);
+}
+
+.actions {
+    display: none;
+    margin-bottom: 0;
+}
+
+.table .text-right {
+    text-align: right;
+}
+
+
+
+/* High resolutions navbar */
+@media (min-width: 980px) {
+
+    #nav-list-collapsed {
+        display: none;
+    }
+}
+
+/* Small resolutions navbar */
+@media (max-width: 979px) {
+
+    body {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    #nav-list {
+        display: none;
+    }
+
+    .nav-collapse > p {
+        display: none;
+    }
+
+    /* Edit payment */
+
+    .big-input-cheated {
+        margin-left: 0;
+    }
+
+    .big-input-cheated > span.add-on {
+        display: none;
+    }
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+
+    .hero-unit h1 {
+        font-size: 50px;
+    }
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+
+    .hero-unit {
+        padding: 30px;
+        font-size: 15px;
+        line-height: 25px;
+    }
+
+    .hero-unit h1 {
+        font-size: 40px;
+    }
+
+}
+
+
+
+/* Forms part */
+.classical textarea {
+    width:  530px;
+    height: 300px;
+}
+.classical input[type=text] {
+    width: 530px;
+}
+
+/* customisation */
+.table_news_content {
+    width: 50%;
+}
