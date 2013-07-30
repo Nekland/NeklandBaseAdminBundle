@@ -152,3 +152,7 @@ body {
 .table_news_content {
     width: 50%;
 }
+
+.red-warning {
+    color: #dc2626 !important;
+}
