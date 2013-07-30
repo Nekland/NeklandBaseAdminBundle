@@ -1,0 +1,10 @@
+{% extends 'NeklandBaseAdminBundle:Menu:main.html.twig' %}
+
+{% block list %}
+    {% if item.hasChildren and options.depth is not sameas(0) and item.displayChildren %}
+        {% import 'NeklandBaseAdminBundle:Menu:main.html.twig' as knp_menu %}
+        <ul{{ knp_menu.attributes(listAttributes) }} id="nav-list-collapsed" class="nav">
+            {{ block('children') }}
+        </ul>
+    {% endif %}
+{% endblock %}

@@ -40,41 +40,16 @@
                     {% if app.user is not empty %}
                         Connecté en tant que <span>{{ app.user.username }}</span>
                     {% else %}
-                        Administration non sécurisée
+                        <span class="red-warning">Administration non sécurisée</span>
                     {% endif %}
                 </p>
 
-                <ul id="nav-list-collapsed" class="nav">
 
-                    <li class="{% if app.request.attributes.get('_route') == 'nekland_base_admin_homepage' %}active{% endif %}">
-                        <a href="{{ path('nekland_base_admin_homepage') }}">
-                            <i class="icon-home"></i> Accueil
-                        </a>
-                    </li>
-                    {#
-                    <li class="{% if app.request.attributes.get('_route') == 'admin_donation_index' %}active{% endif %}">
-                        <a href="{{ path('admin_donation_index') }}">
-                            <i class="icon-list-alt"></i> Lister les donations
-                        </a>
-                    </li>
-                    <li class="nav-header">Gestion des news</li>
-                    <li class="{% if app.request.attributes.get('_route') == 'admin_news_new' %}active{% endif %}">
-                        <a href="{{ path('admin_news_new') }}">
-                            Ajouter une news
-                        </a>
-                    </li>
-                    <li class="{% if app.request.attributes.get('_route') == 'admin_news_index' %}active{% endif %}">
-                        <a href="{{ path('admin_news_index') }}">
-                            Lister les news
-                        </a>
-                    </li>
-                    #}
 
                     {{ knp_menu_render(
                         'NeklandBaseAdminBundle:Builder:mainMenu',
-                        {currentClass: 'active', template: 'NeklandBaseAdminBundle:Menu:main.html.twig' }
+                        {currentClass: 'active', template: 'NeklandBaseAdminBundle:Menu:collapsed.html.twig' }
                     ) }}
-                </ul>
             </div>
 
         </div>
@@ -85,66 +60,6 @@
     <div class="row-fluid">
         <div id="nav-list" class="span3">
             <div class="well sidebar-nav">
-                <ul class="nav nav-list">
-
-                    {#
-                    <li class="nav-header">Gestion des news</li>
-                    <li class="{% if app.request.attributes.get('_route') == 'admin_news_new' %}active{% endif %}">
-                        <a href="{{ url('admin_news_new') }}">
-                            Ajouter une news
-                        </a>
-                    </li>
-                    <li class="{% if app.request.attributes.get('_route') == 'admin_news_index' %}active{% endif %}">
-                        <a href="{{ url('admin_news_index') }}">
-                            Lister les news
-                        </a>
-                    </li>
-
-                    <li class="nav-header">Gestion des quêtes</li>
-                    <li class="{% if app.request.attributes.get('_route') == 'admin_quest_new' %}active{% endif %}">
-                        <a href="{{ path('admin_quest_new') }}">
-                            Ajouter une quête
-                        </a>
-                    </li>
-                    <li class="{% if app.request.attributes.get('_route') == 'admin_quest_index' %}active{% endif %}">
-                        <a href="{{ path('admin_quest_index') }}">
-                            Lister les quêtes
-                        </a>
-                    </li>
-
-                    <li class="nav-header">Gestion des pages</li>
-                    <li class="{% if app.request.attributes.get('_route') == 'admin_page_new' %}active{% endif %}">
-                        <a href="{{ path('admin_page_new') }}">
-                            Ajouter une page
-                        </a>
-                    </li>
-                    <li class="{% if app.request.attributes.get('_route') == 'admin_page_index' %}active{% endif %}">
-                        <a href="{{ path('admin_page_index') }}">
-                            Lister les pages
-                        </a>
-                    </li>
-
-                    <li class="nav-header">Outils Administratifs</li>
-                    <li class="{% if app.request.attributes.get('_route') == 'admin' %}active{% endif %}">
-                        <a href="{{ path('admin') }}">
-                            <i class="icon-home"></i> Accueil
-                        </a>
-                    </li>
-
-                    <li class="divider"></li>
-                    <li>
-                        <a href="https://docs.google.com/document/d/1iDAMIABdydo6mGt59BuPxvDFojpc8Md6csp6KGo25cg/edit?usp=sharing">
-                            <i class="icon-edit"></i> Cahier des charges
-                        </a>
-                    </li>
-                    #}
-                    <li class="nav-header">Outils Administratifs</li>
-                    <li class="{% if app.request.attributes.get('_route') == 'nekland_base_admin_homepage' %}active{% endif %}">
-                        <a href="{{ path('nekland_base_admin_homepage') }}">
-                            <i class="icon-home"></i> Accueil
-                        </a>
-                    </li>
-                </ul>
 
                 {{ knp_menu_render(
                     'NeklandBaseAdminBundle:Builder:mainMenu',
