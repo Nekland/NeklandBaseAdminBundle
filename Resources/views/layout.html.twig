@@ -144,8 +144,12 @@
                             <i class="icon-home"></i> Accueil
                         </a>
                     </li>
-
                 </ul>
+
+                {{ knp_menu_render(
+                    'NeklandBaseAdminBundle:Builder:mainMenu',
+                    {currentClass: 'active', template: 'NeklandBaseAdminBundle:Menu:main.html.twig' }
+                ) }}
             </div>
         </div>
         <div class="span9">

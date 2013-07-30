@@ -20,6 +20,8 @@ class Builder extends ContainerAware
     {
         $menu = $factory->createItem('root');
 
+        $menu->setAttribute('class', 'nav nav-list');
+
         $menu->addChild('Accueil', array(
             'route' => 'nekland_base_admin_homepage',
             'attributes' => array('icon' => 'icon-home')
@@ -29,6 +31,7 @@ class Builder extends ContainerAware
             Events::onConfigureMenu,
             new OnConfigureMenuEvent($menu)
         );
+
 
         return $menu;
     }
