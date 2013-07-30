@@ -81,6 +81,11 @@ abstract class CrudController extends Controller
      */
     protected $mergedParams = null;
 
+    /**
+     * Show a list of objects
+     *
+     * @return Response
+     */
     public function indexAction()
     {
         $request   = $this->container->get('request');   // Getting the Request
