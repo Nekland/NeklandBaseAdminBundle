@@ -52,5 +52,22 @@ assetic:
     bundles:        [ NeklandBaseAdminBundle ]
 ```
 
+
+4) AJoutez le thème de formulaire à twig
+----------------------------------------
+
+Le bundle utilise bootstrap pour générer l'interface de l'administration. Avec ce thème, symfony va générer correctement
+les formulaires pour bootstrap
+
+Ouvrez votre fichier "config.yml" et fusionnez cette configuration:
+
+```JSON
+# Twig Configuration
+twig:
+    form:
+        resources:
+            - 'NeklandBaseAdminBundle::form.html.twig'
+```
+
 4) Le bundle est prêt à fonctionner
 -----------------------------------
