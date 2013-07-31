@@ -58,3 +58,12 @@ public function getParams()
 2) The Form
 -----------
 
+The form is a classical symfony form. You just have to instantiate your form type in configuration as explained before.
+
+3) The menu listener
+--------------------
+
+The bundle doesn't add anything to the menu alone, you have to define a listener. The menu uses KnpMenuBundle, so you
+can of course refer to this documentation.
+
+To make a listener you can define this kind of class:
