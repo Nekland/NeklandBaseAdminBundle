@@ -41,7 +41,19 @@ public function registerBundles()
 }
 ```
 
-3) Add the bundle to assetic
+3) Add the bundle to your routing
+---------------------------------
+
+As any other bundle who have theses own routes, you have to include it in your routing.
+
+Open your "routing.yml" file and add theses lines (you can of course modify the prefix):
+```YAML
+nekland_admin:
+    resource: "@NeklandBaseAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+```
+
+4) Add the bundle to assetic
 ----------------------------
 
 Open your "config.yml" file (or any other file where you configure assetic).
@@ -52,7 +64,7 @@ assetic:
     bundles:        [ NeklandBaseAdminBundle ]
 ```
 
-4) Add the form theming to twig
+5) Add the form theming to twig
 -------------------------------
 
 The bundle uses bootstrap to generate the admin interface. With this theme, symfony will generate correct forms for
@@ -67,5 +79,5 @@ twig:
             - 'NeklandBaseAdminBundle::form.html.twig'
 ```
 
-5) The bundle is ready to work
+6) The bundle is ready to work
 ------------------------------

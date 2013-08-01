@@ -41,6 +41,18 @@ public function registerBundles()
 }
 ```
 
+3) Ajoutez le bundle à votre routing
+------------------------------------
+
+Tout n'importe quel autre bundle qui possède ses propres routes, vous devez l'inclure dans votre routing.
+
+Ouvrez votre fichier "routing.yml" et ajoutez ces lignes (vous pouvez évidemment modifier le prefixe):
+```YAML
+nekland_admin:
+    resource: "@NeklandBaseAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+```
+
 3) Ajoutez le bundle à assetic
 ------------------------------
 
