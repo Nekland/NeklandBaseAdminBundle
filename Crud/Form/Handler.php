@@ -2,7 +2,7 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Crud\Form;
 
-use Nekland\Bundle\BaseAdminBundle\Crud\CrudableInterface;
+use Nekland\Bundle\BaseAdminBundle\Crud\Entity\CrudableInterface;
 
 use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\Form\FormTypeInterface,

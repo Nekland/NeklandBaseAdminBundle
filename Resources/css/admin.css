@@ -140,11 +140,11 @@ body {
 
 
 /* Forms part */
-.classical textarea {
+textarea {
     width:  530px;
     height: 300px;
 }
-.classical input[type=text] {
+input[type=text] {
     width: 530px;
 }
 

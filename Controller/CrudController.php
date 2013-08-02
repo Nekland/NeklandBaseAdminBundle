@@ -3,6 +3,7 @@
 namespace Nekland\Bundle\BaseAdminBundle\Controller;
 
 
+use Nekland\Bundle\BaseAdminBundle\Crud\Entity\LockableInterface;
 use Nekland\Bundle\BaseAdminBundle\Event\AfterCreateEvent;
 use Nekland\Bundle\BaseAdminBundle\Event\Events;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller,
@@ -64,13 +65,15 @@ abstract class CrudController extends Controller
         'singular'   => 'objet',
         'plural'     => 'objets',
         'feminine'   => false,
-        'createSentence' => null,
-        'updateSentence' => null,
-        'deleteSentence' => null,
-        'orderBy'        => null,
-        'sortable'       => false,
-        'display'        => array('id' => array('label' => 'N°')),
-        'object_actions' => array()
+        'createSentence'        => null,
+        'updateSentence'        => null,
+        'deleteSentence'        => null,
+        'lockedSentence'        => 'L\'objet est verrouillé, impossible de le modifier',
+        'nonDeletableSentence'  => 'L\'objet ne peut pas être supprimé',
+        'orderBy'               => null,
+        'sortable'              => false,
+        'display'               => array('id' => array('label' => 'N°')),
+        'object_actions'        => array()
     );
 
     /**
@@ -195,6 +198,12 @@ abstract class CrudController extends Controller
             $this->generateUrl($this->getParam('update', 'routes'), array('id' => $entity->getId()))
         );
 
+        if ($entity instanceof LockableInterface && $entity->isLocked()) {
+            $this->get('session')->getFlashBag()->set('error', $this->getParam('lockedSentence'));
+
+            return $this->redirectIndex();
+        }
+
         if ($handler->update($form, $request)) {
             $this->get('session')->getFlashBag()->set('success', $this->getParam('updateSentence'));
 
@@ -217,6 +226,14 @@ abstract class CrudController extends Controller
     {
         $entity = $this->findEntity($request);
         $em = $this->getDoctrine()->getManager();
+
+
+        if ($entity instanceof LockableInterface && $entity->isDeletable()) {
+            $this->get('session')->getFlashBag()->set('error', $this->getParam('nonDeletableSentence'));
+
+            return $this->redirectIndex();
+        }
+
         $em->remove($entity);
         $em->flush();
 
@@ -249,13 +266,13 @@ abstract class CrudController extends Controller
     /**
      * Return an Entity
      *
-     * @return \Nekland\Bundle\BaseAdminBundle\Crud\CrudableInterface
+     * @return \Nekland\Bundle\BaseAdminBundle\Crud\Entity\CrudableInterface
      */
     protected function createObject()
     {
         $res = $this->getParam('class');
 
-        if (!($res instanceof \Nekland\Bundle\BaseAdminBundle\Crud\CrudableInterface))
+        if (!($res instanceof \Nekland\Bundle\BaseAdminBundle\Crud\Entity\CrudableInterface))
             throw new \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException("The entity have to be an instance of CrudableInterface");
 
         return $res;
@@ -275,7 +292,7 @@ abstract class CrudController extends Controller
      * Find an Entity
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \Nekland\Bundle\BaseAdminBundle\Crud\CrudableInterface
+     * @return \Nekland\Bundle\BaseAdminBundle\Crud\Entity\CrudableInterface
      */
     protected function findEntity(Request $request)
     {

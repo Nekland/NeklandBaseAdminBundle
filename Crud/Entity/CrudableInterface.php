@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\Bundle\BaseAdminBundle\Crud;
+namespace Nekland\Bundle\BaseAdminBundle\Crud\Entity;
 
 interface CrudableInterface
 {

@@ -3,6 +3,7 @@
 {% block nekland_admin_content %}
 
     <h1>Liste des {{ params.plural }}</h1>
+    {{ include('NeklandBaseAdminBundle:Misc:flash.html.twig') }}
     <table class="table table-bordered table-striped crud-list table-condensed">
         <thead>
             <tr>
