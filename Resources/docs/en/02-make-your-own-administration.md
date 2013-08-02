@@ -24,6 +24,7 @@ class MyAdminController extends \Nekland\Bundle\BaseAdmin\Controller\CrudControl
 
 You have to configure the controller with defining the missing method: "getParams"
 
+
 ```PHP
 public function getParams()
 {
@@ -69,6 +70,7 @@ The form is a classical symfony form. You just have to instantiate your form typ
 
 To work with our crud controller, your entity have to implement the "CrudableInterface". Here is an example of
 implementation:
+
 ```PHP
 <?php
 
@@ -96,6 +98,7 @@ class News implements CrudableInterface
 --------------
 
 Your routing should look like this if you defined only the prefix in your controller configuration:
+
 ```YAML
 admin_news_index:
     pattern: /news/index
@@ -135,6 +138,7 @@ The bundle doesn't add anything to the menu alone, you have to define a listener
 can of course refer to this documentation.
 
 To make a listener you can define this kind of class:
+
 ```PHP
 <?php
 
@@ -166,6 +170,7 @@ The you can uses the method "getMenu" with theses parameters:
 *  "Something" if you want to get a part of the menu
 
 Then you have to define your listener as service. Open your "service.yml" file and add this configuration:
+
 ```YAML
 parameters:
     nekland_site.listener.admin.menu.class: EA\SiteBundle\Listener\AdminMenu

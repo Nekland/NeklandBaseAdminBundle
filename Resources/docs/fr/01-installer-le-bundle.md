@@ -5,6 +5,7 @@ Installation
 -----------------
 
 Ouvrez votre fichier "composer.json" et ajoutez cette ligne:
+
 ```JSON
 {
     "require": {
@@ -14,6 +15,7 @@ Ouvrez votre fichier "composer.json" et ajoutez cette ligne:
 ```
 
 Utilisez composer pour installer le bundle:
+
 ```JSON
 composer update nekland/base-admin-bundle
 ```
@@ -26,6 +28,7 @@ Ouvre votre fichier "AppKernel.php".
 Ajoutez les lignes suivantes au fichier.
 
 *Remarquez que si vous n'avez pas déjà installé KnpBundle, vous devez le charger aussi.*
+
 ```PHP
 // AppKernel.php
 public function registerBundles()
@@ -47,6 +50,7 @@ public function registerBundles()
 Tout n'importe quel autre bundle qui possède ses propres routes, vous devez l'inclure dans votre routing.
 
 Ouvrez votre fichier "routing.yml" et ajoutez ces lignes (vous pouvez évidemment modifier le prefixe):
+
 ```YAML
 nekland_admin:
     resource: "@NeklandBaseAdminBundle/Resources/config/routing.yml"

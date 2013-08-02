@@ -5,6 +5,7 @@ Installation
 -----------
 
 Open your "composer.json" file and add this line:
+
 ```JSON
 {
     "require": {
@@ -14,6 +15,7 @@ Open your "composer.json" file and add this line:
 ```
 
 Use composer to install the bundle:
+
 ```JSON
 composer update nekland/base-admin-bundle
 ```
@@ -26,6 +28,7 @@ Open your "AppKernel.php" file.
 Add the following lines to the file.
 
 *Notice that if you doen't already install KnpMenuBundle, you have to register it too.*
+
 ```PHP
 // AppKernel.php
 public function registerBundles()
@@ -47,6 +50,7 @@ public function registerBundles()
 As any other bundle who have theses own routes, you have to include it in your routing.
 
 Open your "routing.yml" file and add theses lines (you can of course modify the prefix):
+
 ```YAML
 nekland_admin:
     resource: "@NeklandBaseAdminBundle/Resources/config/routing.yml"
@@ -59,6 +63,7 @@ nekland_admin:
 Open your "config.yml" file (or any other file where you configure assetic).
 
 Add (or merge) this configuration:
+
 ```YAML
 assetic:
     bundles:        [ NeklandBaseAdminBundle ]
@@ -71,6 +76,7 @@ The bundle uses bootstrap to generate the admin interface. With this theme, symf
 bootstrap by itself.
 
 Open your config.yml. And merge this configuration:
+
 ```JSON
 # Twig Configuration
 twig:

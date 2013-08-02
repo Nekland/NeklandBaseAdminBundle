@@ -71,6 +71,7 @@ précédemment.
 
 Pour travailler avec notre contrôleur "crud", votre entité doit implémenter l'interface "CrudableInterface". Voici
 un exemple d'implémentation:
+
 ```PHP
 <?php
 
@@ -99,6 +100,7 @@ class News implements CrudableInterface
 
 Votre routing devrait ressembler à cela si vous avez simplement défini un prefix dans la configuration de
 votre contrôleur:
+
 ```YAML
 admin_news_index:
     pattern: /news/index
@@ -138,6 +140,7 @@ Le bundle n'ajoute rien au menu de l'administration qu'il génère tout seul, vo
 utilise KnpMenuBundle, vous pouvez donc référer à la documentation de ce bundle.
 
 Pour construire un listener vous pouvez définir ce type de classe:
+
 ```PHP
 <?php
 
@@ -170,6 +173,7 @@ Vous pouvez utiliser la méthode "getMenu" avec ces paramètres:
 
 Vous devez ensuite définir votre listener en tant que service. Ouvrez votre fichier "service.yml" et ajoutez cette
 configuration:
+
 ```YAML
 parameters:
     nekland_site.listener.admin.menu.class: EA\SiteBundle\Listener\AdminMenu
