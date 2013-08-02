@@ -63,6 +63,7 @@ nekland_admin:
 Ouvrez votre fichier "config.yml" (ou n'importe quel fichier où vous configurez assetic).
 
 Ajoutez (ou fusionnez) cette configuration:
+
 ```YAML
 assetic:
     bundles:        [ NeklandBaseAdminBundle ]

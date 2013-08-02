@@ -2,6 +2,7 @@ Construisez votre administration
 ================================
 
 Ce bundle est un outil simple, il ne fait donc pas "trop" de choses. Vous allez devoir faire votre travail habituel:
+
 *  Construire un contrôleur
 *  Écrire les routes
 *  Construire vos entitées
@@ -168,6 +169,7 @@ class AdminMenu
 La seule obligation est le type du paramètre (que vous n'êtes pas obligé de préciser puisque php s'en fiche).
 
 Vous pouvez utiliser la méthode "getMenu" avec ces paramètres:
+
 *  "Rien" si vous voulez récupérer le nœeud principal du menu
 *  "Quelque chose" si vous voulez récupérer une partie du menu
 
@@ -186,6 +188,7 @@ services:
 ```
 
 La partie intéressante est le tag:
+
 *  Le "name" sert à préciser que vous définissez un écouteur d'évènement symfony
 *  Le "event" est le nom de l'évènement que vous écoutez (tous les évènements sont disponibles dans la classe Nekland\Bundle\BaseAdminBundle\Event\Events)
 *  La "method" est le nom de la méthode dans votre classe qui sera appelée (cela vous permet de changer le nom de votre méthode)

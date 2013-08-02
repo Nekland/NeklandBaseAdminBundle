@@ -2,6 +2,7 @@ Make your own administration
 ============================
 
 Since this bundle is a simple tool, it doesn't do so much. You have to do your usually work:
+
 *  Making a controller
 *  Writing routing
 *  Making your entities
@@ -166,6 +167,7 @@ class AdminMenu
 The only obligation is the type of the parameter (that you don't have to precise since PHP don't care about).
 
 The you can uses the method "getMenu" with theses parameters:
+
 *  "Nothing" if you want to get the root node of the menu
 *  "Something" if you want to get a part of the menu
 
@@ -183,6 +185,7 @@ services:
 ```
 
 The interessing part is the tag:
+
 *  The "name" is to precise that your defining a symfony event listener
 *  The "event" is the name of the event you're listening (every event are available in the class Nekland\Bundle\BaseAdminBundle\Event\Events)
 *  The "method" is the name of your method in your class to call (it allows you to change the name of the method)
