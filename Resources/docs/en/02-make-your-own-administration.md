@@ -27,21 +27,18 @@ You have to configure the controller with defining the missing method: "getParam
 
 
 ```PHP
-public function getParams()
-{
 
-    /**
-     * @return array
-     */
-    protected function getParams()
-    {
-        return array(
-            'prefix'     => 'admin_news',
-            'formType'   => new NewsType(),
-            'repository' => 'NeklandSiteBundle:News',
-            'class'      => new News()
-        );
-    }
+/**
+ * @return array
+ */
+protected function getParams()
+{
+    return array(
+        'prefix'     => 'admin_news',
+        'formType'   => new NewsType(),
+        'repository' => 'NeklandSiteBundle:News',
+        'class'      => new News()
+    );
 }
 ```
 

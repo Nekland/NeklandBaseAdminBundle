@@ -26,21 +26,18 @@ class MyAdminController extends \Nekland\Bundle\BaseAdmin\Controller\CrudControl
 Vous devez configurer le contrôleur en definissant la méthode manquante: "getParams"
 
 ```PHP
-public function getParams()
-{
 
-    /**
-     * @return array
-     */
-    protected function getParams()
-    {
-        return array(
-            'prefix'     => 'admin_news',
-            'formType'   => new NewsType(),
-            'repository' => 'NeklandSiteBundle:News',
-            'class'      => new News()
-        );
-    }
+/**
+ * @return array
+ */
+protected function getParams()
+{
+    return array(
+        'prefix'     => 'admin_news',
+        'formType'   => new NewsType(),
+        'repository' => 'NeklandSiteBundle:News',
+        'class'      => new News()
+    );
 }
 ```
 
