@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "symfony/symfony":                  "*",
+        "symfony/symfony":                  "2.3.*",
         "knplabs/knp-menu-bundle":          "dev-master",
         "sensio/framework-extra-bundle":    "*",
         "doctrine/doctrine-bundle":         "*",
