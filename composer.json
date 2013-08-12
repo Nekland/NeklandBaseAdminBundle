@@ -16,6 +16,10 @@
             "name": "VEBER Maxime",
             "email": "nek.dev@gmail.com",
             "homepage": "http://nekland.fr"
+        },
+        {
+            "name": "ANDRIEUX François",
+            "email": "spriteware@gmail.com"
         }
     ],
     "require": {
