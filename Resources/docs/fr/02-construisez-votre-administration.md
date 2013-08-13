@@ -58,13 +58,8 @@ Pour plus d'informations, veuillez vous référer à la page de documentation "R
 documentées. Vous pouvez aussi regarder notre contrôleur qui est bien commenté pour vous aider à comprendre toutes les
 options.
 
-2) Le formulaire
-----------------
 
-Le formulaire est un formulaire symfony classique. Vous devez juste l'instancier dans la configuration comme expliqué
-précédemment.
-
-3) L'entité
+2) L'entité
 -----------
 
 Pour travailler avec notre contrôleur "crud", votre entité doit implémenter l'interface "CrudableInterface". Voici
@@ -91,6 +86,18 @@ class News implements CrudableInterface
         );
     }
 }
+```
+
+3) Le formulaire
+----------------
+
+Le formulaire est un formulaire symfony classique. Vous devez juste l'instancier dans la configuration comme expliqué
+précédemment.
+
+Vous pouvez utiliser la commande symfony suivante:
+
+```BASH
+php app/console generate:doctrine:form NeklandSiteBundle:News
 ```
 
 4) Le routing

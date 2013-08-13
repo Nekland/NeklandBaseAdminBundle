@@ -58,12 +58,7 @@ protected function getParams()
 For more information, refer to the documentation page "Reference" where all options are documented.
 You can also take a look at our controller class witch is comment to help you.
 
-2) The Form
------------
-
-The form is a classical symfony form. You just have to instantiate your form type in configuration as explained before.
-
-3) The entity
+2) The entity
 -------------
 
 To work with our crud controller, your entity have to implement the "CrudableInterface". Here is an example of
@@ -90,6 +85,17 @@ class News implements CrudableInterface
         );
     }
 }
+```
+
+3) The Form
+-----------
+
+The form is a classical symfony form. You just have to instantiate your form type in configuration as explained before.
+
+You can use the following symfony command:
+
+```BASH
+php app/console generate:doctrine:form NeklandSiteBundle:News
 ```
 
 4) The routing
