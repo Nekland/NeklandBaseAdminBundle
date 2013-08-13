@@ -49,4 +49,20 @@ class Utils
 
         return $merged;
     }
+
+    /**
+     * Obtains an object class name without namespaces
+     *
+     * @param Object $obj
+     * @return string
+     */
+    public static function get_real_class($obj) {
+        $classname = get_class($obj);
+
+        if (preg_match('@\\\\([\w]+)$@', $classname, $matches)) {
+            $classname = $matches[1];
+        }
+
+        return $classname;
+    }
 }

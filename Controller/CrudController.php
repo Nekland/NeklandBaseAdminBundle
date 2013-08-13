@@ -62,8 +62,8 @@ abstract class CrudController extends Controller
         'formType'   => null,
         'class'      => null,
         'repository' => null,
-        'singular'   => 'objet',
-        'plural'     => 'objets',
+        'singular'   => '',
+        'plural'     => '',
         'feminine'   => false,
         'createSentence'        => null,
         'updateSentence'        => null,
@@ -353,6 +353,14 @@ abstract class CrudController extends Controller
             }
         }
 
+        // Getting the name of the object
+        if (empty($params['singular'])) {
+            $params['singular'] = strtolower(Utils::get_real_class($params['class']));
+        }
+        if (empty($params['plural'])) {
+            $params['plural'] = strtolower(Utils::get_real_class($params['class'])) . 's';
+        }
+
         // Spelling articles
         $startVoyel = in_array(strtolower($params['singular'][0]), array('a', 'e', 'i', 'o', 'u', 'y'));
         $params['articles'] = array(
@@ -375,6 +383,7 @@ abstract class CrudController extends Controller
                 $params['feminine'] ? 'e' : ''
             );
         }
+
 
 
 
