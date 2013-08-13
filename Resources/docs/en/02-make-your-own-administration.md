@@ -178,7 +178,7 @@ Then you have to define your listener as service. Open your "service.yml" file a
 
 ```YAML
 parameters:
-    nekland_site.listener.admin.menu.class: EA\SiteBundle\Listener\AdminMenu
+    nekland_site.listener.admin.menu.class: Nekland\SiteBundle\Listener\AdminMenu
 
 services:
     nekland_site.listener.admin.menu:
