@@ -56,7 +56,7 @@ class Utils
      * @param Object $obj
      * @return string
      */
-    public static function get_real_class($obj) {
+    public static function getRealClass($obj) {
         $classname = get_class($obj);
 
         if (preg_match('@\\\\([\w]+)$@', $classname, $matches)) {

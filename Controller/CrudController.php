@@ -355,10 +355,10 @@ abstract class CrudController extends Controller
 
         // Getting the name of the object
         if (empty($params['singular'])) {
-            $params['singular'] = strtolower(Utils::get_real_class($params['class']));
+            $params['singular'] = strtolower(Utils::getRealClass($params['class']));
         }
         if (empty($params['plural'])) {
-            $params['plural'] = strtolower(Utils::get_real_class($params['class'])) . 's';
+            $params['plural'] = strtolower(Utils::getRealClass($params['class'])) . 's';
         }
 
         // Spelling articles
