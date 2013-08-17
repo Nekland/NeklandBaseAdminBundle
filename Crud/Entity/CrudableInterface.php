@@ -3,7 +3,7 @@
 /*
  * This file is part of the NekLandBaseAdminBundle package.
  *
- * (c) Nekland <http://http://nekland.fr/>
+ * (c) Nekland <http://nekland.fr/>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
