@@ -1,10 +1,12 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: nek
- * Date: 26/07/13
- * Time: 10:12
- * To change this template use File | Settings | File Templates.
+
+/*
+ * This file is part of the NekLandBaseAdminBundle package.
+ *
+ * (c) Nekland <http://http://nekland.fr/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Nekland\Bundle\BaseAdminBundle\Menu;
@@ -31,7 +33,6 @@ class Builder extends ContainerAware
             Events::onConfigureMenu,
             new OnConfigureMenuEvent($menu)
         );
-
 
         return $menu;
     }

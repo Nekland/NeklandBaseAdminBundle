@@ -7,7 +7,6 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Crud\Entity;
 
-
 interface LockableInterface
 {
     /**

@@ -1,17 +1,26 @@
 <?php
 
-namespace Nekland\Bundle\BaseAdminBundle\Controller;
+/*
+ * This file is part of the NekLandBaseAdminBundle package.
+ *
+ * (c) Nekland <http://http://nekland.fr/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+namespace Nekland\Bundle\BaseAdminBundle\Controller;
 
 use Nekland\Bundle\BaseAdminBundle\Crud\Entity\LockableInterface;
 use Nekland\Bundle\BaseAdminBundle\Event\AfterCreateEvent;
 use Nekland\Bundle\BaseAdminBundle\Event\Events;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller,
-    Symfony\Component\HttpFoundation\Response,
-    Symfony\Component\HttpFoundation\Request,
-    Nekland\Bundle\BaseAdminBundle\Utils\Utils,
-    Nekland\Bundle\BaseAdminBundle\Crud\Form\Handler;
-
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Nekland\Bundle\BaseAdminBundle\Utils\Utils;
+use Nekland\Bundle\BaseAdminBundle\Crud\Form\Handler;
+use Nekland\Bundle\BaseAdminBundle\Crud\Entity\CrudableInterface;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 /**
  * Basic controller which should be extends
@@ -60,7 +69,7 @@ abstract class CrudController extends Controller
             'update' => null,
         ),
         'formType'   => null,
-        'class'      => null,
+        'entity'      => null,
         'repository' => null,
         'singular'   => '',
         'plural'     => '',
@@ -133,12 +142,10 @@ abstract class CrudController extends Controller
         ));
     }
 
-
-
     /**
      * Edit action, displays update form
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Symfony\Component\HttpFoundation\Request           $request
      * @return \Symfony\Bundle\FrameworkBundle\Controller\Response
      */
     public function editAction(Request $request)
@@ -158,7 +165,7 @@ abstract class CrudController extends Controller
     /**
      * Create action, computes create form
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Symfony\Component\HttpFoundation\Request                                                              $request
      * @return \Symfony\Bundle\FrameworkBundle\Controller\Response|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function createAction(Request $request)
@@ -185,7 +192,7 @@ abstract class CrudController extends Controller
     /**
      * Update action, computes update form
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Symfony\Component\HttpFoundation\Request                                                              $request
      * @return \Symfony\Bundle\FrameworkBundle\Controller\Response|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function updateAction(Request $request)
@@ -219,14 +226,13 @@ abstract class CrudController extends Controller
     /**
      * Delete action
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Symfony\Component\HttpFoundation\Request          $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request)
     {
         $entity = $this->findEntity($request);
         $em = $this->getDoctrine()->getManager();
-
 
         if ($entity instanceof LockableInterface && $entity->isDeletable()) {
             $this->get('session')->getFlashBag()->set('error', $this->getParam('nonDeletableSentence'));
@@ -238,6 +244,7 @@ abstract class CrudController extends Controller
         $em->flush();
 
         $this->get('session')->getFlashBag()->set('success', $this->getParam('deleteSentence'));
+
         return $this->redirectIndex();
     }
 
@@ -270,10 +277,11 @@ abstract class CrudController extends Controller
      */
     protected function createObject()
     {
-        $res = $this->getParam('class');
+        $res = $this->getParam('entity');
 
-        if (!($res instanceof \Nekland\Bundle\BaseAdminBundle\Crud\Entity\CrudableInterface))
-            throw new \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException("The entity have to be an instance of CrudableInterface");
+        if (!($res instanceof CrudableInterface)) {
+            throw new InvalidArgumentException("The entity have to be an instance of CrudableInterface");
+        }
 
         return $res;
     }
@@ -291,24 +299,22 @@ abstract class CrudController extends Controller
     /**
      * Find an Entity
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Symfony\Component\HttpFoundation\Request                     $request
      * @return \Nekland\Bundle\BaseAdminBundle\Crud\Entity\CrudableInterface
      */
     protected function findEntity(Request $request)
     {
-        $id = $request->attributes->get('id');
-        if (is_null($id)) {
-            $id = $request->query->get('id');
-        }
+        $id = $request->query->get('id', 0);
 
         $entity = $this->getRepository()->find($id);
-        if(!$entity) {
+        if (!$entity) {
             throw $this->createNotFoundException(sprintf(
                 'The entity "%s" searched by the BaseAdminBundle with id "%s" was not found.',
                 $this->getParam('class'),
                 $request->attributes->get('id')
             ));
         }
+
         return $entity;
     }
 
@@ -343,8 +349,6 @@ abstract class CrudController extends Controller
         }
 
         $params = Utils::array_merge_recursive(self::$params, $this->getParams());
-
-
 
         // Generate routes if the prefix is specified
         if (isset($params['prefix'])) {
@@ -383,9 +387,6 @@ abstract class CrudController extends Controller
                 $params['feminine'] ? 'e' : ''
             );
         }
-
-
-
 
         return $this->mergedParams = $params;
 

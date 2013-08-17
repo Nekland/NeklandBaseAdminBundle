@@ -1,12 +1,15 @@
 <?php
-/**
- * Author: nek
- * Date: 07/06/13
- * Copyleft Nekland
+
+/*
+ * This file is part of the NekLandBaseAdminBundle package.
+ *
+ * (c) Nekland <http://http://nekland.fr/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Nekland\Bundle\BaseAdminBundle\Utils;
-
 
 class Utils
 {
@@ -14,8 +17,8 @@ class Utils
      * Merge an array recursively
      *
      *
-     * @param array $a1
-     * @param array $a2
+     * @param  array $a1
+     * @param  array $a2
      * @return array
      */
     public static function array_merge_recursive(array $a1, array $a2)
@@ -26,14 +29,12 @@ class Utils
         foreach ($a1 as $key => $value) {
             if (!empty($a2[$key])) {
 
-
                 if (is_array($a2[$key]) && is_array($a1[$key])) {
                     // If there are both array, then reload the array_merge
                     $merged[$key] = Utils::array_merge_recursive($a1[$key], $a2[$key]);
                 } else {
                     $merged[$key] = $a2[$key];
                 }
-
 
             } else {
                 $merged[$key] = $value;
@@ -53,10 +54,11 @@ class Utils
     /**
      * Obtains an object class name without namespaces
      *
-     * @param Object $obj
+     * @param  Object $obj
      * @return string
      */
-    public static function getRealClass($obj) {
+    public static function getRealClass($obj)
+    {
         $classname = get_class($obj);
 
         if (preg_match('@\\\\([\w]+)$@', $classname, $matches)) {
