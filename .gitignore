@@ -1,0 +1,8 @@
+composer.lock
+phpunit.xml
+Tests/autoload.php
+nbproject
+catalog.xml
+vendor/*
+.idea/
+.DS_Store
