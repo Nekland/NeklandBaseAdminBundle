@@ -37,7 +37,7 @@ protected function getParams()
         'prefix'     => 'admin_news',
         'formType'   => new NewsType(),
         'repository' => 'NeklandSiteBundle:News',
-        'class'      => new News()
+        'entity'      => new News()
     );
 }
 ```

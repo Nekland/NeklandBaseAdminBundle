@@ -1,12 +1,15 @@
 <?php
-/**
- * Author: nek
- * Date: 07/06/13
- * Copyleft Nekland
+
+/*
+ * This file is part of the NekLandBaseAdminBundle package.
+ *
+ * (c) Nekland <http://nekland.fr/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Nekland\Bundle\BaseAdminBundle\Utils;
-
 
 class Utils
 {
@@ -14,26 +17,24 @@ class Utils
      * Merge an array recursively
      *
      *
-     * @param array $a1
-     * @param array $a2
+     * @param  array $array1
+     * @param  array $array2
      * @return array
      */
-    public static function array_merge_recursive(array $a1, array $a2)
+    public static function array_merge_recursive(array $array1, array $array2)
     {
         $merged    = array();
         $knownKeys = array();
 
-        foreach ($a1 as $key => $value) {
-            if (!empty($a2[$key])) {
+        foreach ($array1 as $key => $value) {
+            if (!empty($array2[$key])) {
 
-
-                if (is_array($a2[$key]) && is_array($a1[$key])) {
+                if (is_array($array2[$key]) && is_array($array1[$key])) {
                     // If there are both array, then reload the array_merge
-                    $merged[$key] = Utils::array_merge_recursive($a1[$key], $a2[$key]);
+                    $merged[$key] = Utils::array_merge_recursive($array1[$key], $array2[$key]);
                 } else {
-                    $merged[$key] = $a2[$key];
+                    $merged[$key] = $array2[$key];
                 }
-
 
             } else {
                 $merged[$key] = $value;
@@ -41,9 +42,9 @@ class Utils
             $knownKeys[] = $key;
         }
 
-        foreach ($a2 as $key => $value) {
+        foreach ($array2 as $key => $value) {
             if (!in_array($key, $knownKeys)) {
-                $merged[$key] = $a2[$key];
+                $merged[$key] = $array2[$key];
             }
         }
 
@@ -53,10 +54,11 @@ class Utils
     /**
      * Obtains an object class name without namespaces
      *
-     * @param Object $obj
+     * @param  Object $obj
      * @return string
      */
-    public static function getRealClass($obj) {
+    public static function getRealClass($obj)
+    {
         $classname = get_class($obj);
 
         if (preg_match('@\\\\([\w]+)$@', $classname, $matches)) {

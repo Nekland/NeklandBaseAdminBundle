@@ -1,9 +1,6 @@
 <?php
 
-
 namespace Nekland\Bundle\BaseAdminBundle\Tests\Utils;
-
-
 
 use Nekland\Bundle\BaseAdminBundle\Utils\Utils;
 
@@ -30,10 +27,8 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
             'hello' => 'world'
         );
 
-
         // Real usage
         $final = Utils::array_merge_recursive($a1, $a2);
-
 
         // Test if all is alright in the result :)
         $this->assertTrue(get_class($final['truc'][0]) == get_class($classB));
