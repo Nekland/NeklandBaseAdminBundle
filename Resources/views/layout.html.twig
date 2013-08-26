@@ -88,6 +88,7 @@ output='js/admin.js'
 %}
 <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
+{% block nekland_admin_javascripts %}{% endblock %}
 <script type="text/javascript">
     $('.datepicker').datepicker({
         language: 'fr'
