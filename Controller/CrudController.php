@@ -304,13 +304,14 @@ abstract class CrudController extends Controller
      */
     protected function findEntity(Request $request)
     {
-        $id = $request->query->get('id', 0);
+        $id = $request->attributes->get('id');
 
         $entity = $this->getRepository()->find($id);
+
         if (!$entity) {
             throw $this->createNotFoundException(sprintf(
                 'The entity "%s" searched by the BaseAdminBundle with id "%s" was not found.',
-                $this->getParam('class'),
+                get_class($this->getParam('class')),
                 $request->attributes->get('id')
             ));
         }
