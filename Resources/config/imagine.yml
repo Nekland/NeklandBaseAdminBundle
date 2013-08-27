@@ -1,0 +1,5 @@
+avalanche_imagine:
+    filters:
+        nekland_admin_thumb:
+            type:    thumbnail
+            options: { size: [150, 150], mode: inset }

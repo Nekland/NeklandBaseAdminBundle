@@ -1,0 +1,4 @@
+{% if attribute(object, key) is not empty %}
+    <img src="{{ attribute(object, key) | imagine_filter('nekland_admin_thumb') }}" alt="Miniature" />
+{% endif %}
+

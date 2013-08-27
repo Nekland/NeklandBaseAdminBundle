@@ -20,7 +20,11 @@
                     {% for key, field in params.display %}
                         <td class="crud-{{ key }}">
                             {{ key == 'id' ? '#' : '' }}
-                            {{ attribute(object, key) }}
+                            {% if field.type is defined %}
+                                {% include 'NeklandBaseAdminBundle:Crud:Types/' ~ field.type ~'.html.twig' %}
+                            {% else %}
+                                {{ attribute(object, key) }}
+                            {% endif %}
                         </td>
                     {% endfor %}
                     <td class="crud-actions">

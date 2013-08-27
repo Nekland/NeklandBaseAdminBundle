@@ -67,4 +67,16 @@ class Utils
 
         return $classname;
     }
+
+
+    /**
+     * Return a sanitized filename
+     *
+     * @param string $name
+     * @return string
+     */
+    public static function sanitize($name)
+    {
+        return strtolower(preg_replace('([^_a-zA-Z0-9])', '_', $name));
+    }
 }
