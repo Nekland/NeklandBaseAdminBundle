@@ -311,7 +311,7 @@ abstract class CrudController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException(sprintf(
                 'The entity "%s" searched by the BaseAdminBundle with id "%s" was not found.',
-                get_class($this->getParam('class')),
+                get_class($this->getParam('entity')),
                 $request->attributes->get('id')
             ));
         }
@@ -360,10 +360,10 @@ abstract class CrudController extends Controller
 
         // Getting the name of the object
         if (empty($params['singular'])) {
-            $params['singular'] = strtolower(Utils::getRealClass($params['class']));
+            $params['singular'] = strtolower(Utils::getRealClass($params['entity']));
         }
         if (empty($params['plural'])) {
-            $params['plural'] = strtolower(Utils::getRealClass($params['class'])) . 's';
+            $params['plural'] = strtolower(Utils::getRealClass($params['entity'])) . 's';
         }
 
         // Spelling articles
