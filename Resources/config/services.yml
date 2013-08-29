@@ -7,7 +7,7 @@ services:
 #        arguments: [@service_id, "plain_value", %parameter%]
 
 # Form type service registration
-    form.type.gender:
+    form.type.nekland_editor:
         class: Nekland\Bundle\BaseAdminBundle\Form\Type\NeklandEditorType
         tags:
             - { name: form.type, alias: nekland_editor }

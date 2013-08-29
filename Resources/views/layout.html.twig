@@ -8,6 +8,7 @@
     {% stylesheets
     '@NeklandBaseAdminBundle/Resources/css/bootstrap/*.css'
     '@NeklandBaseAdminBundle/Resources/css/admin.css'
+    '@NeklandBaseAdminBundle/Resources/css/nekland-editor.css'
     filter='cssrewrite'
     output='css/admin.css'
     %}
@@ -85,15 +86,17 @@
 {% javascripts
 '@NeklandBaseAdminBundle/Resources/js/jquery.min.js'
 '@NeklandBaseAdminBundle/Resources/js/bootstrap.min.js'
+'@NeklandBaseAdminBundle/Resources/js/nekland-editor.js'
 output='js/admin.js'
 %}
 <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% block nekland_admin_javascripts %}{% endblock %}
 <script type="text/javascript">
-    $('.datepicker').datepicker({
-        language: 'fr'
-    });
+    //$('.datepicker').datepicker({
+    //    language: 'fr'
+    //});
+    $('.nekland_editor').neklandEditor();
 </script>
 </body>
 </html>
