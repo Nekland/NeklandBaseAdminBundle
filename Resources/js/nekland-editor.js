@@ -11,7 +11,7 @@
     */
 
     return $.fn.neklandEditor = function(_options, _templates) {
-      var $editor, $textarea, $wrapper, settings, switchEditor, templates;
+      var NeklandEditor, settings, templates;
       if (_options == null) {
         _options = {};
       }
@@ -49,7 +49,7 @@
           return tpl += '</div>';
         },
         classicalButtons: function() {
-          return '<button class="btn"><b>Bold</b></button>';
+          return '<button class="btn nekland-editor-command" data-editor-command="bold"><b>Bold</b></button>';
         },
         /*
           Main template, include others
@@ -59,8 +59,10 @@
         main: function(buttons, size) {
           var tpl;
           tpl = buttons;
-          tpl += '<div class="nekland-editor-html" style="width:' + size[0] + 'px;height:' + size[1] + 'px" contenteditable></div>';
-          return tpl += '<a href="#" class="nekland-switch-button">Switch</a>';
+          return tpl += '<div class="nekland-editor-html" style="width:' + size[0] + 'px;height:' + size[1] + 'px" contenteditable></div>';
+        },
+        switchButton: function(css_class) {
+          return '<a href="#" class="' + css_class + '">Switch</a>';
         },
         /*
           Load the whole templates
@@ -69,31 +71,52 @@
         load: function($element, uid) {
           var $wrapper;
           $wrapper = $('<div>', {
-            id: 'nekland-eiditor-wrapper-' + uid
+            id: 'nekland-editor-wrapper-' + uid
           });
           $element.wrap($wrapper);
-          $element.after(this.main(this.buttons([this.classicalButtons]), [$element.width(), $element.height()]));
-          $element.hide();
-          console.log($wrapper.find('.nekland-switch-button')[0]);
-          $wrapper.find('.nekland-switch-button').click(function() {
-            switchEditor($('.nekland-editor-html'), $element);
-            return false;
-          });
+          $element.before(this.main(this.buttons([this.classicalButtons]), [$element.width(), $element.height()]));
+          $element.after(this.switchButton('nekland-switch-button'));
+          $element.css('display', 'block').hide();
+          $wrapper = $('#nekland-editor-wrapper-' + uid);
           return $wrapper;
         }
       }, _templates);
-      switchEditor = function($editor, $textarea) {
-        if ($editor.is(':visible')) {
-          $editor.hide();
-          return $textarea.show();
-        } else {
-          $textarea.hide();
-          return $editor.show();
+      NeklandEditor = (function() {
+        function NeklandEditor($textarea) {
+          var self;
+          this.$wrapper = templates.load($textarea, settings.uid);
+          this.$textarea = $textarea;
+          this.$editor = this.$wrapper.find('.nekland-editor-html');
+          this.$wrapper.find('.nekland-switch-button').click(this.switchEditor.bind(this));
+          self = this;
+          this.$wrapper.find('.nekland-editor-command').click(function() {
+            return self.command(this);
+          });
         }
-      };
-      $textarea = this;
-      $wrapper = templates.load(this, settings.uid);
-      $editor = $wrapper.find('.nekland-editor-html');
+
+        NeklandEditor.prototype.command = function($button) {
+          if (this.$editor.is('visible')) {
+            document.execCommand($button.data('editor-command'), false, $button.data('editor-command'));
+            console.log($button.data('editor-command'));
+          }
+          return false;
+        };
+
+        NeklandEditor.prototype.switchEditor = function() {
+          if (this.$editor.is(':visible')) {
+            this.$editor.hide();
+            this.$textarea.show();
+          } else {
+            this.$textarea.hide();
+            this.$editor.show();
+          }
+          return false;
+        };
+
+        return NeklandEditor;
+
+      })();
+      new NeklandEditor(this);
       return this;
     };
   })(jQuery);

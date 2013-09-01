@@ -35,7 +35,7 @@
 
         tpl += '</div>'
       classicalButtons: () ->
-        '<button class="btn"><b>Bold</b></button>'
+        '<button class="btn nekland-editor-command" data-editor-command="bold"><b>Bold</b></button>'
       ###
         Main template, include others
         The nekland-editor-html class is needed
@@ -43,25 +43,26 @@
       main: (buttons, size) ->
         tpl = buttons
         tpl += '<div class="nekland-editor-html" style="width:'+size[0]+'px;height:'+size[1]+'px" contenteditable></div>'
-        tpl += '<a href="#" class="nekland-switch-button">Switch</a>'
+
+      switchButton: (css_class) ->
+        '<a href="#" class="' + css_class + '">Switch</a>'
 
       ###
         Load the whole templates
       ###
       load: ($element, uid) ->
         $wrapper = $ '<div>',
-          id: 'nekland-eiditor-wrapper-' + uid
+          id: 'nekland-editor-wrapper-' + uid
 
         # Wrap into a unique id element
-        $element.wrap($wrapper);
-        $element.after(@main(@buttons([@classicalButtons]), [$element.width(), $element.height()]))
-        $element.hide()
+        $element.wrap($wrapper)
+        $element.before(@main(@buttons([@classicalButtons]), [$element.width(), $element.height()]))
+        $element.after(@switchButton('nekland-switch-button'))
+        $element.css('display', 'block').hide()
 
 
-        console.log $wrapper.find('.nekland-switch-button')[0]
-        $wrapper.find('.nekland-switch-button').click () ->
-          switchEditor($('.nekland-editor-html'), $element)
-          false
+        $wrapper = $ '#nekland-editor-wrapper-' + uid
+
 
         $wrapper
 
@@ -70,26 +71,51 @@
     , _templates
 
 
-    switchEditor = ($editor, $textarea) ->
-      if $editor.is ':visible'
-        $editor.hide()
-        $textarea.show()
-      else
-        $textarea.hide()
-        $editor.show()
 
 
 
-    # Load the template
-    #@after(templates.main(templates.buttons([templates.classicalButtons]), [@width(), @height()]))
-    #@hide()
-
-    $textarea = @
-    $wrapper   = templates.load(@, settings.uid)
-    $editor   = $wrapper.find('.nekland-editor-html');
 
 
+    class NeklandEditor
+      constructor: ($textarea) ->
+        # Getting wrapper by loading templates
+        @$wrapper = templates.load $textarea, settings.uid
 
+
+        # Getting original texarea & new field
+        @$textarea = $textarea
+        @$editor  = @$wrapper.find('.nekland-editor-html')
+
+        # Add switch event
+        @$wrapper.find('.nekland-switch-button').click @switchEditor.bind @
+
+        self = @
+        # Add Command event
+        @$wrapper.find('.nekland-editor-command').click ->
+          self.command(@)
+
+
+
+      command: ($button) ->
+        if @$editor.is 'visible'
+          document.execCommand($button.data('editor-command'), false, $button.data('editor-command'))
+          console.log $button.data('editor-command')
+
+        false
+
+      switchEditor:  ->
+        if @$editor.is ':visible'
+          @$editor.hide()
+          @$textarea.show()
+        else
+          @$textarea.hide()
+          @$editor.show()
+
+        false
+
+
+
+    new NeklandEditor(@)
 
     @
 
