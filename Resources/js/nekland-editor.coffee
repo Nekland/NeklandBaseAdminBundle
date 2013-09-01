@@ -35,7 +35,7 @@
 
         tpl += '</div>'
       classicalButtons: () ->
-        '<button class="btn nekland-editor-command" data-editor-command="bold"><b>Bold</b></button>'
+        '<button type="button" class="btn nekland-editor-command" data-editor-command="bold"><b>Bold</b></button>'
       ###
         Main template, include others
         The nekland-editor-html class is needed
@@ -62,6 +62,8 @@
 
 
         $wrapper = $ '#nekland-editor-wrapper-' + uid
+
+        $wrapper.find('.nekland-editor-html').html($element.html())
 
 
         $wrapper
@@ -92,22 +94,26 @@
         self = @
         # Add Command event
         @$wrapper.find('.nekland-editor-command').click ->
-          self.command(@)
+          self.command($(@))
 
 
 
       command: ($button) ->
-        if @$editor.is 'visible'
+        if @$editor.is ':visible'
           document.execCommand($button.data('editor-command'), false, $button.data('editor-command'))
-          console.log $button.data('editor-command')
 
         false
 
+      # switch from textarea to editor
+      # in both directions
+      #
       switchEditor:  ->
         if @$editor.is ':visible'
+          @$textarea.html(@$editor.html())
           @$editor.hide()
           @$textarea.show()
         else
+          @$editor.html(@$textarea.val())
           @$textarea.hide()
           @$editor.show()
 

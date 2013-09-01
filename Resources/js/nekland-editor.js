@@ -49,7 +49,7 @@
           return tpl += '</div>';
         },
         classicalButtons: function() {
-          return '<button class="btn nekland-editor-command" data-editor-command="bold"><b>Bold</b></button>';
+          return '<button type="button" class="btn nekland-editor-command" data-editor-command="bold"><b>Bold</b></button>';
         },
         /*
           Main template, include others
@@ -78,6 +78,7 @@
           $element.after(this.switchButton('nekland-switch-button'));
           $element.css('display', 'block').hide();
           $wrapper = $('#nekland-editor-wrapper-' + uid);
+          $wrapper.find('.nekland-editor-html').html($element.html());
           return $wrapper;
         }
       }, _templates);
@@ -90,23 +91,24 @@
           this.$wrapper.find('.nekland-switch-button').click(this.switchEditor.bind(this));
           self = this;
           this.$wrapper.find('.nekland-editor-command').click(function() {
-            return self.command(this);
+            return self.command($(this));
           });
         }
 
         NeklandEditor.prototype.command = function($button) {
-          if (this.$editor.is('visible')) {
+          if (this.$editor.is(':visible')) {
             document.execCommand($button.data('editor-command'), false, $button.data('editor-command'));
-            console.log($button.data('editor-command'));
           }
           return false;
         };
 
         NeklandEditor.prototype.switchEditor = function() {
           if (this.$editor.is(':visible')) {
+            this.$textarea.html(this.$editor.html());
             this.$editor.hide();
             this.$textarea.show();
           } else {
+            this.$editor.html(this.$textarea.val());
             this.$textarea.hide();
             this.$editor.show();
           }
