@@ -15,7 +15,13 @@
       swapToText: 'swap to text',
       swapToHtml: 'swap to html',
       italic: 'italic',
-      bold: 'bold'
+      bold: 'bold',
+      addLink: 'add link',
+      close: 'close',
+      insertLink: 'insert link',
+      link: 'link',
+      removeLink: 'remove link',
+      notALink: 'your link is not a valid link'
     };
     /*
       Nekland Editor
@@ -78,6 +84,15 @@
               ucfirst: true
             }) + '</i></button>';
           },
+          linkButton: function() {
+            return "<div class=\"btn-group\">            <a class=\"btn dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">              " + self.translate('link', {
+              ucfirst: true
+            }) + "            <span class=\"caret\"></span>            </a>            <ul class=\"dropdown-menu\">              <li>                <a href=\"#\" class=\"open-link-modal\">                  " + self.translate('insertLink', {
+              ucfirst: true
+            }) + "                </a>              </li>              <li>                <a href=\"#\" class=\"nekland-editor-command\" data-editor-command=\"unlink\" data-prevent=\"no\">                  " + self.translate('removeLink', {
+              ucfirst: true
+            }) + "                </a>              </li>            </ul>          </div>";
+          },
           main: function(buttons, size) {
             var tpl;
             tpl = buttons;
@@ -86,13 +101,22 @@
           switchButton: function(css_class) {
             return '<a href="#" class="' + css_class + '"></a>';
           },
+          modals: function() {
+            return "<div class=\"modal hide fade nekland-editor-link\" role=\"dialog\" aria-hidden=\"true\">            <div class=\"modal-header\">              <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>              <h3>" + self.translate('addLink', {
+              ucfirst: true
+            }) + "</h3>            </div>            <div class=\"modal-body\">              <input type=\"text\" class=\"link-input\" style=\"width: 250px;\" />              <p class=\"error link-error\"></p>            </div>            <div class=\"modal-footer\">              <button type=\"button\" class=\"btn\" data-dismiss=\"modal\" aria-hidden=\"true\">" + self.translate('close', {
+              ucfirst: true
+            }) + "</button>              <button type=\"button\" class=\"btn btn-primary nekland-editor-command\" data-dismiss=\"modal\"                      data-option-selector=\".link-input\" data-editor-command=\"createLink\"                      data-prevent=\"no\">" + self.translate('insertLink', {
+              ucfirst: true
+            }) + "              </button>            </div>          </div>";
+          },
           load: function($element, uid) {
             var $wrapper, html;
             $wrapper = $('<div>', {
               id: 'nekland-editor-wrapper-' + uid
             });
             $element.wrap($wrapper);
-            $element.before(this.main(this.buttons([this.classicalButtons]), [$element.width(), $element.height()]));
+            $element.before(this.main(this.buttons([this.classicalButtons, this.linkButton]), [$element.width(), $element.height()]));
             $element.after(this.switchButton('nekland-switch-button'));
             $element.css('display', 'block').hide();
             $wrapper = $('#nekland-editor-wrapper-' + uid);
@@ -101,6 +125,7 @@
             } else {
               $wrapper.find('.nekland-editor-html').html('<p></p>');
             }
+            $wrapper.append(this.modals());
             $wrapper.find('.nekland-switch-button').html(self.translate('swapToHtml', {
               ucfirst: true
             }));
@@ -116,22 +141,50 @@
       }
 
       NeklandEditor.prototype.command = function($button) {
+        var command, node, option, prevent;
+        option = null;
+        command = $button.data('editor-command');
+        if (option = $button.data('option-selector')) {
+          option = this.$wrapper.find(option).val();
+        }
+        if (command === 'createLink') {
+          if (!/(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(option)) {
+            this.$wrapper.find('.link-error').html(this.translate('notALink', {
+              ucfirst: true
+            }));
+            return false;
+          }
+        } else if (command === 'unlink') {
+          node = this.getCurrentNode();
+          if (node.tagName === 'A') {
+            $(node).replaceWith($(node).text());
+            this.synchronize();
+            return;
+          }
+          this.replaceSelection();
+        }
         if (this.$editor.is(':visible')) {
-          document.execCommand($button.data('editor-command'), false, $button.data('editor-command'));
+          document.execCommand(command, false, option);
         }
         this.synchronize();
+        if (prevent = $button.data('prevent')) {
+          if (prevent === 'no') {
+            return true;
+          }
+        }
         return false;
       };
 
       NeklandEditor.prototype.switchEditor = function($switcher) {
         if (this.$editor.is(':visible')) {
           this.$editor.hide();
+          this.$textarea.val(this.clearHtml(this.$textarea.val()));
           this.$textarea.show();
           $switcher.html(this.translate('swapToText', {
             ucfirst: true
           }));
         } else {
-          this.$editor.html(this.$textarea.val());
+          this.$editor.html(this.clearHtml(this.$textarea.val()));
           this.$textarea.hide();
           this.$editor.show();
           $switcher.html(this.translate('swapToHtml', {
@@ -150,6 +203,11 @@
           return self.command($(this));
         });
         this.$editor.keyup($.proxy(this.onKeyUp, this));
+        this.$wrapper.find('.open-link-modal').click($.proxy(function() {
+          this.saveSelection();
+          return this.$wrapper.find('.nekland-editor-link').modal('show');
+        }, this));
+        this.$wrapper.find('.link-input').keydown(this.removeEnter);
       };
 
       NeklandEditor.prototype.onKeyUp = function(event) {
@@ -165,7 +223,11 @@
         if (options == null) {
           options = {};
         }
-        res = this.translations[str];
+        if (this.translations[str] != null) {
+          res = this.translations[str];
+        } else {
+          throw new Error('Translation missing');
+        }
         if (options.ucfirst != null) {
           res = res.charAt(0).toUpperCase() + res.slice(1);
         }
@@ -195,9 +257,53 @@
         }
       };
 
+      NeklandEditor.prototype.setSelection = function(orgn, orgo, focn, foco) {
+        var r, sel;
+        if (focn === null) {
+          focn = orgn;
+        }
+        if (foco === null) {
+          foco = orgo;
+        }
+        sel = this.getSelection();
+        if (!sel) {
+          return;
+        }
+        if (sel.collapse && sel.extend) {
+          sel.collapse(orgn, orgo);
+          return sel.extend(focn, foco);
+        } else {
+          r = document.createRange();
+          r.setStart(orgn, orgo);
+          r.setEnd(focn, foco);
+          try {
+            sel.removeAllRanges();
+          } catch (_error) {}
+          return sel.addRange(r);
+        }
+      };
+
       NeklandEditor.prototype.getCurrentNode = function() {
         if (window.getSelection != null) {
           return this.getSelectedNode().parentNode;
+        }
+      };
+
+      NeklandEditor.prototype.getParentNode = function() {
+        return $(this.getCurrentNode()).parent()[0];
+      };
+
+      NeklandEditor.prototype.getSelectedNode = function() {
+        var s;
+        if (window.getSelection != null) {
+          s = window.getSelection();
+          if (s.rangeCount > 0) {
+            return this.getSelection().getRangeAt(0).commonAncestorContainer;
+          } else {
+            return false;
+          }
+        } else if (document.selection != null) {
+          return this.getSelection();
         }
       };
 
@@ -227,6 +333,50 @@
             return sel.addRange(range);
           }
         }
+      };
+
+      NeklandEditor.prototype.replaceSelection = function() {
+        if ((this.savedSel != null) && (this.savedSelObj != null) && this.savedSel[0].tagName !== 'BODY') {
+          if ($(this.savedSel[0]).closest('.nekland-editor-html').size() === 0) {
+            return this.$editor.focus();
+          } else {
+            return this.setSelection(this.savedSel[0], this.savedSel[1], this.savedSelObj[0], this.savedSelObj[1]);
+          }
+        } else {
+          return this.$editor.focus();
+        }
+      };
+
+      NeklandEditor.prototype.saveSelection = function() {
+        this.$editor.focus();
+        this.savedSel = this.getOrigin();
+        return this.savedSelObj = this.getFocus();
+      };
+
+      NeklandEditor.prototype.getOrigin = function() {
+        var sel;
+        if (!((sel = this.getSelection()) && (sel.anchorNode !== null))) {
+          return null;
+        }
+        return [sel.anchorNode, sel.anchorOffset];
+      };
+
+      NeklandEditor.prototype.getFocus = function() {
+        var sel;
+        if (!((sel = this.getSelection()) && (sel.focusNode !== null))) {
+          return null;
+        }
+        return [sel.focusNode, sel.focusOffset];
+      };
+
+      NeklandEditor.prototype.removeEnter = function(e) {
+        if (e.which === 13) {
+          return e.preventDefault();
+        }
+      };
+
+      NeklandEditor.prototype.clearHtml = function(html) {
+        return html.replace(/&nbsp;/g, ' ', html);
       };
 
       return NeklandEditor;

@@ -14,7 +14,13 @@
     swapToText: 'voir le texte',
     swapToHtml: 'voir le html',
     italic: 'italique',
-    bold: 'gras'
+    bold: 'gras',
+    addLink: 'ajouter un lien',
+    close: 'fermer',
+    insertLink: 'insérer le lien',
+    link: 'lien',
+    removeLink: 'supprimer le lien',
+    notALink: 'votre lien n\'est pas valide'
   };
 
 }).call(this);
