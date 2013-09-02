@@ -15,6 +15,10 @@
 
     For options parameter, see documentation
     For templates parameter, all is function, see documentation
+
+    TODO:
+      -> Handle copy/paste process
+      -> Add image/link/etc support
   ###
 
   $.fn.neklandEditor = (_options={},_templates={}) ->
