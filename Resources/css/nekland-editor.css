@@ -1,5 +1,6 @@
 .nekland-editor-html {
-    border: 1px solid #bbb;
-    border-radius: 3px;
-    padding: 3px;
+    border:         1px solid #bbb;
+    border-radius:  3px;
+    padding:        5px;
+    overflow:       auto;
 }

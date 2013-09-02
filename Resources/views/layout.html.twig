@@ -87,6 +87,7 @@
 '@NeklandBaseAdminBundle/Resources/js/jquery.min.js'
 '@NeklandBaseAdminBundle/Resources/js/bootstrap.min.js'
 '@NeklandBaseAdminBundle/Resources/js/nekland-editor.js'
+'@NeklandBaseAdminBundle/Resources/js/nekland-editor-fr.js'
 output='js/admin.js'
 %}
 <script type="text/javascript" src="{{ asset_url }}"></script>
@@ -96,7 +97,7 @@ output='js/admin.js'
     //$('.datepicker').datepicker({
     //    language: 'fr'
     //});
-    $('.nekland_editor').neklandEditor();
+    $('.nekland_editor').neklandEditor({lang: 'fr'});
 </script>
 </body>
 </html>
