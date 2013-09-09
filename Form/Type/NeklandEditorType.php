@@ -7,8 +7,9 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Form\Type;
 
+use Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Class NeklandEditorType
@@ -20,6 +21,29 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class NeklandEditorType extends AbstractType
 {
+    /**
+     * @var HTMLPurifierTransformer
+     */
+    protected $purifierTransformer;
+
+    public function __construct(HTMLPurifierTransformer $transformer)
+    {
+        $this->purifierTransformer = $transformer;
+    }
+
+    /**
+     * Add transformer
+     *
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildForm($builder, $options);
+
+        $builder->addModelTransformer($this->purifierTransformer);
+    }
+
     public function getParent()
     {
         return 'textarea';

@@ -39,6 +39,9 @@ public function registerBundles()
 
         // Only if you don't already have this line
         // new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+
+        // Only if you don't already have this line
+        // new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
     );
 
 }
