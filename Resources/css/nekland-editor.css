@@ -1,0 +1,11 @@
+.nekland-editor-html {
+    border:         1px solid #bbb;
+    border-radius:  3px;
+    padding:        5px;
+    overflow:       auto;
+}
+
+p.error {
+    padding-top: 5px;
+    color: red;
+}

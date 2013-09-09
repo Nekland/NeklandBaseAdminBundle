@@ -44,3 +44,13 @@
     </div>
 {% endspaceless %}
 {% endblock submit_widget %}
+
+
+{# Template for Nekland Editor #}
+{% block nekland_editor_widget %}
+{% spaceless %}
+    {# Adding a special class to the textarea #}
+    {% set attr = attr|merge({'class': attr.class|default('') ~ 'nekland_editor' }) %}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+{% endspaceless %}
+{% endblock %}
