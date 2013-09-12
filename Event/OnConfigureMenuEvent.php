@@ -14,6 +14,13 @@ namespace Nekland\Bundle\BaseAdminBundle\Event;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Class OnConfigureMenuEvent
+ *
+ * This event is call on the
+ *
+ * @package Nekland\Bundle\BaseAdminBundle\Event
+ */
 class OnConfigureMenuEvent extends Event
 {
     /**
