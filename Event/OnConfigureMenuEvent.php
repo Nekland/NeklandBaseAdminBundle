@@ -17,7 +17,7 @@ use Symfony\Component\EventDispatcher\Event;
 /**
  * Class OnConfigureMenuEvent
  *
- * This event is call on the
+ * This event is call on the MenuBuilder
  *
  * @package Nekland\Bundle\BaseAdminBundle\Event
  */
