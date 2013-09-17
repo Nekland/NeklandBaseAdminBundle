@@ -385,6 +385,7 @@
       html.replace(/&nbsp;/g, ' ', html)
 
 
+  return
 )(jQuery)
 
 uniqid = (prefix, more_entropy) ->

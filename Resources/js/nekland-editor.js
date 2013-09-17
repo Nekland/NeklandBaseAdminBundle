@@ -50,7 +50,7 @@
         }
       });
     };
-    return NeklandEditor = (function() {
+    NeklandEditor = (function() {
       function NeklandEditor($textarea, _options, _templates) {
         var self;
         self = this;
@@ -135,7 +135,7 @@
         this.$wrapper = this.templates.load($textarea, this.settings.uid);
         this.$textarea = $textarea;
         this.$editor = this.$wrapper.find('.nekland-editor-html');
-        this.$editor = this.$editor.html(this.p_ize(this.$editor.html()));
+        this.$editor = this.$editor.html(this.pize(this.$editor.html()));
         this.lastKey = null;
         this.addEvents();
       }
