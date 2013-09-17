@@ -120,7 +120,7 @@
             $element.after(this.switchButton('nekland-switch-button'));
             $element.css('display', 'block').hide();
             $wrapper = $('#nekland-editor-wrapper-' + uid);
-            if (html = $element.html()) {
+            if (html = $element.val()) {
               $wrapper.find('.nekland-editor-html').html(html);
             } else {
               $wrapper.find('.nekland-editor-html').html('<p></p>');
@@ -135,7 +135,7 @@
         this.$wrapper = this.templates.load($textarea, this.settings.uid);
         this.$textarea = $textarea;
         this.$editor = this.$wrapper.find('.nekland-editor-html');
-        this.$editor = this.$editor.html(this.pize(this.$editor.html()));
+        this.$editor = this.$editor.html(this.p_ize(this.$editor.html()));
         this.lastKey = null;
         this.addEvents();
       }
