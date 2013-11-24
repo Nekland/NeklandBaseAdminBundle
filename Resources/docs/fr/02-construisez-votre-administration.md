@@ -17,7 +17,7 @@ Vous n'avez à écrire aucune action mais la majeure partie de la configuration 
 Créez votre contrôleur en étendant la classe "Nekland\Bundle\BaseAdmin\Controller\CrudController".
 
 ```PHP
-class MyAdminController extends \Nekland\Bundle\BaseAdmin\Controller\CrudController
+class MyAdminController extends \Nekland\Bundle\BaseAdminBundle\Controller\CrudController
 {
 
 }
