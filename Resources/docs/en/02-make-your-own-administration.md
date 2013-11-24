@@ -129,7 +129,7 @@ admin_news_update:
         id: \d+
 
 admin_news_delete:
-    pattern: /news/delete
+    pattern: /news/delete/{id}
     defaults: { _controller: NeklandSiteBundle:Backend/News:delete }
 ```
 
