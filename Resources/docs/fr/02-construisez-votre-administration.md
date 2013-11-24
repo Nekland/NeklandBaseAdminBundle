@@ -42,7 +42,7 @@ protected function getParams()
 ```
 
 1. "prefix": vous n'avez pas à définir chaque route lorsque vos routes possèdent le même prefix,
-   il vous suffit de définir l'option "prefix", les routes générées seront:
+   il vous suffit de définir l'option "prefix", les routes utilisées seront:
    *  admin_news_index
    *  admin_news_new
    *  admin_news_create
