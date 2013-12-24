@@ -28,12 +28,12 @@
                         </td>
                     {% endfor %}
                     <td class="crud-actions">
-                        <a class="btn btn-mini"
+                        <a class="btn btn-mini btn-primary"
                            href="{{ path(params.routes.edit, object.routeParams) }}">
                             <i class="icon-cog"></i> Editer
                         </a>
                         {% for action in params.object_actions %}
-                            <a class="btn btn-mini"
+                            <a class="btn btn-mini btn-primary"
                                href="{{ path(action.route, object.routeParams) }}">
                                 {{ action.label }}
                             </a>
