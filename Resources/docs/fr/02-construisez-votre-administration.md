@@ -17,7 +17,7 @@ Vous n'avez à écrire aucune action mais la majeure partie de la configuration 
 Créez votre contrôleur en étendant la classe "Nekland\Bundle\BaseAdmin\Controller\CrudController".
 
 ```PHP
-class MyAdminController extends \Nekland\Bundle\BaseAdmin\Controller\CrudController
+class MyAdminController extends \Nekland\Bundle\BaseAdminBundle\Controller\CrudController
 {
 
 }
@@ -42,7 +42,7 @@ protected function getParams()
 ```
 
 1. "prefix": vous n'avez pas à définir chaque route lorsque vos routes possèdent le même prefix,
-   il vous suffit de définir l'option "prefix", les routes générées seront:
+   il vous suffit de définir l'option "prefix", les routes utilisées seront:
    *  admin_news_index
    *  admin_news_new
    *  admin_news_create
@@ -132,7 +132,7 @@ admin_news_update:
         id: \d+
 
 admin_news_delete:
-    pattern: /news/delete
+    pattern: /news/delete/{id}
     defaults: { _controller: NeklandSiteBundle:Backend/News:delete }
 ```
 

@@ -17,7 +17,7 @@ You don't have to write any action but the most part of configuration to do is i
 Create your controller and extends from "Nekland\Bundle\BaseAdmin\Controller\CrudController".
 
 ```PHP
-class MyAdminController extends \Nekland\Bundle\BaseAdmin\Controller\CrudController
+class MyAdminController extends \Nekland\Bundle\BaseAdminBundle\Controller\CrudController
 {
 
 }
@@ -43,7 +43,7 @@ protected function getParams()
 ```
 
 1. "prefix": you don't have to define each route when your routes share the same prefix, you just need to define the
-   prefix, the generated routes will be:
+   prefix, the routes in use will be:
    *  admin_news_index
    *  admin_news_new
    *  admin_news_create
@@ -129,7 +129,7 @@ admin_news_update:
         id: \d+
 
 admin_news_delete:
-    pattern: /news/delete
+    pattern: /news/delete/{id}
     defaults: { _controller: NeklandSiteBundle:Backend/News:delete }
 ```
 
