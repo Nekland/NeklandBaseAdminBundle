@@ -34,7 +34,7 @@
                 <span class="icon-bar"></span>
             </a>
 
-            <a class="brand" href="{{ path('nekland_base_admin_homepage') }}">{% block nekland_admin_title %}Administration{% endblock %}</a>
+            <a class="navbar-brand" href="{{ path('nekland_base_admin_homepage') }}">{% block nekland_admin_title %}Administration{% endblock %}</a>
 
             <div class="nav-collapse collapse">
                 <p class="navbar-text pull-right">
@@ -57,22 +57,21 @@
     </div>
 </div>
 
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div id="nav-list" class="span3">
-            <div class="well sidebar-nav">
+<div class="row">
+    <div id="nav-list" class="col-lg-3">
+        <div class="hidden-print">
 
-                {{ knp_menu_render(
-                    'NeklandBaseAdminBundle:Builder:mainMenu',
-                    {currentClass: 'active', template: 'NeklandBaseAdminBundle:Menu:main.html.twig' }
-                ) }}
-            </div>
-        </div>
-        <div class="span9">
-            {{ include('NeklandBaseAdminBundle:Misc:flash.html.twig') }}
-            {% block nekland_admin_content %}{% endblock %}
+            {{ knp_menu_render(
+                'NeklandBaseAdminBundle:Builder:mainMenu',
+                {currentClass: 'active', template: 'NeklandBaseAdminBundle:Menu:main.html.twig' }
+            ) }}
         </div>
     </div>
+    <div class="col-lg-9">
+        {{ include('NeklandBaseAdminBundle:Misc:flash.html.twig') }}
+        {% block nekland_admin_content %}{% endblock %}
+    </div>
+</div>
 
     <hr>
 
@@ -80,7 +79,6 @@
         <p></p>
     </footer>
 
-</div>
 
 
 {% javascripts
