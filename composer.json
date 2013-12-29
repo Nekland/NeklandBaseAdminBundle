@@ -27,9 +27,9 @@
         }
     ],
     "require": {
-        "symfony/symfony":                  "2.3.*",
+        "symfony/symfony":                  ">=2.3,<3.0",
         "knplabs/knp-menu-bundle":          "2.0.*@dev",
-        "sensio/framework-extra-bundle":    "2.3.*@dev",
+        "sensio/framework-extra-bundle":    ">=2.3,<3.0",
         "doctrine/doctrine-bundle":         "*",
         "doctrine/orm":                     "*",
         "symfony/assetic-bundle":           ">=2.0,<3.0",
