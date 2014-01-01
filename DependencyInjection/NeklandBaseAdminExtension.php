@@ -35,12 +35,6 @@ class NeklandBaseAdminExtension extends Extension implements PrependExtensionInt
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-
-
-        // If imagine is activated, load the configuration about
-        if ($config['imagine_integration']) {
-            $loader->load('imagine.yml');
-        }
     }
 
     /**
