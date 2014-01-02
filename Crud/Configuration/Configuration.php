@@ -1,9 +1,4 @@
 <?php
-/**
- * Author: nek
- * Date: 01/01/14
- * Copyleft Nekland
- */
 
 namespace Nekland\Bundle\BaseAdminBundle\Crud\Configuration;
 
