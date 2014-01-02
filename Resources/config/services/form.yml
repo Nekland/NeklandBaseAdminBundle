@@ -1,0 +1,17 @@
+parameters:
+    nekland_admin.form.type.editor.class: Nekland\Bundle\BaseAdminBundle\Form\Type\NeklandEditorType
+    nekland_admin.form.transformer.html_purifier.class: Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer
+
+services:
+# Form type service registration
+    nekland_admin.form.type.editor:
+        class: %nekland_admin.form.type.editor.class%
+        arguments: [@nekland_admin.form.transformer.html_purifier]
+        tags:
+            - { name: form.type, alias: nekland_editor }
+
+# No html purifier transformer is defined as service in the HTMLPurifier bundle
+# So we need to add it
+    nekland_admin.form.transformer.html_purifier:
+        class: %nekland_admin.form.transformer.html_purifier.class%
+        arguments: [@exercise_html_purifier.default]

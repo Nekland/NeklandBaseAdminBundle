@@ -11,7 +11,6 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Crud\Configuration;
 
-
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class ConfigurationManager
@@ -58,18 +57,41 @@ class ConfigurationManager
 
         $configs = array();
         foreach ($this->paths as $path) {
-            $configs[] = $this->loader->load($path);
+            try {
+                $configs[] = $this->loader->load($path);
+            } catch (ConfigurationException $e) {}
         }
 
-        $this->checkConfiguration($configs);
+        $configs = $this->checkConfiguration($configs);
+
+        $this->config = $configs;
     }
 
     public function checkConfiguration(array $configurations)
     {
+        $configSchema = new Configuration();
+        $config       = array();
         foreach ($configurations as $entry) {
-            $configuration = new Configuration();
-            $this->config = $this->processConfiguration($configuration, $entry);
+            $config[] = $this->processConfiguration($configSchema, $entry);
         }
+
+        return $config;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReady()
+    {
+        return $this->config !== null;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfiguration()
+    {
+        return $this->config;
     }
 
     private function processConfiguration(ConfigurationInterface $configuration, array $configs)

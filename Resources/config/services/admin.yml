@@ -1,9 +1,12 @@
 parameters:
     nekland_admin.routing.loader.class: Nekland\Bundle\BaseAdminBundle\Routing\AdminLoader
+    nekland_admin.crud.manager.class: Nekland\Bundle\BaseAdminBundle\Crud\Manager
+    nekland_admin.crud.configuration.manager.class: Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationManager
 
 services:
     nekland_admin.routing.loader:
         class: %nekland_admin.routing.loader.class%
+        arguments: [ @nekland_admin.crud.manager ]
         tags:
             - { name: routing.loader }
 
@@ -11,15 +14,9 @@ services:
 #        class: %nekland_base_admin.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
 
-# Form type service registration
-    nekland_admin.form.type.editor:
-        class: Nekland\Bundle\BaseAdminBundle\Form\Type\NeklandEditorType
-        arguments: [@nekland_admin.form.transformer.html_purifier]
-        tags:
-            - { name: form.type, alias: nekland_editor }
+    nekland_admin.crud.manager:
+        class: %nekland_admin.crud.manager.class%
+        arguments: [@kernel, @nekland_admin.crud.configuration.manager]
 
-# No html purifier transformer is defined as service in the HTMLPurifier bundle
-# So we need to add it
-    nekland_admin.form.transformer.html_purifier:
-        class: Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer
-        arguments: [@exercise_html_purifier.default]
+    nekland_admin.crud.configuration.manager:
+        class: %nekland_admin.crud.configuration.manager.class%
