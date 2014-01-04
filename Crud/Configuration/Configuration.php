@@ -30,8 +30,24 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->scalarNode('dashboard')->defaultTrue()->end()
-            ->end();
+            ->arrayNode('resources')
+                ->useAttributeAsKey('name')
+                ->prototype('array')
+                    ->children()
+                        // Name of the service to call
+                        ->scalarNode('driver')->defaultValue('doctrine')->end()
+                        ->scalarNode('manager')->defaultValue('default')->end()
+                        ->arrayNode('classes')
+                            ->children()
+                                ->scalarNode('model')->isRequired()->cannotBeEmpty()->end()
+                                ->scalarNode('controller')->defaultValue('Nekland\Bundle\BaseAdminBundle\Controller\CrudController')->end()
+                                ->scalarNode('repository')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ->end();
 
         return $treeBuilder;
     }

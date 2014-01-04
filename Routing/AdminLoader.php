@@ -37,8 +37,6 @@ class AdminLoader extends Loader
     {
         $routes = $this->manager->createRoutes();
 
-
-
         return $routes;
     }
 

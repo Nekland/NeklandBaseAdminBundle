@@ -55,16 +55,17 @@ class ConfigurationManager
             throw new ConfigurationException('Bundles paths are not set. Impossible to load the configuration.');
         }
 
-        $configs = array();
+        $config = array();
         foreach ($this->paths as $path) {
             try {
-                $configs[] = $this->loader->load($path);
+                $config = $this->loader->load($path);
             } catch (ConfigurationException $e) {}
         }
 
-        $configs = $this->checkConfiguration($configs);
+        $config = $this->checkConfiguration($config);
+        var_dump($config); exit;
 
-        $this->config = $configs;
+        $this->config = $config;
     }
 
     public function checkConfiguration(array $configurations)
@@ -92,6 +93,17 @@ class ConfigurationManager
     public function getConfiguration()
     {
         return $this->config;
+    }
+
+    /**
+     * Get an element of the configuration
+     * @param $element
+     * @param mixed|null $or
+     * @return mixed
+     */
+    public function get($element, $or = null)
+    {
+        return empty($this->config[$element]) ? $or : $this->config[$element];
     }
 
     private function processConfiguration(ConfigurationInterface $configuration, array $configs)

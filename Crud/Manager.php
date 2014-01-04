@@ -10,6 +10,7 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Crud;
 use Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationManager;
+use Nekland\Bundle\BaseAdminBundle\Crud\Controller\ControllerGenerator;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -26,14 +27,30 @@ class Manager
     private $configuration;
 
     /**
+     * @var \Symfony\Component\HttpKernel\KernelInterface
+     */
+    private $kernel;
+
+    /**
+     * @var Controller\ControllerGenerator
+     */
+    private $generator;
+
+    /**
      * @param KernelInterface $kernel
      */
-    public function __construct(KernelInterface $kernel, ConfigurationManager $configManager)
+    public function __construct(KernelInterface $kernel, ConfigurationManager $configManager, ControllerGenerator $generator)
     {
         $this->kernel        = $kernel;
         $this->configuration = $configManager;
+        $this->generator     = $generator;
     }
 
+    /**
+     * Load the Crud configuration
+     *
+     * @TODO: add in the bundle configuration: "supported bundles"
+     */
     public function loadConfiguration()
     {
         // Get bundles paths
@@ -42,7 +59,13 @@ class Manager
         $pathInBundles = 'Resources' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'nekland_admin.yml';
 
         foreach ($bundles as $bundle) {
-            $paths[] = $bundle->getPath() . DIRECTORY_SEPARATOR . $pathInBundles;
+            if ($bundle->getName() === 'NeklandBaseAdminBundle') {
+                $paths[] = $bundle->getPath()
+                    . DIRECTORY_SEPARATOR
+                    . 'Resources' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'default_nekland_admin.yml';
+            } else {
+                $paths[] = $bundle->getPath() . DIRECTORY_SEPARATOR . $pathInBundles;
+            }
         }
         $this->configuration->setPaths($paths);
         $this->configuration->loadConfigFiles();
@@ -56,7 +79,14 @@ class Manager
             $this->loadConfiguration();
         }
 
+        $controllers = $this->generator->getControllers();
+
         return $routes;
+    }
+
+    public function getController()
+    {
+
     }
 
     public function getConfiguration()

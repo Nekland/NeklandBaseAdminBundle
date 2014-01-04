@@ -2,6 +2,7 @@ parameters:
     nekland_admin.routing.loader.class: Nekland\Bundle\BaseAdminBundle\Routing\AdminLoader
     nekland_admin.crud.manager.class: Nekland\Bundle\BaseAdminBundle\Crud\Manager
     nekland_admin.crud.configuration.manager.class: Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationManager
+    nekland_admin.crud.controller.generator.class: Nekland\Bundle\BaseAdminBundle\Crud\Controller\ControllerGenerator
 
 services:
     nekland_admin.routing.loader:
@@ -16,7 +17,11 @@ services:
 
     nekland_admin.crud.manager:
         class: %nekland_admin.crud.manager.class%
-        arguments: [@kernel, @nekland_admin.crud.configuration.manager]
+        arguments: [@kernel, @nekland_admin.crud.configuration.manager, @nekland_admin.crud.controller.generator]
 
     nekland_admin.crud.configuration.manager:
         class: %nekland_admin.crud.configuration.manager.class%
+
+    nekland_admin.crud.controller.generator:
+        class: %nekland_admin.crud.controller.generator.class%
+        arguments: [@nekland_admin.crud.configuration.manager]
