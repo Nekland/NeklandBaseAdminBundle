@@ -73,15 +73,6 @@ class ConfigurationManager
         }
         $config = array($config);
 
-/*
-        $configsSort = array();
-        foreach($configs as $key => $element) {
-            var_dump($key);
-            if ($key === 'nekland_admin') {
-                $configsSort[] = $element;
-            }
-        }
-*/
         $config = $this->checkConfiguration($configs);
 
         return $this->config = $config;
