@@ -59,13 +59,7 @@ class Manager
         $pathInBundles = 'Resources' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'nekland_admin.yml';
 
         foreach ($bundles as $bundle) {
-            if ($bundle->getName() === 'NeklandBaseAdminBundle') {
-                $paths[] = $bundle->getPath()
-                    . DIRECTORY_SEPARATOR
-                    . 'Resources' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'default_nekland_admin.yml';
-            } else {
-                $paths[] = $bundle->getPath() . DIRECTORY_SEPARATOR . $pathInBundles;
-            }
+            $paths[] = $bundle->getPath() . DIRECTORY_SEPARATOR . $pathInBundles;
         }
         $this->configuration->setPaths($paths);
         $this->configuration->loadConfigFiles();

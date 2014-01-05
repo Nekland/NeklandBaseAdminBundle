@@ -11,6 +11,7 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Crud\Configuration;
 
+use Nekland\Bundle\BaseAdminBundle\Utils\Utils;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class ConfigurationManager
@@ -55,25 +56,44 @@ class ConfigurationManager
             throw new ConfigurationException('Bundles paths are not set. Impossible to load the configuration.');
         }
 
-        $config = array();
+        $configs = array();
         foreach ($this->paths as $path) {
             try {
-                $config = $this->loader->load($path);
+                $configs[] = $this->loader->load($path);
             } catch (ConfigurationException $e) {}
         }
 
-        $config = $this->checkConfiguration($config);
-        var_dump($config); exit;
+        $config = array();
+        foreach ($configs as $element) {
+            if (empty($config)) {
+                $config = $element;
+            } else {
+                $config = Utils::array_merge_recursive($config, $element);
+            }
+        }
+        $config = array($config);
 
-        $this->config = $config;
+/*
+        $configsSort = array();
+        foreach($configs as $key => $element) {
+            var_dump($key);
+            if ($key === 'nekland_admin') {
+                $configsSort[] = $element;
+            }
+        }
+*/
+        $config = $this->checkConfiguration($configs);
+
+        return $this->config = $config;
     }
 
     public function checkConfiguration(array $configurations)
     {
         $configSchema = new Configuration();
         $config       = array();
+
         foreach ($configurations as $entry) {
-            $config[] = $this->processConfiguration($configSchema, $entry);
+            $config = $this->processConfiguration($configSchema, $entry);
         }
 
         return $config;
