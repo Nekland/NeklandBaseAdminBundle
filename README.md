@@ -1,10 +1,11 @@
 Base Admin Bundle
 =================
 
+Features
+--------
 
-This bundle was originally started by Yohan Giarelli with the Soloist organization.
-This bundle is build on the same base.
-
+* Automatic dashboard generation
+* Big list of tools helping you creating administration easily
 
 Usage
 -----
@@ -23,4 +24,21 @@ The detailed documentation is available on the conventional folder: Resources/do
 Requirements
 ------------
 
-KnpMenuBundle
+We're sorry: there are dependencies. Good news, the installation is automatic, you just have to load them (see documentation).
+
+* KnpMenuBundle
+* ExerciseHTMLPurifierBundle
+
+Compatibility
+-------------
+
+Yes you can improve your administration using other bundles !
+
+* LiipImagineBundle (to resize automatically images in the dashboard, it will be so usefull for your development !)
+
+Thanks
+------
+
+* Original idea from Yohan Giarelli (on Soloist).
+* Help from friends :-) (see contributors)
+* Testers
