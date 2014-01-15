@@ -29,4 +29,6 @@ services:
 
     nekland_admin.listener.crud.menu:
         class: %nekland_admin.listener.crud.menu.class%
-        arguments: [@nekland_admin.crud.manager]
+        arguments: [@nekland_admin.crud.manager, @translator]
+        tags:
+            -  { name: kernel.event_listener, event: nekland_admin.configure.menu, method: onConfigureMenu }

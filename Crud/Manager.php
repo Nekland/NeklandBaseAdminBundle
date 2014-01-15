@@ -74,7 +74,7 @@ class Manager
             $this->loadConfiguration();
         }
 
-        $controllers = $this->generator->getRoutes();
+        //$controllers = $this->generator->getRoutes();
 
         return $routes;
     }

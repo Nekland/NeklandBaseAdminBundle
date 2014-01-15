@@ -34,9 +34,9 @@ class ConfigurationManager
      */
     private $loader;
 
-    public function __construct(RouteGenerator $routeGenerator)
+    public function __construct()
     {
-        $this->routeGenerator = $routeGenerator;
+        //$this->routeGenerator = $routeGenerator;
         $this->loader         = new ConfigurationLoader();
     }
 
@@ -100,24 +100,27 @@ class ConfigurationManager
     {
         $new = array();
 
-        foreach ($configuration['resources'] as $name => $resourceArray) {
-            $resource = new Resource();
+        if (!empty($configuration['resources'])) {
+            foreach ($configuration['resources'] as $name => $resourceArray) {
+                $resource = new Resource();
 
-            foreach($resourceArray as $element => $value) {
-                $method = 'set' . String::upFirstLetter($element);
-                $resource->{$method} = $value;
+                foreach($resourceArray as $element => $value) {
+                    $method = 'set' . String::upFirstLetter($element);
+                    $resource->{$method} = $value;
+                }
+
+                // Please change it in future versions to empty test
+                // (not supported before PHP 5.5)
+                if ($resource->getName() === null) {
+                    $resource->setName(String::upFirstLetter($name));
+                }
+
+                $new[$name] = $resource;
             }
-
-            // Please change it in future versions to empty test
-            // (not supported before PHP 5.5)
-            if ($resource->getName() === null) {
-                $resource->setName(String::upFirstLetter($name));
-            }
-
-            $new[$name] = $resource;
+            $configuration['resources'] = $new;
         }
 
-        return $configuration['resources'] = $new;
+        return $configuration;
     }
 
     public function generateMissingData(array $configuration)

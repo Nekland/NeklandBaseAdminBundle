@@ -44,20 +44,23 @@ class MenuListener
      */
     public function onConfigureMenu(OnConfigureMenuEvent $event)
     {
-//        $menu = $event->getMenu('News');
-//
-//        $menu->addChild('Ajouter', array('route' => 'admin_news_new'));
-
         $resources = $this->manager->getConfiguration()->getResources();
 
         foreach($resources as $name => $resource) {
             /** @var \Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource $resource */
             $menu = $event->getMenu($this->translator->trans($resource->getName()));
 
+            $menu->addChild('Lister', array(
+                'route' => 'nekland_base_admin_crud_index',
+                'routeParameters' => array(
+                    'resource' => $name
+                )
+            ));
+
             $menu->addChild('Nouveau', array(
-                'route' => 'nekland_admin_crud_new',
-                'routeParams' => array(
-                    'name' => $name
+                'route' => 'nekland_base_admin_crud_new',
+                'routeParameters' => array(
+                    'resource' => $name
                 )
             ));
         }
