@@ -16,6 +16,10 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Processor;
 
+/**
+ * Class Configuration
+ * Notice: Any change here impact directly changes in the Resource model
+ */
 class Configuration implements ConfigurationInterface
 {
     /**

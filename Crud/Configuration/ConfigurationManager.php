@@ -11,6 +11,9 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Crud\Configuration;
 
+use Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource;
+use Nekland\Bundle\BaseAdminBundle\Crud\Routing\RouteGenerator;
+use Nekland\Bundle\BaseAdminBundle\Utils\String;
 use Nekland\Bundle\BaseAdminBundle\Utils\Utils;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -22,22 +25,19 @@ class ConfigurationManager
     private $config;
 
     /**
-     * @var array of strings
+     * @var \Nekland\Bundle\BaseAdminBundle\Crud\Routing\RouteGenerator
      */
-    private $paths;
+    private $routeGenerator;
 
     /**
      * @var ConfigurationLoader
      */
     private $loader;
 
-    public function __construct($locationInBundles=null, $filename='nekland_admin.yml')
+    public function __construct(RouteGenerator $routeGenerator)
     {
-        if ($locationInBundles === null) {
-            $locationInBundles = 'Resources'.DIRECTORY_SEPARATOR.'config';
-        }
-        $this->locationInBundles = $locationInBundles;
-        $this->loader            = new ConfigurationLoader();
+        $this->routeGenerator = $routeGenerator;
+        $this->loader         = new ConfigurationLoader();
     }
 
     /**
@@ -74,6 +74,8 @@ class ConfigurationManager
         $config = array($config);
 
         $config = $this->checkConfiguration($configs);
+        $config = $this->hydrateConfig($config);
+        //$config = $this->generateMissingData($config);
 
         return $this->config = $config;
     }
@@ -88,6 +90,47 @@ class ConfigurationManager
         }
 
         return $config;
+    }
+
+    /**
+     * @param array $configuration
+     * @return array of Resource
+     */
+    public function hydrateConfig(array $configuration)
+    {
+        $new = array();
+
+        foreach ($configuration['resources'] as $name => $resourceArray) {
+            $resource = new Resource();
+
+            foreach($resourceArray as $element => $value) {
+                $method = 'set' . String::upFirstLetter($element);
+                $resource->{$method} = $value;
+            }
+
+            // Please change it in future versions to empty test
+            // (not supported before PHP 5.5)
+            if ($resource->getName() === null) {
+                $resource->setName(String::upFirstLetter($name));
+            }
+
+            $new[$name] = $resource;
+        }
+
+        return $configuration['resources'] = $new;
+    }
+
+    public function generateMissingData(array $configuration)
+    {
+        // Check if routes exists & generate theme if not
+        foreach ($configuration['resources'] as $resource)
+        {
+            if (!$resource->hasRoutes()) {
+                $this->routeGenerator->generateRoutes($resource);
+            }
+        }
+
+        return $configuration;
     }
 
     /**
@@ -115,6 +158,15 @@ class ConfigurationManager
     public function get($element, $or = null)
     {
         return empty($this->config[$element]) ? $or : $this->config[$element];
+    }
+
+    public function getResource($element, $or=null)
+    {
+        return empty($this->config['resources'][$element]) ? $or : $this->config['resources'][$element];
+    }
+    public function getResources()
+    {
+        return $this->config['resources'];
     }
 
     private function processConfiguration(ConfigurationInterface $configuration, array $configs)
