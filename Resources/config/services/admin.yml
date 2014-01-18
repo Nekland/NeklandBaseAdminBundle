@@ -4,6 +4,7 @@ parameters:
     nekland_admin.crud.configuration.manager.class: Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationManager
     nekland_admin.crud.controller.generator.class: Nekland\Bundle\BaseAdminBundle\Crud\Routing\RouteGenerator
     nekland_admin.listener.crud.menu.class: Nekland\Bundle\BaseAdminBundle\Crud\Listener\MenuListener
+    nekland_admin.listener.crud.controller.class: Nekland\Bundle\BaseAdminBundle\Crud\Listener\ControllerListener
 
 services:
     nekland_admin.routing.loader:
@@ -32,3 +33,9 @@ services:
         arguments: [@nekland_admin.crud.manager, @translator]
         tags:
             -  { name: kernel.event_listener, event: nekland_admin.configure.menu, method: onConfigureMenu }
+
+    nekland_admin.listener.crud.controller:
+        class: %nekland_admin.listener.crud.controller.class%
+        arguments: [@nekland_admin.crud.manager]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

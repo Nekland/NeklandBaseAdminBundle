@@ -2,13 +2,18 @@
 
 {% block nekland_admin_content %}
 
-    <h1>Liste des {{ params.plural }}</h1>
+    <h1>Liste des {{ resource.pluralName }}</h1>
+
     <table class="table table-bordered table-striped crud-list table-condensed">
         <thead>
             <tr>
-                {% for key, field in params.display %}
+                {% for key, field in resource.display %}
                     <th class="crud-{{ key }}">
-                        {{ field.label }}
+                        {% if field.label is defined %}
+                            {{ field.label }}
+                        {% else %}
+                            {{ key }}
+                        {% endif %}
                     </th>
                 {% endfor %}
                 <th class="crud-actions">Actions</th>
@@ -17,7 +22,7 @@
         <tbody>
             {% for object in objects %}
                 <tr>
-                    {% for key, field in params.display %}
+                    {% for key, field in resource.display %}
                         <td class="crud-{{ key }}">
                             {{ key == 'id' ? '#' : '' }}
                             {% if field.type is defined %}
@@ -29,25 +34,25 @@
                     {% endfor %}
                     <td class="crud-actions">
                         <a class="btn btn-mini btn-primary"
-                           href="{{ path(params.routes.edit, object.routeParams) }}">
+                           href="{{ path(resource.routes.edit.name, resource.getRouteParameters('edit', object)) }}">
                             <i class="icon-cog"></i> Editer
                         </a>
-                        {% for action in params.object_actions %}
+                        {% for action_name, action in resource.actions %}
                             <a class="btn btn-mini btn-primary"
-                               href="{{ path(action.route, object.routeParams) }}">
+                               href="{{ path(action.route.name, resource.getActionRouteParameters(action_name, object)) }}">
                                 {{ action.label }}
                             </a>
                         {% endfor %}
                         <a class="btn btn-mini btn-danger ask-delete"
-                           href="{{ path(params.routes.delete, object.routeParams) }}">
+                           href="{{ path(resource.routes.delete.name, resource.getRouteParameters('delete', object)) }}">
                             <i class="icon-trash icon-white"></i> Supprimer
                         </a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="{{ params.display | length + 1 }}">
-                        Aucun {{ params.singular }}
+                    <td colspan="{{ resource.display | length + 1 }}">
+                        Aucun {{ resource.name }}
                     </td>
                 </tr>
             {% endfor %}
@@ -57,7 +62,7 @@
     <hr />
 
     <div class="well">
-        <a href="{{ path(params.routes.new) }}" class="btn btn-primary">Nouveau</a>
+        <a href="{{ path(resource.routes.new.name, resource.getRouteParameters('new')) }}" class="btn btn-primary">Nouveau</a>
     </div>
 
 {% endblock nekland_admin_content %}

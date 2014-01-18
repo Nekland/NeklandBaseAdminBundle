@@ -13,7 +13,6 @@ namespace Nekland\Bundle\BaseAdminBundle\Crud\Configuration;
 
 use Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource;
 use Nekland\Bundle\BaseAdminBundle\Crud\Routing\RouteGenerator;
-use Nekland\Bundle\BaseAdminBundle\Utils\String;
 use Nekland\Bundle\BaseAdminBundle\Utils\Utils;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -105,15 +104,17 @@ class ConfigurationManager
                 $resource = new Resource();
 
                 foreach($resourceArray as $element => $value) {
-                    $method = 'set' . String::upFirstLetter($element);
-                    $resource->{$method} = $value;
+                    $method = 'set' . ucfirst($element);
+                    $resource->{$method}($value);
                 }
 
                 // Please change it in future versions to empty test
                 // (not supported before PHP 5.5)
                 if ($resource->getName() === null) {
-                    $resource->setName(String::upFirstLetter($name));
+                    $resource->setName(ucfirst($name));
                 }
+
+                $resource->setSlug($name);
 
                 $new[$name] = $resource;
             }

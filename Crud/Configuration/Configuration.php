@@ -12,6 +12,7 @@
 namespace Nekland\Bundle\BaseAdminBundle\Crud\Configuration;
 
 
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Processor;
@@ -32,7 +33,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('nekland_admin');
 
-        $rootNode
+        $node = $rootNode
             ->children()
             ->arrayNode('resources')
                 ->useAttributeAsKey('name')
@@ -41,11 +42,60 @@ class Configuration implements ConfigurationInterface
                         // Name of the service to call
                         ->scalarNode('driver')->defaultValue('doctrine')->end()
                         ->scalarNode('manager')->defaultValue('default')->end()
+                        ->scalarNode('pluralName')->end()
                         ->arrayNode('classes')
+                        ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('model')->isRequired()->cannotBeEmpty()->end()
                                 ->scalarNode('controller')->defaultValue('Nekland\Bundle\BaseAdminBundle\Controller\CrudController')->end()
-                                ->scalarNode('repository')->end()
+                                ->scalarNode('repository')->defaultNull()->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('templates')
+                        ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('index')->defaultValue('NeklandBaseAdminBundle:Crud:index.html.twig')->end()
+                                ->scalarNode('new')->defaultValue('NeklandBaseAdminBundle:Crud:new.html.twig')->end()
+                                ->scalarNode('edit')->defaultValue('NeklandBaseAdminBundle:Crud:edit.html.twig')->end()
+                                ->scalarNode('form')->defaultValue('NeklandBaseAdminBundle:Crud:form.html.twig')->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('display')
+                        ->defaultValue(array('id' => array('label' => 'N°')))
+                            ->prototype('array')
+                                ->children()
+                                    ->scalarNode('label')->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('routes')
+                        ->addDefaultsIfNotSet()
+                            ->children();
+
+        foreach (array('index', 'new', 'create') as $routeName) {
+            $node = $this->addRouteNode($node, $routeName);
+        }
+        foreach (array('edit', 'update', 'delete') as $routeName) {
+            $node = $this->addRouteNode($node, $routeName, array('id'));
+        }
+
+        $node
+
+                            ->end()
+                        ->end()
+                        ->arrayNode('actions')
+                            ->prototype('array')
+                                ->children()
+                                    ->scalarNode('label')->isRequired()->end()
+                                    ->arrayNode('route')
+                                        ->children()
+                                            ->scalarNode('name')->isRequired()->end()
+                                            ->arrayNode('parameters')
+                                                ->prototype('scalar')->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
                             ->end()
                         ->end()
                     ->end()
@@ -54,5 +104,32 @@ class Configuration implements ConfigurationInterface
         ->end();
 
         return $treeBuilder;
+    }
+
+    /**
+     * @param NodeBuilder $node
+     * @param $routeName
+     * @return NodeBuilder
+     */
+    private function addRouteNode(NodeBuilder $node, $routeName, $default=null)
+    {
+        $node = $node->arrayNode($routeName)
+            ->addDefaultsIfNotSet()
+                ->children()
+                ->scalarNode('name')->defaultValue('nekland_base_admin_crud_' . $routeName)->end()
+                ->arrayNode('parameters');
+
+        if (null !== $default && is_array($default)) {
+            $node = $node->defaultValue($default);
+        }
+
+
+        $node = $node
+                    ->prototype('scalar')->end()
+                ->end()
+            ->end()
+        ->end();
+
+        return $node;
     }
 } 
