@@ -48,7 +48,7 @@ class MenuListener
 
         foreach($resources as $name => $resource) {
             /** @var \Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource $resource */
-            $menu = $event->getMenu($this->translator->trans($resource->getName()));
+            $menu = $event->getMenu(ucfirst($this->translator->trans($resource->getPluralName())));
 
             $menu->addChild('Lister', array(
                 'route' => 'nekland_base_admin_crud_index',

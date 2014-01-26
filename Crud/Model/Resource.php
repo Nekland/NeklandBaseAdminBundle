@@ -19,16 +19,22 @@ namespace Nekland\Bundle\BaseAdminBundle\Crud\Model;
 class Resource
 {
     /**
+     * The resource name
+     *
      * @var string
      */
     private $name;
 
     /**
+     * The name of the resource as slug
+     *
      * @var string
      */
     private $slug;
 
     /**
+     * The plusral name of the resource
+     *
      * @var string
      */
     private $pluralName;
@@ -64,7 +70,18 @@ class Resource
     private $display;
 
     /**
+     * @var array
+     */
+    private $labels;
+
+    /**
+     * The formType can be a service, a class (as string) or an instance of formType
      *
+     * @var \Symfony\Component\Form\AbstractType|string
+     */
+    private $formType;
+
+    /**
      * @var array
      */
     private $actions;
@@ -92,6 +109,12 @@ class Resource
     public function setClasses(array $classes)
     {
         $this->classes = $classes;
+
+        // make a new instance of the type
+        if (is_string($classes['type']) && class_exists($classes['type'])) {
+            $type = $classes['type'];
+            $this->classes['type'] = new $type();
+        }
 
         return $this;
     }
@@ -200,6 +223,15 @@ class Resource
     }
 
     /**
+     * @param $name
+     * @return string
+     */
+    public function getRoute($name)
+    {
+        return $this->routes[$name];
+    }
+
+    /**
      * @return string
      */
     public function getModel()
@@ -261,6 +293,41 @@ class Resource
     {
         return $this->actions;
     }
+
+    /**
+     * @param array $labels
+     */
+    public function setLabels(array $labels)
+    {
+        $this->labels = $labels;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLabels()
+    {
+        return $this->labels;
+    }
+
+    /**
+     * @return string|\Symfony\Component\Form\AbstractType
+     */
+    public function getFormType()
+    {
+        return $this->classes['type'];
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasFormType()
+    {
+        return !empty($this->classes['type']);
+    }
+
 
     /**
      * @param Object $model

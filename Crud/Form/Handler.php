@@ -44,7 +44,7 @@ class Handler
      * @param  string                                     $action
      * @return Form|\Symfony\Component\Form\FormInterface
      */
-    public function getForm(FormTypeInterface $type, CrudableInterface $object, $action)
+    public function getForm(FormTypeInterface $type, $object, $action)
     {
         return $this->formFactory->create($type, $object, array(
             'method' => 'POST',

@@ -144,7 +144,7 @@ textarea {
     width:  530px;
     height: 300px;
 }
-input[type=text] {
+input[type=text], input[type=email] {
     width: 530px;
 }
 

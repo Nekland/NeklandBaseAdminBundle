@@ -10,7 +10,10 @@
  */
 
 namespace Nekland\Bundle\BaseAdminBundle\Controller;
+
+
 use Nekland\Bundle\BaseAdminBundle\Crud\Exception\UnsupportedOptionException;
+use Nekland\Bundle\BaseAdminBundle\Crud\Form\Handler;
 use Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,6 +48,30 @@ abstract class AbstractCrudController extends Controller
     }
 
     /**
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editAction($id)
+    {
+        $object   = $this->getRepository()->find($id);
+        $resource = $this->getResource();
+        $route    = $resource->getRoute('update');
+        $form     = $this->getForm(
+            $object,
+            $this->generateUrl(
+                $route['name'],
+                array('id' => $object->getId(), 'resource' => $resource->getSlug())
+            )
+        );
+
+        return $this->render($this->getResource()->getTemplate('edit'), array(
+            'object' => $object,
+            'form'   => $form->createView(),
+            'resource' => $resource
+        ));
+    }
+
+    /**
      * Get the repository
      *
      * @return \Doctrine\ORM\EntityRepository
@@ -66,11 +93,39 @@ abstract class AbstractCrudController extends Controller
     }
 
     /**
-     * @return Resource
+     * @return \Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource
      */
     protected function getResource()
     {
         return $this->resource;
+    }
+
+    /**
+     * @return \Nekland\Bundle\BaseAdminBundle\Crud\Form\Handler
+     */
+    protected function getFormHandler()
+    {
+        return new Handler($this->getDoctrine()->getManager(), $this->get('form.factory'));
+    }
+
+    protected function getForm($object, $url)
+    {
+        $resource = $this->getResource();
+
+        if ($resource->hasFormType()) {
+
+            $type = $resource->getFormType();
+
+            if (is_string($type)) {
+                $type = $this->get($type);
+            }
+
+            return $this->getFormHandler()->getForm($type, $object, $url);
+        }
+
+        $formGenerator = $this->get('nekland_admin.crud.form.generator');
+
+        return $formGenerator->generate($object, $url);
     }
 
     /**

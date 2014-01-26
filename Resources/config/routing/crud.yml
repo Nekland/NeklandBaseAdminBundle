@@ -15,14 +15,14 @@ nekland_base_admin_crud_create:
 
 nekland_base_admin_crud_edit:
     pattern:  /{resource}/edit/{id}
-    defaults: { _controller: NeklandBaseAdminBundle:Crud:new }
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:edit }
     requirements:
         _method: GET
         id: \d+
 
 nekland_base_admin_crud_update:
     pattern:  /{resource}/update/{id}
-    defaults: { _controller: NeklandBaseAdminBundle:Crud:create }
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:update }
     requirements:
         _method: GET
         id: \d+
