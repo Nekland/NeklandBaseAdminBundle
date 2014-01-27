@@ -37,7 +37,7 @@ services:
 
     nekland_admin.listener.crud.controller:
         class: %nekland_admin.listener.crud.controller.class%
-        arguments: [@nekland_admin.crud.manager]
+        arguments: [@service_container]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 

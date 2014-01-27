@@ -2,7 +2,7 @@
 
 {% block nekland_admin_content %}
 
-    <h1>Nouveau {{ params.singular }}</h1>
+    <h1>Nouveau {{ resource.name }}</h1>
 
     {{  include('NeklandBaseAdminBundle:Crud:form.html.twig', {'form': form}) }}
 

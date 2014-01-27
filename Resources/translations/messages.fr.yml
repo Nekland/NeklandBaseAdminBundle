@@ -1,0 +1,3 @@
+nekland_admin:
+    show.explaination: Vous consultez le détail d'un élément « %element% ».
+    success_sentence: L'objet a été mis à jour avec succès.

@@ -15,6 +15,7 @@ namespace Nekland\Bundle\BaseAdminBundle\Crud\Listener;
 use Nekland\Bundle\BaseAdminBundle\Controller\AbstractCrudController;
 use Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationManager;
 use Nekland\Bundle\BaseAdminBundle\Crud\Manager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -25,11 +26,20 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ControllerListener
 {
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @var \Nekland\Bundle\BaseAdminBundle\Crud\Manager
+     */
     private $manager;
 
-    public function __construct(Manager $manager)
+    public function __construct(ContainerInterface $container)
     {
-        $this->manager = $manager;
+        $this->container = $container;
+        $this->manager   = $container->get('nekland_admin.crud.manager');
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -38,6 +48,7 @@ class ControllerListener
         $controller       = $controllerConfig[0];
 
         if ($controller instanceof AbstractCrudController) {
+            // TODO: Change the controller if the controller is changed in configuration
             $request = $event->getRequest();
             if ($request->attributes->has('resource')) {
 
@@ -47,10 +58,19 @@ class ControllerListener
                     throw new NotFoundHttpException('La resource n\'existe pas ou n\'est pas configurée');
                 }
 
+                $classes = $resource->getClasses();
+                if ($classes['controller'] !== get_class($controller)) {
+                    $controllerClass = $classes['controller'];
+                    $controller = new $controllerClass();
+
+                    if($controller instanceof \Symfony\Component\DependencyInjection\ContainerAware) {
+                        $controller->setContainer($this->container);
+                    }
+                    $event->setController(array($controller, $controllerConfig[1]));
+                }
+
                 $controller->setResource($resource);
             }
-
-
         }
     }
 } 

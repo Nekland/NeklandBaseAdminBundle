@@ -59,6 +59,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('index')->defaultValue('NeklandBaseAdminBundle:Crud:index.html.twig')->end()
                                 ->scalarNode('new')->defaultValue('NeklandBaseAdminBundle:Crud:new.html.twig')->end()
                                 ->scalarNode('edit')->defaultValue('NeklandBaseAdminBundle:Crud:edit.html.twig')->end()
+                                ->scalarNode('show')->defaultValue('NeklandBaseAdminBundle:Crud:show.html.twig')->end()
                                 ->scalarNode('form')->defaultValue('NeklandBaseAdminBundle:Crud:form.html.twig')->end()
                             ->end()
                         ->end()
@@ -78,7 +79,7 @@ class Configuration implements ConfigurationInterface
                         ->addDefaultsIfNotSet()
                             ->children();
 
-        foreach (array('index', 'new', 'create') as $routeName) {
+        foreach (array('index', 'new', 'create', 'show') as $routeName) {
             $node = $this->addRouteNode($node, $routeName);
         }
         foreach (array('edit', 'update', 'delete') as $routeName) {

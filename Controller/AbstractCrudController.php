@@ -15,6 +15,9 @@ namespace Nekland\Bundle\BaseAdminBundle\Controller;
 use Nekland\Bundle\BaseAdminBundle\Crud\Exception\UnsupportedOptionException;
 use Nekland\Bundle\BaseAdminBundle\Crud\Form\Handler;
 use Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource;
+use Nekland\Bundle\BaseAdminBundle\Event\AfterCreateEvent;
+use Nekland\Bundle\BaseAdminBundle\Event\AfterUpdateEvent;
+use Nekland\Bundle\BaseAdminBundle\Event\Events;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -51,7 +54,22 @@ abstract class AbstractCrudController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction($id)
+    public function showAction($id)
+    {
+        $object   = $this->getRepository()->find($id);
+        $resource = $this->getResource();
+
+        return $this->render($this->getResource()->getTemplate('show'), array(
+            'object' => $object,
+            'resource' => $resource
+        ));
+    }
+
+    /**
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editAction($id, Request $request)
     {
         $object   = $this->getRepository()->find($id);
         $resource = $this->getResource();
@@ -64,8 +82,59 @@ abstract class AbstractCrudController extends Controller
             )
         );
 
+        if ($request->getMethod() === 'POST' && $this->getFormHandler()->update($form, $request)) {
+            $this->get('session')->getFlashBag()->set('success', $this->get('translator')->trans('nekland_admin.success_sentence'));
+
+            /** @var \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher $dispatcher */
+            $dispatcher = $this->get('event_dispatcher');
+            $dispatcher->dispatch(Events::afterUpdate, new AfterUpdateEvent($object));
+
+            $showRoute = $resource->getRoute('show');
+            return $this->redirect($this->generateUrl(
+                $showRoute['name'],
+                array('id' => $object->getId(), 'resource' => $resource->getSlug())
+            ));
+        }
+
         return $this->render($this->getResource()->getTemplate('edit'), array(
             'object' => $object,
+            'form'   => $form->createView(),
+            'resource' => $resource
+        ));
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function newAction(Request $request)
+    {
+        $resource    = $this->getResource();
+        $objectClass = $resource->getModel();
+        $route       = $resource->getRoute('create');
+        $object      = new $objectClass();
+        $form        = $this->getForm(
+            $object,
+            $this->generateUrl(
+                $route['name'],
+                array('resource' => $resource->getSlug())
+            )
+        );
+
+        if ($request->getMethod() === 'POST' && $this->getFormHandler()->create($form, $request)) {
+            $this->get('session')->getFlashBag()->set('success', $this->get('translator')->trans('nekland_admin.success_sentence'));
+
+            /** @var \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher $dispatcher */
+            $dispatcher = $this->get('event_dispatcher');
+            $dispatcher->dispatch(Events::afterCreate, new AfterCreateEvent($object));
+
+            $showRoute = $resource->getRoute('show');
+            return $this->redirect($this->generateUrl(
+                $showRoute['name'],
+                array('id' => $object->getId(), 'resource' => $resource->getSlug())
+            ));
+        }
+
+        return $this->render($this->getResource()->getTemplate('new'), array(
             'form'   => $form->createView(),
             'resource' => $resource
         ));
@@ -126,26 +195,5 @@ abstract class AbstractCrudController extends Controller
         $formGenerator = $this->get('nekland_admin.crud.form.generator');
 
         return $formGenerator->generate($object, $url);
-    }
-
-    /**
-     * @param string $option name of the option you want to get
-     * @param string $category name of the category of your option
-     *
-     * @return mixed
-     * @throws UnsupportedOptionException
-     */
-    protected function getOption($option, $category = null)
-    {
-        var_dump($this->options); exit;
-        if (null === $category && !empty($this->options[$option])) {
-            return $option;
-        }
-
-        if (!empty($option[$category][$option])) {
-            return $option;
-        }
-
-        throw new UnsupportedOptionException(sprintf('The option %s does not exists.', $option));
     }
 }

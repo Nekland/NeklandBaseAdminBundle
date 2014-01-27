@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
  * Basic controller which should be extends
  * to add/remove/configure features
  */
-abstract class CrudController extends Controller
+abstract class OldAbstractCrudController extends Controller
 {
     /**
      * Paramaters available for personalize your backend

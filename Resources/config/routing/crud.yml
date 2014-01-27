@@ -22,9 +22,9 @@ nekland_base_admin_crud_edit:
 
 nekland_base_admin_crud_update:
     pattern:  /{resource}/update/{id}
-    defaults: { _controller: NeklandBaseAdminBundle:Crud:update }
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:edit }
     requirements:
-        _method: GET
+        _method: POST
         id: \d+
 
 nekland_base_admin_crud_delete:
@@ -32,4 +32,11 @@ nekland_base_admin_crud_delete:
     defaults: { _controller: NeklandBaseAdminBundle:Crud:delete }
     requirements:
         _method: POST
+        id: \d+
+
+nekland_base_admin_crud_show:
+    pattern: /{resource}/show/{id}
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:show }
+    requirements:
+        _method: GET
         id: \d+
