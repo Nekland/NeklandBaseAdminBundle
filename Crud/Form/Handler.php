@@ -57,12 +57,11 @@ class Handler
      * @param Request $request
      * @return bool
      */
-    public function create(Form $form, Request $request)
+    public function create(Form $form, Request $request, array $options)
     {
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $this->em->persist($form->getData());
-            $this->em->flush();
+            $this->executeCreate($form, $options);
 
             return true;
         }
@@ -72,19 +71,37 @@ class Handler
 
     /**
      * @param Form $form
+     */
+    protected function executeCreate(Form $form, $options)
+    {
+        $this->em->persist($form->getData());
+        $this->em->flush();
+    }
+
+    /**
+     * @param Form $form
      * @param Request $request
+     * @param array $options
      * @return bool
      */
-    public function update(Form $form, Request $request)
+    public function update(Form $form, Request $request, $options = array())
     {
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $this->em->flush();
+            $this->executeUpdate($form, $options);
 
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * @param Form $form
+     */
+    protected function executeUpdate(Form $form, $options)
+    {
+        $this->em->flush();
     }
 
 }
