@@ -24,19 +24,19 @@ class ConfigurationManager
     private $config;
 
     /**
-     * @var \Nekland\Bundle\BaseAdminBundle\Crud\Routing\RouteGenerator
-     */
-    private $routeGenerator;
-
-    /**
      * @var ConfigurationLoader
      */
     private $loader;
 
-    public function __construct()
+    /**
+     * @var ConfigurationHydrator
+     */
+    private $hydrator;
+
+    public function __construct(ConfigurationHydrator $hydrator)
     {
-        //$this->routeGenerator = $routeGenerator;
-        $this->loader         = new ConfigurationLoader();
+        $this->hydrator = $hydrator;
+        $this->loader   = new ConfigurationLoader();
     }
 
     /**
@@ -74,11 +74,16 @@ class ConfigurationManager
 
         $config = $this->checkConfiguration($configs);
         $config = $this->hydrateConfig($config);
-        //$config = $this->generateMissingData($config);
 
         return $this->config = $config;
     }
 
+    /**
+     * Execute a check of the configuration throw the symfony configuration component
+     *
+     * @param array $configurations
+     * @return array
+     */
     public function checkConfiguration(array $configurations)
     {
         $configSchema = new Configuration();
@@ -101,37 +106,9 @@ class ConfigurationManager
 
         if (!empty($configuration['resources'])) {
             foreach ($configuration['resources'] as $name => $resourceArray) {
-                $resource = new Resource();
-
-                foreach($resourceArray as $element => $value) {
-                    $method = 'set' . ucfirst($element);
-                    $resource->{$method}($value);
-                }
-
-                // Please change it in future versions to empty test
-                // (not supported before PHP 5.5)
-                if ($resource->getName() === null) {
-                    $resource->setName(ucfirst($name));
-                }
-
-                $resource->setSlug($name);
-
-                $new[$name] = $resource;
+                $new[$name] = $this->hydrator->createNewResource($name, $resourceArray);
             }
             $configuration['resources'] = $new;
-        }
-
-        return $configuration;
-    }
-
-    public function generateMissingData(array $configuration)
-    {
-        // Check if routes exists & generate theme if not
-        foreach ($configuration['resources'] as $resource)
-        {
-            if (!$resource->hasRoutes()) {
-                $this->routeGenerator->generateRoutes($resource);
-            }
         }
 
         return $configuration;

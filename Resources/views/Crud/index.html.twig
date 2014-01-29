@@ -7,14 +7,16 @@
     <table class="table table-bordered table-striped crud-list table-condensed">
         <thead>
             <tr>
-                {% for key, field in resource.display %}
-                    <th class="crud-{{ key }}">
-                        {% if field.label is defined %}
-                            {{ field.label }}
-                        {% else %}
-                            {{ key }}
-                        {% endif %}
-                    </th>
+                {% for key, field in resource.properties %}
+                    {% if field.displayed %}
+                        <th class="crud-{{ key }}">
+                            {% if field.label is defined %}
+                                {{ field.label }}
+                            {% else %}
+                                {{ key }}
+                            {% endif %}
+                        </th>
+                    {% endif %}
                 {% endfor %}
                 <th class="crud-actions">Actions</th>
             </tr>
@@ -22,15 +24,17 @@
         <tbody>
             {% for object in objects %}
                 <tr>
-                    {% for key, field in resource.display %}
-                        <td class="crud-{{ key }}">
-                            {{ key == 'id' ? '#' : '' }}
-                            {% if field.type is defined %}
-                                {% include 'NeklandBaseAdminBundle:Crud:Types/' ~ field.type ~'.html.twig' %}
-                            {% else %}
-                                {{ attribute(object, key) }}
-                            {% endif %}
-                        </td>
+                    {% for key, field in resource.properties %}
+                        {% if field.displayed %}
+                            <td class="crud-{{ key }}">
+                                {{ key == 'id' ? '#' : '' }}
+                                {% if field.type is defined %}
+                                    {% include 'NeklandBaseAdminBundle:Crud:Types/' ~ field.type ~'.html.twig' %}
+                                {% else %}
+                                    {{ attribute(object, key) }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
                     {% endfor %}
                     <td class="crud-actions">
                         <a class="btn btn-mini btn-primary"

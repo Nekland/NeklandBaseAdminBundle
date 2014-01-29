@@ -67,24 +67,17 @@ class Resource
     /**
      * @var array
      */
-    private $display;
-
-    /**
-     * @var array
-     */
     private $labels;
-
-    /**
-     * The formType can be a service, a class (as string) or an instance of formType
-     *
-     * @var \Symfony\Component\Form\AbstractType|string
-     */
-    private $formType;
 
     /**
      * @var array
      */
     private $actions;
+
+    /**
+     * @var Property[]
+     */
+    private $properties;
 
     /**
      * @param string $slug
@@ -260,25 +253,6 @@ class Resource
     }
 
     /**
-     * @param array $display
-     * @return $this
-     */
-    public function setDisplay(array $display)
-    {
-        $this->display = $display;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDisplay()
-    {
-        return $this->display;
-    }
-
-    /**
      * @param array $actions
      */
     public function setActions($actions)
@@ -328,6 +302,45 @@ class Resource
         return !empty($this->classes['type']);
     }
 
+    /**
+     * @param \Nekland\Bundle\BaseAdminBundle\Crud\Model\Property[] $properties
+     * @return self
+     */
+    public function setProperties($properties)
+    {
+        $this->properties = $properties;
+
+        return $this;
+    }
+
+    /**
+     * @return \Nekland\Bundle\BaseAdminBundle\Crud\Model\Property[]
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    /**
+     * @param $name
+     * @return self
+     */
+    public function getProperty($name)
+    {
+        return $this->properties[$name];
+    }
+
+    /**
+     * @param string $name
+     * @param Property $property
+     * @return $this
+     */
+    public function addProperty($name, Property $property)
+    {
+        $this->properties[$name] = $property;
+
+        return $this;
+    }
 
     /**
      * @param Object $model
