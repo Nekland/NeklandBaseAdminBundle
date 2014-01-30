@@ -80,10 +80,10 @@ class Configuration implements ConfigurationInterface
                         ->addDefaultsIfNotSet()
                             ->children();
 
-        foreach (array('index', 'new', 'create', 'show') as $routeName) {
+        foreach (array('index', 'new', 'create') as $routeName) {
             $node = $this->addRouteNode($node, $routeName);
         }
-        foreach (array('edit', 'update', 'delete') as $routeName) {
+        foreach (array('edit', 'update', 'delete', 'show') as $routeName) {
             $node = $this->addRouteNode($node, $routeName, array('id'));
         }
 

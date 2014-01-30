@@ -84,7 +84,6 @@ class ConfigurationHydrator
             }
 
             $property->setName($name);
-
             $properties[$name] = $property;
         }
 

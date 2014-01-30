@@ -14,6 +14,7 @@ namespace Nekland\Bundle\BaseAdminBundle\Crud\Form;
 
 use Nekland\Bundle\BaseAdminBundle\Crud\Manager;
 use Doctrine\Common\Annotations\Reader;
+use Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource;
 use Symfony\Component\Form\FormFactory;
 
 class Generator
@@ -36,13 +37,15 @@ class Generator
      * @param object $entity
      * @return \Symfony\Component\Form\Form
      */
-    public function generate($entity, $url, $method='POST')
+    public function generate($entity, Resource $resource, $url, $method='POST')
     {
-        $reflection = new \ReflectionClass($entity);
         $builder    = $this->formFactory->createBuilder('form', $entity);
+        $properties = $resource->getProperties();
 
-        foreach ($reflection->getProperties() as $property) {
-            $builder->add($property->getName());
+        foreach ($properties as $property) {
+            if ($property->getEditable()) {
+                $builder->add($property->getName());
+            }
         }
 
         $builder

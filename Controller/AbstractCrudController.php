@@ -20,6 +20,7 @@ use Nekland\Bundle\BaseAdminBundle\Event\AfterUpdateEvent;
 use Nekland\Bundle\BaseAdminBundle\Event\Events;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class AbstractCrudController
@@ -42,8 +43,6 @@ abstract class AbstractCrudController extends Controller
     {
         $objects = $this->getRepository()->findAll();
 
-        //var_dump($this->getResource()); exit;
-
         return $this->render($this->getResource()->getTemplate('index'), array(
             'objects'  => $objects,
             'resource' => $this->getResource()
@@ -56,7 +55,12 @@ abstract class AbstractCrudController extends Controller
      */
     public function showAction($id)
     {
-        $object   = $this->getRepository()->find($id);
+        $object = $this->getRepository()->find($id);
+
+        if (empty($object)) {
+            throw $this->createNotFoundException();
+        }
+
         $resource = $this->getResource();
 
         return $this->render($this->getResource()->getTemplate('show'), array(
@@ -141,6 +145,30 @@ abstract class AbstractCrudController extends Controller
     }
 
     /**
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction($id)
+    {
+        $object = $this->getRepository()->find($id);
+
+        if (empty($object)) {
+            throw $this->createNotFoundException('I can\'t found your object, sorry !');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($object);
+        $em->flush();
+
+        $resource = $this->getResource();
+
+        return $this->redirect($this->generateUrl(
+            $resource->getRoute('index'),
+            array('resource' => $resource->getSlug())
+        ));
+    }
+
+    /**
      * Get the repository
      *
      * @return \Doctrine\ORM\EntityRepository
@@ -193,7 +221,6 @@ abstract class AbstractCrudController extends Controller
         }
 
         $formGenerator = $this->get('nekland_admin.crud.form.generator');
-
-        return $formGenerator->generate($object, $url);
+        return $formGenerator->generate($object, $resource, $url);
     }
 }

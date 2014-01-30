@@ -57,7 +57,7 @@ class Handler
      * @param Request $request
      * @return bool
      */
-    public function create(Form $form, Request $request, array $options)
+    public function create(Form $form, Request $request, array $options=array())
     {
         $form->handleRequest($request);
         if ($form->isValid()) {

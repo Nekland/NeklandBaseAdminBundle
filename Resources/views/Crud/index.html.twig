@@ -27,12 +27,14 @@
                     {% for key, field in resource.properties %}
                         {% if field.displayed %}
                             <td class="crud-{{ key }}">
+                                {% if loop.first %}<a href="{{ path(resource.routes.show.name, resource.getRouteParameters('show', object)) }}">{% endif %}
                                 {{ key == 'id' ? '#' : '' }}
                                 {% if field.type is defined %}
                                     {% include 'NeklandBaseAdminBundle:Crud:Types/' ~ field.type ~'.html.twig' %}
                                 {% else %}
                                     {{ attribute(object, key) }}
                                 {% endif %}
+                                {% if loop.first %}</a>{% endif %}
                             </td>
                         {% endif %}
                     {% endfor %}
@@ -48,7 +50,7 @@
                             </a>
                         {% endfor %}
                         <a class="btn btn-mini btn-danger ask-delete"
-                           href="{{ path(resource.routes.delete.name, resource.getRouteParameters('delete', object)) }}">
+                           data-href="{{ path(resource.routes.delete.name, resource.getRouteParameters('delete', object)) }}" href="#">
                             <i class="icon-trash icon-white"></i> Supprimer
                         </a>
                     </td>
@@ -69,4 +71,5 @@
         <a href="{{ path(resource.routes.new.name, resource.getRouteParameters('new')) }}" class="btn btn-primary">Nouveau</a>
     </div>
 
+    {% include 'NeklandBaseAdminBundle:Crud:deletebox.html.twig' %}
 {% endblock nekland_admin_content %}

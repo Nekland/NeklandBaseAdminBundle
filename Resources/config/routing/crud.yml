@@ -31,7 +31,7 @@ nekland_base_admin_crud_delete:
     pattern:  /{resource}/delete/{id}
     defaults: { _controller: NeklandBaseAdminBundle:Crud:delete }
     requirements:
-        _method: POST
+        _method: GET
         id: \d+
 
 nekland_base_admin_crud_show:
