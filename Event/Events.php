@@ -16,5 +16,6 @@ class Events
     const
         afterCreate = 'nekland_admin.create',
         afterUpdate = 'nekland_admin.update',
-        onConfigureMenu = 'nekland_admin.configure.menu';
+        onConfigureMenu = 'nekland_admin.configure.menu',
+        onCrudHydratation = 'nekland_admin.config_hydrate';
 }

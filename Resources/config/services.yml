@@ -2,3 +2,4 @@ imports:
     - { resource: services/admin.yml }
     - { resource: services/twig.yml }
     - { resource: services/form.yml }
+    - { resource: services/listeners.yml }

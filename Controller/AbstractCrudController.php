@@ -86,7 +86,7 @@ abstract class AbstractCrudController extends Controller
             )
         );
 
-        if ($request->getMethod() === 'POST' && $this->getFormHandler()->update($form, $request)) {
+        if ($request->getMethod() === 'POST' && $this->getFormHandler()->update($form, $request, $resource->getOption('handler', array()))) {
             $this->get('session')->getFlashBag()->set('success', $this->get('translator')->trans('nekland_admin.success_sentence'));
 
             /** @var \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher $dispatcher */
@@ -198,11 +198,17 @@ abstract class AbstractCrudController extends Controller
     }
 
     /**
-     * @return \Nekland\Bundle\BaseAdminBundle\Crud\Form\Handler
+     * @return \Nekland\Bundle\BaseAdminBundle\Crud\Form\HandlerInterface
      */
     protected function getFormHandler()
     {
-        return new Handler($this->getDoctrine()->getManager(), $this->get('form.factory'));
+        $handler = $this->getResource()->getClasses();
+        $handler = $handler['handler'];
+
+        if (is_string($handler)) {
+            return $this->get($handler);
+        }
+        return $handler;
     }
 
     protected function getForm($object, $url)

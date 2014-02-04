@@ -45,6 +45,16 @@ class Property
     private $options;
 
     /**
+     * @var string
+     */
+    private $block;
+
+    /**
+     * @var string
+     */
+    private $formType;
+
+    /**
      * @param boolean $displayed
      */
     public function setDisplayed($displayed)
@@ -149,4 +159,35 @@ class Property
         return $this->options[$name];
     }
 
+    /**
+     * @param string $block
+     */
+    public function setBlock($block)
+    {
+        $this->block = $block;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlock()
+    {
+        return $this->block;
+    }
+
+    /**
+     * @param string $formType
+     */
+    public function setFormType($formType)
+    {
+        $this->formType = $formType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormType()
+    {
+        return $this->formType;
+    }
 }

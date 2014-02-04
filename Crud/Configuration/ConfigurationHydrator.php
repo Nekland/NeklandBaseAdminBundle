@@ -14,6 +14,9 @@ namespace Nekland\Bundle\BaseAdminBundle\Crud\Configuration;
 
 use Nekland\Bundle\BaseAdminBundle\Crud\Model\Property;
 use Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource;
+use Nekland\Bundle\BaseAdminBundle\Event\Events;
+use Nekland\Bundle\BaseAdminBundle\Event\OnHydrateConfigurationEvent;
+use Nekland\Bundle\BaseAdminBundle\Utils\Utils;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -24,8 +27,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ConfigurationHydrator
 {
-    const config_option_hydrate_event = 'nekland_config_option_hydrate';
-
     /**
      * @var \Symfony\Component\EventDispatcher\EventDispatcher
      */
@@ -51,18 +52,20 @@ class ConfigurationHydrator
             if ($element === 'properties') {
                 $this->hydrateProperties($resource, $value);
             } else {
-                $method = 'set' . ucfirst($element);
+                $method = 'set' . Utils::camelize($element);
                 $resource->{$method}($value);
             }
         }
 
         $resource->setSlug($name);
 
-        // Please change it in future versions to empty test
+        // TODO: Please change it in future versions to empty test
         // (not supported before PHP 5.5)
         if ($resource->getName() === null) {
             $resource->setName(ucfirst($resource->getSlug()));
         }
+
+        $this->dispatcher->dispatch(Events::onCrudHydratation, new OnHydrateConfigurationEvent($resource));
 
         return $resource;
     }
@@ -79,7 +82,7 @@ class ConfigurationHydrator
             $property = new Property();
 
             foreach ($element as $nodeName => $nodeValue) {
-                $method = 'set' . ucfirst($nodeName);
+                $method = 'set' . Utils::camelize($nodeName);
                 $property->{$method}($nodeValue);
             }
 
@@ -90,16 +93,5 @@ class ConfigurationHydrator
         $resource->setProperties($properties);
 
         return $resource;
-    }
-
-    /**
-     * Uses the event dispatcher to get options
-     *
-     * @param Resource $resource
-     * @param array $config
-     */
-    protected function hydrateOption(Resource $resource, array $config)
-    {
-        // TODO
     }
 }

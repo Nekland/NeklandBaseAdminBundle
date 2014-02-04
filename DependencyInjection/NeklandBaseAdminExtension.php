@@ -20,7 +20,8 @@ use Symfony\Component\DependencyInjection\Loader;
 /**
  * This is the class that loads and manages your bundle configuration
  *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
+ * To learn more see {@link http://symfony.com/doc/current/co
+ * kbook/bundles/extension.html}
  */
 class NeklandBaseAdminExtension extends Extension implements PrependExtensionInterface
 {
@@ -34,6 +35,10 @@ class NeklandBaseAdminExtension extends Extension implements PrependExtensionInt
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        // TODO adding an option in the configuration to allow changements for the web dir
+        $container->setParameter('nekland_admin.web_dir', $container->getParameter('kernel.root_dir').'/../web');
+        $container->setParameter('nekland_admin.upload_dir', $config['upload_dir']);
     }
 
     /**

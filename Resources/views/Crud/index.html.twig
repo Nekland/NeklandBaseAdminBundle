@@ -29,8 +29,8 @@
                             <td class="crud-{{ key }}">
                                 {% if loop.first %}<a href="{{ path(resource.routes.show.name, resource.getRouteParameters('show', object)) }}">{% endif %}
                                 {{ key == 'id' ? '#' : '' }}
-                                {% if field.type is defined %}
-                                    {% include 'NeklandBaseAdminBundle:Crud:Types/' ~ field.type ~'.html.twig' %}
+                                {% if field.block is not empty %}
+                                    {% include 'NeklandBaseAdminBundle:Crud:Types/' ~ field.block ~'.html.twig' %}
                                 {% else %}
                                     {{ attribute(object, key) }}
                                 {% endif %}

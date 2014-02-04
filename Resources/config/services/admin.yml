@@ -3,9 +3,6 @@ parameters:
     nekland_admin.crud.manager.class: Nekland\Bundle\BaseAdminBundle\Crud\Manager
     nekland_admin.crud.configuration.manager.class: Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationManager
     nekland_admin.crud.controller.generator.class: Nekland\Bundle\BaseAdminBundle\Crud\Routing\RouteGenerator
-    nekland_admin.listener.crud.menu.class: Nekland\Bundle\BaseAdminBundle\Crud\Listener\MenuListener
-    nekland_admin.listener.crud.controller.class: Nekland\Bundle\BaseAdminBundle\Crud\Listener\ControllerListener
-    nekland_admin.crud.form.generator.class: Nekland\Bundle\BaseAdminBundle\Crud\Form\Generator
     nekland_admin.crud.configuration.hydrator.class: Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationHydrator
 
 services:
@@ -30,22 +27,6 @@ services:
     nekland_admin.crud.controller.generator:
         class: %nekland_admin.crud.controller.generator.class%
         arguments: [@nekland_admin.crud.configuration.manager]
-
-    nekland_admin.listener.crud.menu:
-        class: %nekland_admin.listener.crud.menu.class%
-        arguments: [@nekland_admin.crud.manager, @translator]
-        tags:
-            -  { name: kernel.event_listener, event: nekland_admin.configure.menu, method: onConfigureMenu }
-
-    nekland_admin.listener.crud.controller:
-        class: %nekland_admin.listener.crud.controller.class%
-        arguments: [@service_container]
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-
-    nekland_admin.crud.form.generator:
-        class: %nekland_admin.crud.form.generator.class%
-        arguments: [@nekland_admin.crud.manager, @annotation_reader, @form.factory]
 
     nekland_admin.crud.configuration.hydrator:
         class: %nekland_admin.crud.configuration.hydrator.class%

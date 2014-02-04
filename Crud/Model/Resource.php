@@ -80,6 +80,16 @@ class Resource
     private $properties;
 
     /**
+     * @var mixed[]
+     */
+    private $options;
+
+    public function _construct()
+    {
+        $this->options = array();
+    }
+
+    /**
      * @param string $slug
      */
     public function setSlug($slug)
@@ -97,7 +107,7 @@ class Resource
 
     /**
      * @param array $classes
-     * @return $this
+     * @return self
      */
     public function setClasses(array $classes)
     {
@@ -121,8 +131,24 @@ class Resource
     }
 
     /**
+     * @param $name
+     * @param string|object $class
+     * @return self
+     */
+    public function setClass($name, $class)
+    {
+        if (is_string($class) && class_exists($class)) {
+            $this->classes[$name] = new $class();
+        } else {
+            $this->classes[$name] = $class;
+        }
+
+        return $this;
+    }
+
+    /**
      * @param string $driver
-     * @return $this
+     * @return self
      */
     public function setDriver($driver)
     {
@@ -141,7 +167,7 @@ class Resource
 
     /**
      * @param string $manager
-     * @return $this
+     * @return self
      */
     public function setManager($manager)
     {
@@ -160,7 +186,7 @@ class Resource
 
     /**
      * @param string $name
-     * @return $this
+     * @return self
      */
     public function setName($name)
     {
@@ -171,7 +197,7 @@ class Resource
 
     /**
      * @param string $name
-     * @return $this
+     * @return self
      */
     public function setPluralName($name)
     {
@@ -198,7 +224,7 @@ class Resource
 
     /**
      * @param array $routes
-     * @return $this
+     * @return self
      */
     public function setRoutes(array $routes)
     {
@@ -234,7 +260,7 @@ class Resource
 
     /**
      * @param array $templates
-     * @return $this
+     * @return self
      */
     public function setTemplates(array $templates)
     {
@@ -303,6 +329,14 @@ class Resource
     }
 
     /**
+     * @return string|\Nekland\Bundle\BaseAdminBundle\Crud\Form\Handler
+     */
+    public function getFormHandler()
+    {
+        return $this->classes['handler'];
+    }
+
+    /**
      * @param \Nekland\Bundle\BaseAdminBundle\Crud\Model\Property[] $properties
      * @return self
      */
@@ -333,13 +367,56 @@ class Resource
     /**
      * @param string $name
      * @param Property $property
-     * @return $this
+     * @return self
      */
     public function addProperty($name, Property $property)
     {
         $this->properties[$name] = $property;
 
         return $this;
+    }
+
+    /**
+     * @param \mixed[] $options
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * @return \mixed[]
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function getOption($name, $defaultValue = null)
+    {
+        return !empty($this->options[$name]) ? $this->options[$name] : $defaultValue;
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function hasOption($name)
+    {
+        return !empty($this->options[$name]);
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
+    public function setOption($name, $value)
+    {
+        $this->options[$name] = $value;
     }
 
     /**

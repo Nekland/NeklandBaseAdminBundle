@@ -11,10 +11,10 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Crud\Form;
 
-
 use Nekland\Bundle\BaseAdminBundle\Crud\Manager;
 use Doctrine\Common\Annotations\Reader;
 use Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource;
+use Nekland\Bundle\BaseAdminBundle\Form\DataTransformer\StringToFileTransformer;
 use Symfony\Component\Form\FormFactory;
 
 class Generator
@@ -24,11 +24,17 @@ class Generator
      */
     private $manager;
 
-    public function __construct(Manager $manager, Reader $reader, FormFactory $factory)
+    /**
+     * @param Manager $manager
+     * @param Reader $reader
+     * @param FormFactory $factory
+     */
+    public function __construct(Manager $manager, Reader $reader, FormFactory $factory, StringToFileTransformer $transformer)
     {
         $this->manager          = $manager;
         $this->annotationReader = $reader;
         $this->formFactory      = $factory;
+        $this->fileTransformer  = $transformer;
     }
 
     /**
@@ -41,10 +47,24 @@ class Generator
     {
         $builder    = $this->formFactory->createBuilder('form', $entity);
         $properties = $resource->getProperties();
+        $defaultOptions = array('required' => false);
 
         foreach ($properties as $property) {
             if ($property->getEditable()) {
-                $builder->add($property->getName());
+                $formType = $property->getFormType();
+
+                if (empty($formType)) {
+                    $builder->add($property->getName(), null, $defaultOptions);
+                } else {
+                    if ($formType === 'file') {
+                        $builder->add(
+                            $builder->create($property->getName(), $formType)
+                                ->addModelTransformer($this->fileTransformer)
+                        );
+                    } else {
+                        $builder->add($property->getName(), $formType, $defaultOptions);
+                    }
+                }
             }
         }
 

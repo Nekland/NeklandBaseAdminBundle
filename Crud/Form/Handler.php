@@ -20,59 +20,23 @@ use Symfony\Component\HttpFoundation\Request,
 
 use Doctrine\ORM\EntityManager;
 
-class Handler
+class Handler extends AbstractCrudHandler
 {
     /**
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
 
-    /**
-     * @var \Symfony\Component\Form\FormFactory
-     */
-    protected $formFactory;
-
-    public function __construct(EntityManager $em, FormFactory $formFactory)
+    public function __construct(FormFactory $formFactory, Generator $generator, EntityManager $em)
     {
+        parent::__construct($formFactory, $generator);
         $this->em          = $em;
-        $this->formFactory = $formFactory;
-    }
-
-    /**
-     * @param  FormTypeInterface                          $type
-     * @param  CrudableInterface                          $object
-     * @param  string                                     $action
-     * @return Form|\Symfony\Component\Form\FormInterface
-     */
-    public function getForm(FormTypeInterface $type, $object, $action)
-    {
-        return $this->formFactory->create($type, $object, array(
-            'method' => 'POST',
-            'action' => $action
-        ));
-    }
-
-    /**
-     * @param Form $form
-     * @param Request $request
-     * @return bool
-     */
-    public function create(Form $form, Request $request, array $options=array())
-    {
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $this->executeCreate($form, $options);
-
-            return true;
-        }
-
-        return false;
     }
 
     /**
      * @param Form $form
      */
-    protected function executeCreate(Form $form, $options)
+    protected function executeCreate(Form $form, array $options)
     {
         $this->em->persist($form->getData());
         $this->em->flush();
@@ -80,26 +44,8 @@ class Handler
 
     /**
      * @param Form $form
-     * @param Request $request
-     * @param array $options
-     * @return bool
      */
-    public function update(Form $form, Request $request, $options = array())
-    {
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $this->executeUpdate($form, $options);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Form $form
-     */
-    protected function executeUpdate(Form $form, $options)
+    protected function executeUpdate(Form $form, array $options)
     {
         $this->em->flush();
     }

@@ -68,7 +68,6 @@ class Utils
         return $classname;
     }
 
-
     /**
      * Return a sanitized filename
      *
@@ -78,5 +77,26 @@ class Utils
     public static function sanitize($name)
     {
         return strtolower(preg_replace('([^_a-zA-Z0-9])', '_', $name));
+    }
+
+    /**
+     * Removes underscores on strings and uppercase
+     * the first letter of each word
+     *
+     * @param string $str
+     * @param string $prefix
+     * @param string $suffix
+     * @return string
+     */
+    public static function camelize($str, $prefix = '', $suffix = '')
+    {
+        $res      = '';
+        $exploded = explode('_', $str);
+
+        foreach($exploded as $tmpStr) {
+            $res .= ucfirst($tmpStr);
+        }
+
+        return $prefix . $res . $suffix;
     }
 }
