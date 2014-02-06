@@ -33,7 +33,6 @@ services:
         class: %nekland_admin.form.basic_handler.class%
         arguments:
             - @form.factory
-            - @nekland_admin.crud.form.generator
             - @doctrine.orm.default_entity_manager
 
 ###############

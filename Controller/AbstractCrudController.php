@@ -19,6 +19,7 @@ use Nekland\Bundle\BaseAdminBundle\Event\AfterCreateEvent;
 use Nekland\Bundle\BaseAdminBundle\Event\AfterUpdateEvent;
 use Nekland\Bundle\BaseAdminBundle\Event\Events;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\CssSelector\Parser\Handler\HandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -33,6 +34,11 @@ abstract class AbstractCrudController extends Controller
      * @var Resource
      */
     protected $resource;
+
+    /**
+     * @var HandlerInterface
+     */
+    private $handler;
 
     /**
      * List a resource in a table
@@ -202,13 +208,17 @@ abstract class AbstractCrudController extends Controller
      */
     protected function getFormHandler()
     {
-        $handler = $this->getResource()->getClasses();
-        $handler = $handler['handler'];
+        if (empty($this->handler)) {
+            $handler = $this->getResource()->getClasses();
+            $handler = $handler['handler'];
 
-        if (is_string($handler)) {
-            return $this->get($handler);
+            if (is_string($handler)) {
+                return $this->get($handler);
+            }
+            return $handler;
         }
-        return $handler;
+
+        return $this->handler;
     }
 
     protected function getForm($object, $url)

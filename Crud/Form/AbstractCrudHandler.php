@@ -26,11 +26,6 @@ abstract class AbstractCrudHandler implements HandlerInterface
     protected $formFactory;
 
     /**
-     * @var Generator
-     */
-    protected $generator;
-
-    /**
      * This array will be needed most part of the time
      * @var array
      */
@@ -39,10 +34,9 @@ abstract class AbstractCrudHandler implements HandlerInterface
     abstract protected function executeCreate(Form $form, array $options);
     abstract protected function executeUpdate(Form $form, array $options);
 
-    public function __construct(FormFactory $formFactory, Generator $generator)
+    public function __construct(FormFactory $formFactory)
     {
         $this->formFactory = $formFactory;
-        $this->generator   = $generator;
     }
 
     /**

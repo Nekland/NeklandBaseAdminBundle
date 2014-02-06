@@ -11,11 +11,8 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Crud\Form;
 
-use Nekland\Bundle\BaseAdminBundle\Crud\Entity\CrudableInterface;
 
-use Symfony\Component\HttpFoundation\Request,
-    Symfony\Component\Form\FormTypeInterface,
-    Symfony\Component\Form\FormFactory,
+use Symfony\Component\Form\FormFactory,
     Symfony\Component\Form\Form;
 
 use Doctrine\ORM\EntityManager;
@@ -27,9 +24,9 @@ class Handler extends AbstractCrudHandler
      */
     protected $em;
 
-    public function __construct(FormFactory $formFactory, Generator $generator, EntityManager $em)
+    public function __construct(FormFactory $formFactory, EntityManager $em)
     {
-        parent::__construct($formFactory, $generator);
+        parent::__construct($formFactory);
         $this->em          = $em;
     }
 
