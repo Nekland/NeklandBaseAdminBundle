@@ -8,18 +8,14 @@
 	"license": "MIT",
 	"authors": [
         {
-            "name": "Yohan GIARELLI",
-            "email": "yohan@giarel.li",
-            "homepage": "http://yohan.giarel.li"
-        },
-        {
             "name": "VEBER Maxime",
             "email": "nek.dev@gmail.com",
             "homepage": "http://nekland.fr"
         },
         {
-            "name": "ANDRIEUX François",
-            "email": "spriteware@gmail.com"
+            "name": "Yohan GIARELLI",
+            "email": "yohan@giarel.li",
+            "homepage": "http://yohan.giarel.li"
         },
         {
             "name": "MBECHEZI mlanawo",
@@ -29,7 +25,6 @@
     "require": {
         "symfony/symfony":                  ">=2.3,<3.0",
         "knplabs/knp-menu-bundle":          "2.0.*@dev",
-        "knplabs/knp-menu":          "2.0.*@dev",
         "sensio/framework-extra-bundle":    ">=2.3,<3.0",
         "doctrine/doctrine-bundle":         "*",
         "doctrine/orm":                     "*",
