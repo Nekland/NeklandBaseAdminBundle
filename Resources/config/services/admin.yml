@@ -1,16 +1,10 @@
 parameters:
-    nekland_admin.routing.loader.class: Nekland\Bundle\BaseAdminBundle\Routing\AdminLoader
     nekland_admin.crud.manager.class: Nekland\Bundle\BaseAdminBundle\Crud\Manager
     nekland_admin.crud.configuration.manager.class: Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationManager
     nekland_admin.crud.controller.generator.class: Nekland\Bundle\BaseAdminBundle\Crud\Routing\RouteGenerator
     nekland_admin.crud.configuration.hydrator.class: Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationHydrator
 
 services:
-    nekland_admin.routing.loader:
-        class: %nekland_admin.routing.loader.class%
-        arguments: [ @nekland_admin.crud.manager ]
-        tags:
-            - { name: routing.loader }
 
 #    nekland_base_admin.example:
 #        class: %nekland_base_admin.example.class%
