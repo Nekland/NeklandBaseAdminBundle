@@ -5,10 +5,6 @@ parameters:
 
 services:
 
-#    nekland_base_admin.example:
-#        class: %nekland_base_admin.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
-
     nekland_admin.crud.manager:
         class: %nekland_admin.crud.manager.class%
         arguments: [@kernel, @nekland_admin.crud.configuration.manager]
@@ -16,7 +12,6 @@ services:
     nekland_admin.crud.configuration.manager:
         class: %nekland_admin.crud.configuration.manager.class%
         arguments: [@nekland_admin.crud.configuration.hydrator]
-
 
     nekland_admin.crud.configuration.hydrator:
         class: %nekland_admin.crud.configuration.hydrator.class%
