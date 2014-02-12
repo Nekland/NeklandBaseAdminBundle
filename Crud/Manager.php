@@ -11,7 +11,6 @@
 namespace Nekland\Bundle\BaseAdminBundle\Crud;
 use Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationManager;
 use Nekland\Bundle\BaseAdminBundle\Crud\Controller\ControllerGenerator;
-use Nekland\Bundle\BaseAdminBundle\Crud\Routing\RouteGenerator;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -32,19 +31,14 @@ class Manager
      */
     private $kernel;
 
-    /**
-     * @var RouteGenerator
-     */
-    private $generator;
 
     /**
      * @param KernelInterface $kernel
      */
-    public function __construct(KernelInterface $kernel, ConfigurationManager $configManager, RouteGenerator $generator)
+    public function __construct(KernelInterface $kernel, ConfigurationManager $configManager)
     {
         $this->kernel        = $kernel;
         $this->configuration = $configManager;
-        $this->generator     = $generator;
     }
 
     /**
@@ -74,7 +68,6 @@ class Manager
             $this->loadConfiguration();
         }
 
-        //$controllers = $this->generator->getRoutes();
 
         return $routes;
     }
