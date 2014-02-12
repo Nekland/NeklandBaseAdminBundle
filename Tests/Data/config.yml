@@ -1,0 +1,5 @@
+nekland_admin:
+    resources:
+        user:
+            classes:
+                model: App\Entity\User
