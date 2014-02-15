@@ -35,7 +35,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->scalarNode('imagine_integration')->defaultFalse()->end()
+            ->scalarNode('upload_dir')->defaultValue('uploads')->end()
             ->end();
 
         return $treeBuilder;

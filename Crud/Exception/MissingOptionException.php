@@ -9,10 +9,8 @@
  * file that was distributed with this source code.
  */
 
-namespace Nekland\Bundle\BaseAdminBundle\Controller;
+namespace Nekland\Bundle\BaseAdminBundle\Crud\Exception;
 
-
-class CrudController extends AbstractCrudController
+class MissingOptionException extends \Exception
 {
-
 } 

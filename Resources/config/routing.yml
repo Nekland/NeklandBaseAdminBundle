@@ -1,3 +1,6 @@
-nekland_base_admin_homepage:
-    pattern:  /
-    defaults: { _controller: NeklandBaseAdminBundle:Home:index }
+nekland_base_admin_main:
+    resource: "@NeklandBaseAdminBundle/Resources/config/routing/main.yml"
+
+nekland_base_admin_crud:
+    resource: "@NeklandBaseAdminBundle/Resources/config/routing/crud.yml"
+    prefix: /crud

@@ -9,9 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Nekland\Bundle\BaseAdminBundle\Crud\Entity;
+namespace Nekland\Bundle\BaseAdminBundle\Crud\Configuration;
 
-interface CrudableInterface
+
+class ConfigurationException extends \Exception
 {
-    public function getRouteParams();
+
 }

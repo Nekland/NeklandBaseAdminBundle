@@ -1,0 +1,46 @@
+parameters:
+    nekland_admin.form.type.editor.class: Nekland\Bundle\BaseAdminBundle\Form\Type\NeklandEditorType
+    nekland_admin.form.transformer.html_purifier.class: Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer
+    nekland_admin.form.upload_handler.class: Nekland\Bundle\BaseAdminBundle\Crud\Form\UploadHandler
+    nekland_admin.form.basic_handler.class: Nekland\Bundle\BaseAdminBundle\Crud\Form\Handler
+    nekland_admin.crud.form.generator.class: Nekland\Bundle\BaseAdminBundle\Crud\Form\Generator
+    nekland_admin.form.transformer.file.class: Nekland\Bundle\BaseAdminBundle\Form\DataTransformer\StringToFileTransformer
+
+services:
+# Form type service registration
+    nekland_admin.form.type.editor:
+        class: %nekland_admin.form.type.editor.class%
+        arguments: [@nekland_admin.form.transformer.html_purifier]
+        tags:
+            - { name: form.type, alias: nekland_editor }
+
+# No html purifier transformer is defined as service in the HTMLPurifier bundle
+# So we need to add it
+    nekland_admin.form.transformer.html_purifier:
+        class: %nekland_admin.form.transformer.html_purifier.class%
+        arguments: [@exercise_html_purifier.default]
+
+
+    nekland_admin.crud.form.generator:
+        class: %nekland_admin.crud.form.generator.class%
+        arguments: [@nekland_admin.crud.manager, @annotation_reader, @form.factory, @nekland_admin.form.transformer.file]
+
+###############
+# Handlers
+###############
+
+    nekland_admin.form.basic_handler:
+        class: %nekland_admin.form.basic_handler.class%
+        arguments:
+            - @form.factory
+            - @doctrine.orm.default_entity_manager
+
+###############
+# Transformers
+###############
+
+    nekland_admin.form.transformer.file:
+        class: %nekland_admin.form.transformer.file.class%
+        arguments:
+            - %nekland_admin.web_dir%
+            - %nekland_admin.upload_dir%

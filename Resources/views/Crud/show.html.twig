@@ -1,0 +1,27 @@
+{% extends 'NeklandBaseAdminBundle::layout.html.twig' %}
+
+{% block nekland_admin_content %}
+
+    <h1>{{ resource.name }}</h1>
+
+    <p>{% trans with {'%element%': resource.name} %}nekland_admin.show.explaination{% endtrans %}</p>
+
+    <table class="table table-striped table-bordered">
+        {% for name, field in resource.properties %}
+        <tr>
+            <th>
+                {% if field.label is defined %}
+                    {{ field.label }}
+                {% else %}
+                    {{ name }}
+                {% endif %}
+            </th>
+            <td>
+                {{ name == 'id' ? '#' : '' }}
+                {{ attribute(object, name) }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock nekland_admin_content %}

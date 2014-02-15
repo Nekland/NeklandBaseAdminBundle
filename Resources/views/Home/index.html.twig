@@ -2,10 +2,10 @@
 
 {% block nekland_admin_content %}
 <div class="hero-unit">
-    <h1>Welcome !</h1>
+    <h1>{% trans %}nekland_admin.homepage.welcome{% endtrans %}</h1>
     <p>
-        Bienvenue dans l'administration de votre site.<br />
-        Ici vous pourrez modifier l'apparence et le contenu de votre site pour vos utilisateurs.
+        {% trans %}nekland_admin.homepage.welcome_in{% endtrans %}<br />
+        {% trans %}nekland_admin.homepage.what_for{% endtrans %}
     </p>
 </div>
 {% endblock nekland_admin_content %}

@@ -1,0 +1,22 @@
+parameters:
+    nekland_admin.listener.crud.menu.class: Nekland\Bundle\BaseAdminBundle\Crud\Listener\MenuListener
+    nekland_admin.listener.crud.controller.class: Nekland\Bundle\BaseAdminBundle\Crud\Listener\ControllerListener
+    nekland_admin.listener.crud.hydrator.upload.class: Nekland\Bundle\BaseAdminBundle\Crud\Listener\UploadListener
+
+services:
+    nekland_admin.listener.crud.menu:
+        class: %nekland_admin.listener.crud.menu.class%
+        arguments: [@nekland_admin.crud.manager, @translator]
+        tags:
+            -  { name: kernel.event_listener, event: nekland_admin.configure.menu, method: onConfigureMenu }
+
+    nekland_admin.listener.crud.controller:
+        class: %nekland_admin.listener.crud.controller.class%
+        arguments: [@service_container]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    nekland_admin.listener.crud.hydrator.upload:
+        class: %nekland_admin.listener.crud.hydrator.upload.class%
+        tags:
+            - { name: kernel.event_listener, event: nekland_admin.config_hydrate, method: onHydrateConfiguration }

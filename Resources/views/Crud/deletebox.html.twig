@@ -1,0 +1,17 @@
+<div class="modal fade" role="dialog" id="delete-box" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans %}nekland_admin.crud.delete.delete_item{% endtrans %}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans %}nekland_admin.crud.delete.confirmation{% endtrans %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}nekland_admin.crud.delete.cancel{% endtrans %}</button>
+                <a href="#" class="btn btn-danger" id="delete-item">{% trans %}nekland_admin.crud.delete.delete{% endtrans %}</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+nekland_admin:
+    show.explaination: Vous consultez le détail d'un élément « %element% ».
+    success_sentence: L'objet a été mis à jour avec succès.
+
+    homepage:
+        welcome: Welcome !
+        welcome_in: Bienvenue dans l'administration de votre site.
+        what_for: Ici vous pourrez modifier l'apparence et le contenu de votre site pour vos utilisateurs.
+
+    crud:
+        new:
+            new: Nouveau
+        delete:
+            delete: Supprimer
+            delete_item: Supprimer un élément
+            confirmation: Êtes vous sûr de vouloir supprimer cet élément ? Toute suppression est définitive.
+            cancel: Annuler
+        index:
+            none: Aucun
+            title: Liste des %name%
+            actions: Actions

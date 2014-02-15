@@ -25,7 +25,10 @@ class NeklandBaseAdminExtensionTest extends \PHPUnit_Framework_TestCase
 
 	public function testLoad()
 	{
+		// Making a valid container
 		$container = new ContainerBuilder;
+		$container->setParameter('kernel.root_dir', '/foo/bar/path');
+
         $this->extension->load(array(), $container);
 
         $this->assertTrue($container->hasDefinition('nekland_admin.form.type.editor'));

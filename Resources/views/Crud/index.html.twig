@@ -2,52 +2,63 @@
 
 {% block nekland_admin_content %}
 
-    <h1>Liste des {{ params.plural }}</h1>
+    <h1>{% trans with {'%name%': resource.pluralName} %}nekland_admin.crud.index.title{% endtrans %}</h1>
+
     <table class="table table-bordered table-striped crud-list table-condensed">
         <thead>
             <tr>
-                {% for key, field in params.display %}
-                    <th class="crud-{{ key }}">
-                        {{ field.label }}
-                    </th>
+                {% for key, field in resource.properties %}
+                    {% if field.displayed %}
+                        <th class="crud-{{ key }}">
+                            {% if field.label is defined %}
+                                {{ field.label }}
+                            {% else %}
+                                {{ key }}
+                            {% endif %}
+                        </th>
+                    {% endif %}
                 {% endfor %}
-                <th class="crud-actions">Actions</th>
+                <th class="crud-actions">{% trans %}nekland_admin.crud.index.actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
             {% for object in objects %}
                 <tr>
-                    {% for key, field in params.display %}
-                        <td class="crud-{{ key }}">
-                            {{ key == 'id' ? '#' : '' }}
-                            {% if field.type is defined %}
-                                {% include 'NeklandBaseAdminBundle:Crud:Types/' ~ field.type ~'.html.twig' %}
-                            {% else %}
-                                {{ attribute(object, key) }}
-                            {% endif %}
-                        </td>
+                    {% for key, field in resource.properties %}
+                        {% if field.displayed %}
+                            <td class="crud-{{ key }}">
+                                {% if loop.first %}<a href="{{ path(resource.routes.show.name, resource.getRouteParameters('show', object)) }}">{% endif %}
+                                {{ key == 'id' ? '#' : '' }}
+                                {% if field.block is not empty %}
+                                    {% include 'NeklandBaseAdminBundle:Crud:Types/' ~ field.block ~'.html.twig' %}
+                                {% else %}
+                                    {{ attribute(object, key) }}
+                                {% endif %}
+                                {% if loop.first %}</a>{% endif %}
+                            </td>
+                        {% endif %}
                     {% endfor %}
                     <td class="crud-actions">
                         <a class="btn btn-mini btn-primary"
-                           href="{{ path(params.routes.edit, object.routeParams) }}">
+                           href="{{ path(resource.routes.edit.name, resource.getRouteParameters('edit', object)) }}">
                             <i class="icon-cog"></i> Editer
                         </a>
-                        {% for action in params.object_actions %}
+                        {% for action_name, action in resource.actions %}
                             <a class="btn btn-mini btn-primary"
-                               href="{{ path(action.route, object.routeParams) }}">
+                               href="{{ path(action.route.name, resource.getActionRouteParameters(action_name, object)) }}">
                                 {{ action.label }}
                             </a>
                         {% endfor %}
                         <a class="btn btn-mini btn-danger ask-delete"
-                           href="{{ path(params.routes.delete, object.routeParams) }}">
-                            <i class="icon-trash icon-white"></i> Supprimer
+                           data-href="{{ path(resource.routes.delete.name, resource.getRouteParameters('delete', object)) }}" href="#">
+                            <i class="icon-trash icon-white"></i> {% trans %}nekland_admin.crud.delete.delete{% endtrans %}
                         </a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="{{ params.display | length + 1 }}">
-                        Aucun {{ params.singular }}
+                    <td colspan="{{ resource.display | length + 1 }}">
+                        {% trans %}nekland_admin.crud.index.none{% endtrans %} {{ resource.name }}
                     </td>
                 </tr>
             {% endfor %}
@@ -57,7 +68,10 @@
     <hr />
 
     <div class="well">
-        <a href="{{ path(params.routes.new) }}" class="btn btn-primary">Nouveau</a>
+        <a href="{{ path(resource.routes.new.name, resource.getRouteParameters('new')) }}" class="btn btn-primary">
+            {% trans %}nekland_admin.crud.new.new{% endtrans %}
+        </a>
     </div>
 
+    {% include 'NeklandBaseAdminBundle:Crud:deletebox.html.twig' %}
 {% endblock nekland_admin_content %}

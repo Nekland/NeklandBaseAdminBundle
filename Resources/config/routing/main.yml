@@ -1,0 +1,3 @@
+nekland_base_admin_homepage:
+    pattern:  /
+    defaults: { _controller: NeklandBaseAdminBundle:Home:index }

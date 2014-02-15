@@ -11,11 +11,19 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Event;
 
-class Events
+use Symfony\Component\EventDispatcher\Event;
+
+class AfterUpdateEvent extends Event
 {
-    const
-        afterCreate = 'nekland_admin.create',
-        afterUpdate = 'nekland_admin.update',
-        onConfigureMenu = 'nekland_admin.configure.menu',
-        onCrudHydratation = 'nekland_admin.config_hydrate';
+    private $object;
+
+    public function __construct($object)
+    {
+        $this->object = $object;
+    }
+
+    public function getObject()
+    {
+        return $this->object;
+    }
 }

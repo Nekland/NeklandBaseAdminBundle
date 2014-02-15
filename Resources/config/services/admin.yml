@@ -1,0 +1,18 @@
+parameters:
+    nekland_admin.crud.manager.class: Nekland\Bundle\BaseAdminBundle\Crud\Manager
+    nekland_admin.crud.configuration.manager.class: Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationManager
+    nekland_admin.crud.configuration.hydrator.class: Nekland\Bundle\BaseAdminBundle\Crud\Configuration\ConfigurationHydrator
+
+services:
+
+    nekland_admin.crud.manager:
+        class: %nekland_admin.crud.manager.class%
+        arguments: [@kernel, @nekland_admin.crud.configuration.manager]
+
+    nekland_admin.crud.configuration.manager:
+        class: %nekland_admin.crud.configuration.manager.class%
+        arguments: [@nekland_admin.crud.configuration.hydrator]
+
+    nekland_admin.crud.configuration.hydrator:
+        class: %nekland_admin.crud.configuration.hydrator.class%
+        arguments: [@event_dispatcher]

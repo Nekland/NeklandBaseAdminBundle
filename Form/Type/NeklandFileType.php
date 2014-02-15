@@ -9,17 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Nekland\Bundle\BaseAdminBundle\Crud\Entity;
+namespace Nekland\Bundle\BaseAdminBundle\Form\Type;
 
-interface LockableInterface
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
+class NeklandFileType extends FileType
 {
-    /**
-     * @return bool
-     */
-    public function isLocked();
 
-    /**
-     * @return bool
-     */
-    public function isDeletable();
-}
+} 

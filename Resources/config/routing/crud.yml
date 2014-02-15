@@ -1,0 +1,42 @@
+nekland_base_admin_crud_index:
+    pattern:  /{resource}/index
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:index }
+    requirements: { _method: GET }
+
+nekland_base_admin_crud_new:
+    pattern:  /{resource}/new
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:new }
+    requirements: { _method: GET }
+
+nekland_base_admin_crud_create:
+    pattern:  /{resource}/create
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:create }
+    requirements: { _method: POST }
+
+nekland_base_admin_crud_edit:
+    pattern:  /{resource}/edit/{id}
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:edit }
+    requirements:
+        _method: GET
+        id: \d+
+
+nekland_base_admin_crud_update:
+    pattern:  /{resource}/update/{id}
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:edit }
+    requirements:
+        _method: POST
+        id: \d+
+
+nekland_base_admin_crud_delete:
+    pattern:  /{resource}/delete/{id}
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:delete }
+    requirements:
+        _method: GET
+        id: \d+
+
+nekland_base_admin_crud_show:
+    pattern: /{resource}/show/{id}
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:show }
+    requirements:
+        _method: GET
+        id: \d+
