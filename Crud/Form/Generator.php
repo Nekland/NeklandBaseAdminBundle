@@ -73,7 +73,7 @@ class Generator
             if ($property->getEditable()) {
                 $label = $property->getLabel();
                 if (!empty($label)) {
-                    $defaultOptions['label'] = $label;
+                    $defaultOptions['label'] = $this->translator->trans($label);
                 }
 
                 $formType = $property->getFormType();
