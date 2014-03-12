@@ -23,7 +23,7 @@ services:
 
     nekland_admin.crud.form.generator:
         class: %nekland_admin.crud.form.generator.class%
-        arguments: [@nekland_admin.crud.manager, @annotation_reader, @form.factory, @nekland_admin.form.transformer.file]
+        arguments: [@nekland_admin.crud.manager, @form.factory, @translator, @nekland_admin.form.transformer.file]
 
 ###############
 # Handlers

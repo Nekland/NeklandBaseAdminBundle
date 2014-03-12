@@ -12,10 +12,10 @@
 namespace Nekland\Bundle\BaseAdminBundle\Crud\Form;
 
 use Nekland\Bundle\BaseAdminBundle\Crud\Manager;
-use Doctrine\Common\Annotations\Reader;
 use Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource;
 use Nekland\Bundle\BaseAdminBundle\Form\DataTransformer\StringToFileTransformer;
 use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Translation\Translator;
 
 class Generator
 {
@@ -25,32 +25,57 @@ class Generator
     private $manager;
 
     /**
-     * @param Manager $manager
-     * @param Reader $reader
-     * @param FormFactory $factory
+     * @var \Symfony\Component\Form\FormFactory
      */
-    public function __construct(Manager $manager, Reader $reader, FormFactory $factory, StringToFileTransformer $transformer)
+    private $formFactory;
+
+    /**
+     * @var \Symfony\Component\Translation\Translator
+     */
+    private $translator;
+
+    /**
+     * @var \Nekland\Bundle\BaseAdminBundle\Form\DataTransformer\StringToFileTransformer
+     */
+    private $fileTransformer;
+
+    /**
+     * @param Manager                 $manager
+     * @param FormFactory             $factory
+     * @param Translator              $translator
+     * @param StringToFileTransformer $fileTransformer
+     */
+    public function __construct(Manager $manager, FormFactory $factory, Translator $translator, StringToFileTransformer $fileTransformer)
     {
-        $this->manager          = $manager;
-        $this->annotationReader = $reader;
-        $this->formFactory      = $factory;
-        $this->fileTransformer  = $transformer;
+        $this->manager         = $manager;
+        $this->formFactory     = $factory;
+        $this->translator      = $translator;
+        $this->fileTransformer = $fileTransformer;
     }
 
     /**
      * Generate a form using an entity/object
      *
      * @param object $entity
+     * @param \Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource $resource
+     * @param string $url
+     * @param string $method
+     *
      * @return \Symfony\Component\Form\Form
      */
     public function generate($entity, Resource $resource, $url, $method='POST')
     {
-        $builder    = $this->formFactory->createBuilder('form', $entity);
-        $properties = $resource->getProperties();
+        $builder        = $this->formFactory->createBuilder('form', $entity);
+        $properties     = $resource->getProperties();
         $defaultOptions = array('required' => false);
 
         foreach ($properties as $property) {
             if ($property->getEditable()) {
+                $label = $property->getLabel();
+                if (!empty($label)) {
+                    $defaultOptions['label'] = $label;
+                }
+
                 $formType = $property->getFormType();
 
                 if (empty($formType)) {
@@ -58,7 +83,8 @@ class Generator
                 } else {
                     if ($formType === 'file') {
                         $builder->add(
-                            $builder->create($property->getName(), $formType)
+                            $builder
+                                ->create($property->getName(), $formType)
                                 ->addModelTransformer($this->fileTransformer)
                         );
                     } else {
