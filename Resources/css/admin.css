@@ -165,3 +165,9 @@ input[type=text], input[type=email] {
     border-radius:    5px;
     margin-left:      5px;
 }
+
+.nekland-date-widget select,
+.nekland-datetime-widget select {
+    width: auto;
+    display: inline;
+}
