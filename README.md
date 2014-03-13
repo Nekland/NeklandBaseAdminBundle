@@ -5,6 +5,7 @@ Features
 --------
 
 * Automatic dashboard generation
+* Easy yaml configuration
 * Big list of tools helping you creating administration easily
 
 Usage
@@ -39,6 +40,6 @@ Yes you can improve your administration using other bundles !
 Thanks
 ------
 
-* Original idea from Yohan Giarelli (on Soloist).
+* Original idea from Yohan Giarelli (on Soloist)
 * Help from friends :-) (see contributors)
 * Testers
