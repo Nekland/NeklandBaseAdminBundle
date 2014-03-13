@@ -157,6 +157,10 @@ input[type=text], input[type=email] {
     color: #dc2626 !important;
 }
 
+.nav-header {
+    text-transform: capitalize;
+}
+
 .nk-sidenav {
     padding-top:      10px;
     padding-bottom:   10px;
