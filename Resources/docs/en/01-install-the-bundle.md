@@ -4,20 +4,10 @@ Installation
 1) Download
 -----------
 
-Open your "composer.json" file and add this line:
-
-```JSON
-{
-    "require": {
-        "nekland/base-admin-bundle": "dev-master@dev"
-    }
-}
-```
-
 Use composer to install the bundle:
 
 ```JSON
-composer update nekland/base-admin-bundle
+composer require nekland/base-admin-bundle
 ```
 
 2) Load the bundle via your AppKernel
@@ -27,7 +17,7 @@ Open your "AppKernel.php" file.
 
 Add the following lines to the file.
 
-*Notice that if you doen't already install KnpMenuBundle, you have to register it too.*
+*Notice that if you don't already install [KnpMenuBundle](http://github.com/KnpLabs/KnpMenuBundle), you have to register it too.*
 
 ```PHP
 // AppKernel.php
@@ -43,7 +33,6 @@ public function registerBundles()
         // Only if you don't already have this line
         // new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
     );
-
 }
 ```
 
@@ -90,3 +79,6 @@ twig:
 
 6) The bundle is ready to work
 ------------------------------
+
+
+Thank you for using it :-) .
