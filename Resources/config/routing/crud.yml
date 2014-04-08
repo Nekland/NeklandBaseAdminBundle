@@ -10,7 +10,7 @@ nekland_base_admin_crud_new:
 
 nekland_base_admin_crud_create:
     pattern:  /{resource}/create
-    defaults: { _controller: NeklandBaseAdminBundle:Crud:create }
+    defaults: { _controller: NeklandBaseAdminBundle:Crud:new }
     requirements: { _method: POST }
 
 nekland_base_admin_crud_edit:
