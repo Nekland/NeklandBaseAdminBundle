@@ -57,7 +57,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="{{ resource.display | length + 1 }}">
+                    <td colspan="{{ resource.properties | length + 1 }}">
                         {% trans %}nekland_admin.crud.index.none{% endtrans %} {{ resource.name }}
                     </td>
                 </tr>
