@@ -9,7 +9,7 @@ nekland_admin:
 
     crud:
         new:
-            new: Nouveau
+            new: Nouveau %name%
         delete:
             delete: Supprimer
             delete_item: Supprimer un élément
@@ -19,3 +19,5 @@ nekland_admin:
             none: Aucun
             title: Liste des %name%
             actions: Actions
+        edit:
+            edit: Modifier un %name%

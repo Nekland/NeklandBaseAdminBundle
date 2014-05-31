@@ -2,7 +2,13 @@
 
 {% block nekland_admin_content %}
 
-    <h1>Modifier {{ resource.name }}</h1>
+    <h1>
+        {% if resource.labelTranslation is not empty %}
+            {{ ('nekland_admin.crud.edit.edit.' ~ resource.labelTranslation) | trans({'%name%': resource.name }) }}
+        {% else %}
+            {{ 'nekland_admin.crud.edit.edit' | trans({'%name%': resource.name }) }}
+        {% endif %}
+    </h1>
 
     {{  include('NeklandBaseAdminBundle:Crud:form.html.twig', {'form': form}) }}
 

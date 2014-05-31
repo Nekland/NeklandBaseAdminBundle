@@ -33,7 +33,7 @@ class Resource
     private $slug;
 
     /**
-     * The plusral name of the resource
+     * The plural name of the resource
      *
      * @var string
      */
@@ -78,6 +78,11 @@ class Resource
      * @var Property[]
      */
     private $properties;
+
+    /**
+     * @var string
+     */
+    private $labelTranslation;
 
     /**
      * @var mixed[]
@@ -420,7 +425,26 @@ class Resource
     }
 
     /**
-     * @param Object $model
+     * @param  string $labelTranslation
+     * @return self
+     */
+    public function setLabelTranslation($labelTranslation)
+    {
+        $this->labelTranslation = $labelTranslation;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabelTranslation()
+    {
+        return $this->labelTranslation;
+    }
+
+    /**
+     * @param  string $routeName
+     * @param  Object $model
      * @return array
      */
     public function getRouteParameters($routeName, $model=null)

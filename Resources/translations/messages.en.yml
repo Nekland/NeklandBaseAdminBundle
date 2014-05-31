@@ -1,0 +1,23 @@
+nekland_admin:
+    show.explaination: You're checking the details of the element "%element%".
+    success_sentence: The object was successful updated.
+
+    homepage:
+        welcome: Welcome !
+        welcome_in: Welcome into the administration of your website.
+        what_for: Here you will be able to modify the appearance and the content of your website for users.
+
+    crud:
+        new:
+            new: New %name%
+        delete:
+            delete: Delete
+            delete_item: Delete an element
+            confirmation: Are you sure to want to delete this element ? Any deletion is definitive.
+            cancel: Cancel
+        index:
+            none: None
+            title: List of the %name%
+            actions: Actions
+        edit:
+            edit: Modify a %name%

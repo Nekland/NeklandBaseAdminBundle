@@ -56,7 +56,7 @@ abstract class AbstractCrudController extends Controller
     }
 
     /**
-     * @param $id
+     * @param  integer $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction($id)
@@ -76,7 +76,8 @@ abstract class AbstractCrudController extends Controller
     }
 
     /**
-     * @param $id
+     * @param  integer $id
+     * @param  Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction($id, Request $request)
@@ -114,6 +115,7 @@ abstract class AbstractCrudController extends Controller
     }
 
     /**
+     * @param  Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)

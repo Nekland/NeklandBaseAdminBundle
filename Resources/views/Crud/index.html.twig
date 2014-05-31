@@ -69,7 +69,11 @@
 
     <div class="well">
         <a href="{{ path(resource.routes.new.name, resource.getRouteParameters('new')) }}" class="btn btn-primary">
-            {% trans %}nekland_admin.crud.new.new{% endtrans %}
+            {% if resource.labelTranslation is not empty %}
+                {{ ('nekland_admin.crud.new.new.' ~ resource.labelTranslation) | trans({'%name%': resource.name }) }}
+            {% else %}
+                {{ 'nekland_admin.crud.new.new' | trans({'%name%': resource.name }) }}
+            {% endif %}
         </a>
     </div>
 

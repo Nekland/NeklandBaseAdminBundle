@@ -44,6 +44,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('manager')->defaultValue('default')->end()
                         ->scalarNode('name')->end()
                         ->scalarNode('pluralName')->end()
+                        ->scalarNode('labelTranslation')->end()
                         ->arrayNode('classes')
                         ->addDefaultsIfNotSet()
                             ->children()
