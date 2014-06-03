@@ -8,7 +8,8 @@
     {% stylesheets
     '@NeklandBaseAdminBundle/Resources/css/bootstrap/*.css'
     '@NeklandBaseAdminBundle/Resources/css/admin.css'
-    '@NeklandBaseAdminBundle/Resources/css/nekland-editor.css'
+    '@NeklandBaseAdminBundle/Resources/css/libs/nekland-editor.css'
+    '@NeklandBaseAdminBundle/Resources/css/libs/datepicker3.css'
     filter='cssrewrite'
     output='css/admin.css'
     %}
@@ -86,16 +87,18 @@
 '@NeklandBaseAdminBundle/Resources/js/jquery.min.js'
 '@NeklandBaseAdminBundle/Resources/js/bootstrap.min.js'
 '@NeklandBaseAdminBundle/Resources/js/main.js'
-'@NeklandBaseAdminBundle/Resources/js/nekland-editor.min.js'
+'@NeklandBaseAdminBundle/Resources/js/libs/nekland-editor.min.js'
+'@NeklandBaseAdminBundle/Resources/js/libs/locales/bootstrap-datepicker.fr.js'
+'@NeklandBaseAdminBundle/Resources/js/libs/bootstrap-datepicker.js'
 output='js/admin.js'
 %}
 <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% block nekland_admin_javascripts %}{% endblock %}
 <script type="text/javascript">
-    //$('.datepicker').datepicker({
-    //    language: 'fr'
-    //});
+    $('.datepicker').datepicker({
+        language: 'fr'
+    });
     $('.nekland_editor').neklandEditor({lang: 'fr'});
 </script>
 </body>

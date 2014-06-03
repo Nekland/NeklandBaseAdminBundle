@@ -118,11 +118,12 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * @param NodeBuilder $node
-     * @param $routeName
+     * @param  NodeBuilder $node      Node where we need to add the config
+     * @param  string      $routeName Name of the route
+     * @param  array       $default   Array of default values
      * @return NodeBuilder
      */
-    private function addRouteNode(NodeBuilder $node, $routeName, $default=null)
+    private function addRouteNode(NodeBuilder $node, $routeName,array $default = null)
     {
         $node = $node->arrayNode($routeName)
             ->addDefaultsIfNotSet()
