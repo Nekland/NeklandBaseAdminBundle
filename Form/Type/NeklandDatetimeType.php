@@ -11,10 +11,24 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class NeklandDatetimeType extends DateTimeType
+class NeklandDatetimeType extends AbstractType
 {
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults([
+            'date_widget' => 'single_text',
+            'time_widget' => 'single_text'
+        ]);
+    }
+
+    public function getParent()
+    {
+        return 'datetime';
+    }
+
     /**
      * Returns the name of this type.
      *

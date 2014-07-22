@@ -40,12 +40,12 @@ abstract class AbstractCrudHandler implements HandlerInterface
     }
 
     /**
-     * @param  FormTypeInterface                          $type
+     * @param  FormTypeInterface|string                   $type
      * @param  object                                     $object
      * @param  string                                     $action
      * @return Form|\Symfony\Component\Form\FormInterface
      */
-    public function getForm(FormTypeInterface $type, $object, $action)
+    public function getForm($type, $object, $action)
     {
         return $this->formFactory->create($type, $object, array(
             'method' => 'POST',

@@ -18,16 +18,17 @@ use Symfony\Component\HttpFoundation\Request;
 interface HandlerInterface
 {
     /**
-     * @param  FormTypeInterface                          $type
+     * @param  FormTypeInterface|string                   $type
      * @param  object                                     $object
      * @param  string                                     $action
      * @return Form|\Symfony\Component\Form\FormInterface
      */
-    public function getForm(FormTypeInterface $type, $object, $action);
+    public function getForm($type, $object, $action);
 
     /**
      * @param Form    $form
      * @param Request $request
+     * @param array   $options
      * @return bool
      */
     public function create(Form $form, Request $request, array $options=array());

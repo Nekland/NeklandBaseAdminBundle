@@ -11,9 +11,6 @@
 
 namespace Nekland\Bundle\BaseAdminBundle\Controller;
 
-
-use Nekland\Bundle\BaseAdminBundle\Crud\Exception\UnsupportedOptionException;
-use Nekland\Bundle\BaseAdminBundle\Crud\Form\Handler;
 use Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource;
 use Nekland\Bundle\BaseAdminBundle\Event\AfterCreateEvent;
 use Nekland\Bundle\BaseAdminBundle\Event\AfterUpdateEvent;
@@ -21,7 +18,6 @@ use Nekland\Bundle\BaseAdminBundle\Event\Events;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\CssSelector\Parser\Handler\HandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class AbstractCrudController
@@ -43,7 +39,7 @@ abstract class AbstractCrudController extends Controller
     /**
      * List a resource in a table
      *
-     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction()
     {
@@ -58,6 +54,7 @@ abstract class AbstractCrudController extends Controller
     /**
      * @param  integer $id
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function showAction($id)
     {
@@ -133,7 +130,11 @@ abstract class AbstractCrudController extends Controller
         );
 
         if ($request->getMethod() === 'POST' && $this->getFormHandler()->create($form, $request)) {
-            $this->get('session')->getFlashBag()->set('success', $this->get('translator')->trans('nekland_admin.success_sentence'));
+            $this
+                ->get('session')
+                ->getFlashBag()
+                ->set('success', $this->get('translator')->trans('nekland_admin.success_sentence'))
+            ;
 
             /** @var \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher $dispatcher */
             $dispatcher = $this->get('event_dispatcher');
@@ -153,8 +154,9 @@ abstract class AbstractCrudController extends Controller
     }
 
     /**
-     * @param $id
+     * @param  integer $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function deleteAction($id)
     {
@@ -187,8 +189,8 @@ abstract class AbstractCrudController extends Controller
     }
 
     /**
-     * @param Resource $resource
-     * @return AbstractCrudController
+     * @param \Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource $resource
+     * @return self
      */
     public function setResource(Resource $resource)
     {
@@ -232,7 +234,9 @@ abstract class AbstractCrudController extends Controller
             $type = $resource->getFormType();
 
             if (is_string($type)) {
-                $type = $this->get($type);
+                if ($this->container->has($type)) {
+                    $type = $this->get($type);
+                }
             }
 
             return $this->getFormHandler()->getForm($type, $object, $url);
