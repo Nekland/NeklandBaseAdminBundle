@@ -29,7 +29,7 @@
         "doctrine/doctrine-bundle":         "*",
         "doctrine/orm":                     "*",
         "symfony/assetic-bundle":           "~2.0@dev",
-        "exercise/htmlpurifier-bundle":     "dev-master"
+        "exercise/htmlpurifier-bundle":     "~0.1.0"
     },
     "autoload": {
         "psr-0": { "Nekland\\Bundle\\BaseAdminBundle": "" }
