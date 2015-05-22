@@ -15,7 +15,7 @@ use Nekland\Bundle\BaseAdminBundle\Crud\Manager;
 use Nekland\Bundle\BaseAdminBundle\Crud\Model\Resource;
 use Nekland\Bundle\BaseAdminBundle\Form\DataTransformer\StringToFileTransformer;
 use Symfony\Component\Form\FormFactory;
-use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class Generator
 {
@@ -42,10 +42,10 @@ class Generator
     /**
      * @param Manager                 $manager
      * @param FormFactory             $factory
-     * @param Translator              $translator
+     * @param TranslatorInterface              $translator
      * @param StringToFileTransformer $fileTransformer
      */
-    public function __construct(Manager $manager, FormFactory $factory, Translator $translator, StringToFileTransformer $fileTransformer)
+    public function __construct(Manager $manager, FormFactory $factory, TranslatorInterface $translator, StringToFileTransformer $fileTransformer)
     {
         $this->manager         = $manager;
         $this->formFactory     = $factory;
@@ -67,7 +67,7 @@ class Generator
     {
         $builder        = $this->formFactory->createBuilder('form', $entity);
         $properties     = $resource->getProperties();
-        $defaultOptions = array('required' => false);
+        $defaultOptions = ['required' => false];
 
         foreach ($properties as $property) {
             if ($property->getEditable()) {
@@ -95,7 +95,7 @@ class Generator
         }
 
         $builder
-            ->add('save', 'submit', array('label' => 'save'))
+            ->add('save', 'submit', ['label' => 'save'])
             ->setMethod($method)
             ->setAction($url);
 
