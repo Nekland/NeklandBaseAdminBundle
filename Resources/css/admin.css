@@ -36,6 +36,13 @@ body {
     color: #5A5A5A;
 }
 
+.nav-header span {
+    font-weight: bold;
+    padding: 15px 15px;
+    background: #ccc;
+    display: block;
+}
+
 
 /* Add quest active button */
 
