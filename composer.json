@@ -1,5 +1,4 @@
 {
-	"version": "0.0.1",
 	"name": "nekland/base-admin-bundle",
 	"description": "Basic administration, simple usage.",
 	"keywords": ["dashboard", "admin", "simple"],
