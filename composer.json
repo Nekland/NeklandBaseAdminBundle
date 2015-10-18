@@ -22,18 +22,17 @@
         }
     ],
     "require": {
-        "symfony/symfony":                  "~2.3@dev",
-        "knplabs/knp-menu-bundle":          "2.0.*@dev",
+        "symfony/symfony":                  "~2.7",
+        "knplabs/knp-menu-bundle":          "~2.0.0",
         "sensio/framework-extra-bundle":    ">=2.3",
         "doctrine/doctrine-bundle":         "*",
         "doctrine/orm":                     "*",
-        "symfony/assetic-bundle":           "~2.0@dev",
-        "exercise/htmlpurifier-bundle":     "~0.1.0",
+        "symfony/assetic-bundle":           "~2.0",
+        "exercise/htmlpurifier-bundle":     "~0.2.0",
         "twig/extensions":                  "~1.3"
     },
     "autoload": {
         "psr-0": { "Nekland\\Bundle\\BaseAdminBundle": "" }
     },
-    "minimum-stability": "dev",
     "target-dir": "Nekland/Bundle/BaseAdminBundle"
 }
