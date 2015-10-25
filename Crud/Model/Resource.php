@@ -221,7 +221,7 @@ class Resource
      */
     public function getPluralName()
     {
-        return empty($this->pluralName) ? $this->name : $this->pluralName;
+        return empty($this->pluralName) ? $this->name . 's' : $this->pluralName;
     }
 
     /**
