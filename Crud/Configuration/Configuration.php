@@ -56,6 +56,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                         ->arrayNode('rights')
+                        ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('delete')->defaultValue(true)->end()
                                 ->scalarNode('edit')->defaultValue(true)->end()
