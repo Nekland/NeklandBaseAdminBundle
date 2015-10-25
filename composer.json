@@ -34,5 +34,10 @@
     "autoload": {
         "psr-0": { "Nekland\\Bundle\\BaseAdminBundle": "" }
     },
-    "target-dir": "Nekland/Bundle/BaseAdminBundle"
+    "target-dir": "Nekland/Bundle/BaseAdminBundle",
+    "extra": {
+        "branch-alias": {
+          "dev-master": "3.0.x-dev"
+        }
+    }
 }
