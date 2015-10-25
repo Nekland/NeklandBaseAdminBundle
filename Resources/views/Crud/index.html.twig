@@ -49,10 +49,12 @@
                                 {{ action.label }}
                             </a>
                         {% endfor %}
+                        {% if resource.rights.delete %}
                         <a class="btn btn-mini btn-danger ask-delete"
                            data-href="{{ path(resource.routes.delete.name, resource.getRouteParameters('delete', object)) }}" href="#">
                             <i class="icon-trash icon-white"></i> {% trans %}nekland_admin.crud.delete.delete{% endtrans %}
                         </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

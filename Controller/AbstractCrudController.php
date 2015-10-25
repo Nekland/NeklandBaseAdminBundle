@@ -162,6 +162,9 @@ abstract class AbstractCrudController extends Controller
     {
         $object = $this->getRepository()->find($id);
 
+        if (!$this->canDelete($object)) {
+            throw $this->createAccessDeniedException('Deletion is not authorized according to admin configuration.');
+        }
         if (empty($object)) {
             throw $this->createNotFoundException('I can\'t found your object, sorry !');
         }
@@ -244,5 +247,12 @@ abstract class AbstractCrudController extends Controller
 
         $formGenerator = $this->get('nekland_admin.crud.form.generator');
         return $formGenerator->generate($object, $resource, $url);
+    }
+
+    protected function canDelete($object)
+    {
+        $rights = $this->resource->getRights();
+
+        return $rights['delete'];
     }
 }

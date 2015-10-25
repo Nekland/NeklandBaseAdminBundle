@@ -48,7 +48,6 @@ class ControllerListener
         $controller       = $controllerConfig[0];
 
         if ($controller instanceof AbstractCrudController) {
-            // TODO: Change the controller if the controller is changed in configuration
             $request = $event->getRequest();
             if ($request->attributes->has('resource')) {
 
@@ -63,7 +62,7 @@ class ControllerListener
                     $controllerClass = $classes['controller'];
                     $controller = new $controllerClass();
 
-                    if($controller instanceof \Symfony\Component\DependencyInjection\ContainerAware) {
+                    if ($controller instanceof \Symfony\Component\DependencyInjection\ContainerAware) {
                         $controller->setContainer($this->container);
                     }
                     $event->setController(array($controller, $controllerConfig[1]));

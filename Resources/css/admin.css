@@ -182,3 +182,7 @@ input[type=text], input[type=email] {
     width: auto;
     display: inline;
 }
+
+textarea {
+    min-height: 250px;
+}

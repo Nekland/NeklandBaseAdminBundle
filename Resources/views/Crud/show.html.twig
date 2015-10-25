@@ -2,7 +2,7 @@
 
 {% block nekland_admin_content %}
 
-    <h1>{{ resource.name }}</h1>
+    <h1>{{ resource.name|capitalize }}</h1>
 
     <p>{% trans with {'%element%': resource.name} %}nekland_admin.show.explaination{% endtrans %}</p>
 

@@ -85,6 +85,11 @@ class Resource
     private $labelTranslation;
 
     /**
+     * @var boolean[]
+     */
+    private $rights;
+
+    /**
      * @var mixed[]
      */
     private $options;
@@ -443,11 +448,30 @@ class Resource
     }
 
     /**
+     * @return boolean[]
+     */
+    public function getRights()
+    {
+        return $this->rights;
+    }
+
+    /**
+     * @param boolean[] $rights
+     * @return Resource
+     */
+    public function setRights($rights)
+    {
+        $this->rights = $rights;
+
+        return $this;
+    }
+
+    /**
      * @param  string $routeName
      * @param  Object $model
      * @return array
      */
-    public function getRouteParameters($routeName, $model=null)
+    public function getRouteParameters($routeName, $model = null)
     {
         $parameters = array();
 
