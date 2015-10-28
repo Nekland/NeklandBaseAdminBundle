@@ -46,7 +46,7 @@ class OnConfigureMenuEvent extends Event
      * @param  string|null   $section
      * @return ItemInterface
      */
-    public function getMenu($section=null)
+    public function getMenu($section = null)
     {
         if (is_null($section)) {
             return $this->menu;
