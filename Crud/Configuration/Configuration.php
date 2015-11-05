@@ -102,6 +102,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                         ->arrayNode('actions')
+                            ->useAttributeAsKey('action')
                             ->prototype('array')
                                 ->children()
                                     ->scalarNode('label')->isRequired()->end()
@@ -151,4 +152,4 @@ class Configuration implements ConfigurationInterface
 
         return $node;
     }
-} 
+}
