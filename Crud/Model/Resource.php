@@ -491,21 +491,23 @@ class Resource
     }
 
     /**
-     * @param $model
-     * @param $action_name
+     * @param string $action_name
+     * @param object $model
      * @return array
      */
     public function getActionRouteParameters($action_name, $model=null)
     {
         $parameters = array();
 
-        $parameters['resource'] = $this->getSlug();
-
         if (empty($this->actions[$action_name]) || empty($model)) {
             return $parameters;
         }
 
         foreach ($this->actions[$action_name]['route']['parameters'] as $parameter) {
+            if ($parameter === 'resource') {
+                $parameters['resource'] = $this->getSlug();
+                continue;
+            }
             $method = 'get' . ucfirst($parameter);
             $parameters[$parameter] = $model->{$method}();
         }
